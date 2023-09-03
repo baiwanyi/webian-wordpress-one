@@ -1,0 +1,55 @@
+{% comment %}
+<!--
+    侧边菜单内容
+    应用字段
+    1、slug     页面别名
+    2、order    一级菜单排序，并用于是否是一级菜单的判断
+    3、parent   填写父级菜单别名，用于二级菜单列表查询
+    获取当前分类下所有文章内容，并按照指定 order 排序
+ -->
+{% endcomment %}
+{% assign parent = page.category %}
+{% assign navbars = site.categories[parent] | sort_natural: "order" %}
+{% for navbar in navbars %}
+{% if navbar.parent %}
+{% continue %}
+{% endif %}
+{% comment %}
+<!--
+    设定当前页面 current 判断
+    1、菜单别名等于当前页面别名（父级菜单）
+    2、菜单别名等于当前页面父别名（子菜单）
+    3、满足其一都判断为当前页面
+-->
+{% endcomment %}
+{% if navbar.slug == page.slug or navbar.slug == page.parent %}
+{% assign current = true %}
+{% else %}
+{% assign current = false %}
+{% endif %}
+
+{% if current %}
+<a class="nav-link active" aria-current="page" href="{{ navbar.url }}">{{ navbar.title }}</a>
+{% else %}
+<a class="nav-link" href="{{ navbar.url }}">{{ navbar.title }}</a>
+{% endif %}
+{% comment %}
+<!--
+        判断当前页面输出子菜单
+        1、查询子菜单 parent 属性为当前页面别名的菜单
+        2、按照标题排序
+    -->
+{% endcomment %}
+{% if current %}
+{% assign subnavs = navbars | where: 'parent', navbar.slug | sort_natural: 'title' %}
+<nav class="submenu nav flex-column">
+    {% for subnav in subnavs %}
+    {% if page.slug == subnav.slug %}
+    <a class="nav-link hover" aria-current="page" href="{{ subnav.url }}">{{ subnav.title }}</a>
+    {% else %}
+    <a class="nav-link" href="{{ subnav.url }}">{{ subnav.title }}</a>
+    {% endif %}
+    {% endfor %}
+</nav>
+{% endif %}
+{% endfor %}

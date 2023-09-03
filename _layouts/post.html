@@ -1,0 +1,40 @@
+{% include header.html %}
+
+<div class="site-main container-fluid">
+    <div class="row g-0">
+        <aside class="site-sidebar col-12 col-lg-2 d-md-block">
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar-navbar" data-bs-backdrop="false"
+                     aria-labelledby="sidebarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="sidebarLabel">Offcanvas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <nav class="nav flex-column w-100">
+                            {% include navbar.html %}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="col-12 col-lg-10 ms-sm-auto">
+            <div class="p-2 p-lg-4">
+                <div class="row">
+                    <div class="site-toc col-12 col-lg-3 order-2 end-0">
+                        <div class="position-sticky">
+                            <ul class="list-inline" id="site-markdown-toc"></ul>
+                        </div>
+                    </div>
+                    <div class="site-markdown col-12 col-lg-8 order-3">{{content}}</div>
+                    <footer class="col-12 order-4">
+                        <div class="lead text-black-50 mt-4 mb-4 mb-lg-0">&COPY WEBUI.CC</div>
+                    </footer>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+{% include footer.html %}

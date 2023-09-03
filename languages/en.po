@@ -1,0 +1,648 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Webian.cn\n"
+"POT-Creation-Date: 2020-08-05 09:24+0800\n"
+"PO-Revision-Date: 2020-08-05 09:24+0800\n"
+"Last-Translator: Baiwanyi <yeeloving@webian.cn>\n"
+"Language-Team: yeeloving@webian.cn\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_x:1,2c;_e;esc_html_x:1,2c;esc_html__\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets\n"
+"X-Poedit-SearchPathExcluded-1: docs\n"
+
+#: class-wwpo.php:76
+msgid "禁止克隆实例"
+msgstr ""
+
+#: class-wwpo.php:84
+msgid "禁止反序列化实例"
+msgstr ""
+
+#: includes/admin.php:20
+msgid "微边WPOne"
+msgstr ""
+
+#: includes/admin.php:30
+msgid "参数设置"
+msgstr ""
+
+#: includes/admin.php:33
+msgid "自定义内容"
+msgstr ""
+
+#: includes/admin.php:49
+msgid "扩展模块"
+msgstr ""
+
+#: includes/admin.php:53
+msgid "工单"
+msgstr ""
+
+#: includes/class-wwpo-admin-hooks.php:29
+msgid "未知页面"
+msgstr ""
+
+#: includes/class-wwpo-admin-hooks.php:37
+msgid "非法操作"
+msgstr ""
+
+#: includes/class-wwpo-admin-hooks.php:56
+msgid "未知执行函数"
+msgstr ""
+
+#: includes/class-wwpo-list-table.php:239
+msgid "找不到相关内容。"
+msgstr ""
+
+#: includes/class-wwpo-list-table.php:271
+msgid "未发布"
+msgstr ""
+
+#: includes/class-wwpo-list-table.php:281
+#, php-format
+msgid "%s 前"
+msgstr ""
+
+#: includes/class-wwpo-list-table.php:301
+msgid "已发布"
+msgstr ""
+
+#: includes/class-wwpo-list-table.php:304
+msgid "未知状态"
+msgstr ""
+
+#: includes/media.php:27
+msgid "设置封面图片"
+msgstr ""
+
+#: includes/media.php:40
+msgid "封面图片"
+msgstr ""
+
+#: includes/media.php:41
+msgid "点击图片来修改或更新"
+msgstr ""
+
+#: includes/media.php:42
+msgid "移除封面图片"
+msgstr ""
+
+#: includes/string.php:135 includes/string.php:153
+msgid "未授权使用"
+msgstr ""
+
+#: includes/template.php:92 includes/template.php:123
+msgid "上一页"
+msgstr ""
+
+#: includes/template.php:97 includes/template.php:128
+msgid "下一页"
+msgstr ""
+
+#: pages/contents-posttype.php:15
+msgid "文章类型别名"
+msgstr ""
+
+#: pages/contents-posttype.php:19
+msgid "文章类型名称"
+msgstr ""
+
+#: pages/contents-posttype.php:23
+msgid "文章类型描述"
+msgstr ""
+
+#: pages/contents-posttype.php:31
+msgid "默认分类"
+msgstr ""
+
+#: pages/contents-posttype.php:36
+msgid "分类目录"
+msgstr ""
+
+#: pages/contents-posttype.php:42
+msgid "标签"
+msgstr ""
+
+#: pages/contents-posttype.php:49
+msgid "层次结构"
+msgstr ""
+
+#: pages/contents-posttype.php:59
+msgid "功能支持"
+msgstr ""
+
+#: pages/contents-posttype.php:64
+msgid "标题"
+msgstr ""
+
+#: pages/contents-posttype.php:70
+msgid "编辑器"
+msgstr ""
+
+#: pages/contents-posttype.php:76
+msgid "作者"
+msgstr ""
+
+#: pages/contents-posttype.php:82
+msgid "特色图像"
+msgstr ""
+
+#: pages/contents-posttype.php:88
+msgid "摘要"
+msgstr ""
+
+#: pages/contents-posttype.php:94
+msgid "Trackbacks"
+msgstr ""
+
+#: pages/contents-posttype.php:100
+msgid "自定义字段"
+msgstr ""
+
+#: pages/contents-posttype.php:106
+msgid "评论"
+msgstr ""
+
+#: pages/contents-posttype.php:112
+msgid "修订版"
+msgstr ""
+
+#: pages/contents-posttype.php:118
+msgid "页面属性"
+msgstr ""
+
+#: pages/contents-posttype.php:124
+msgid "文章格式"
+msgstr ""
+
+#: pages/contents-posttype.php:131
+msgid "角色类型"
+msgstr ""
+
+#: pages/contents-posttype.php:136
+msgid "使用文章角色"
+msgstr ""
+
+#: pages/contents-posttype.php:137
+msgid "使用页面角色"
+msgstr ""
+
+#: pages/contents-posttype.php:142
+msgid "高级设置"
+msgstr ""
+
+#: pages/contents-posttype.php:146
+msgid "搜索结果不显示该文章类型"
+msgstr ""
+
+#: pages/contents-posttype.php:152
+msgid "支持文章到处"
+msgstr ""
+
+#: pages/contents-posttype.php:158
+msgid "删除用户时删除其发布的内容"
+msgstr ""
+
+#: pages/contents-posttype.php:169 pages/contents-taxonomy.php:105
+msgid "链接设置"
+msgstr ""
+
+#: pages/contents-posttype.php:172
+msgid "文章归档"
+msgstr ""
+
+#: pages/contents-posttype.php:176
+msgid "使用文章归档"
+msgstr ""
+
+#: pages/contents-posttype.php:183
+msgid "自定义文章归档别名"
+msgstr ""
+
+#: pages/contents-posttype.php:188 pages/contents-taxonomy.php:108
+msgid "固定链接"
+msgstr ""
+
+#: pages/contents-posttype.php:192 pages/contents-taxonomy.php:112
+msgid "开启固定链接"
+msgstr ""
+
+#: pages/contents-posttype.php:198
+msgid "添加分类前缀"
+msgstr ""
+
+#: pages/contents-posttype.php:204
+msgid "支持页码"
+msgstr ""
+
+#: pages/contents-posttype.php:211 pages/contents-taxonomy.php:131
+msgid "自定义链接别名"
+msgstr ""
+
+#: pages/contents-posttype.php:216 pages/contents-taxonomy.php:136
+msgid "REST API 设置"
+msgstr ""
+
+#: pages/contents-posttype.php:220 pages/contents-taxonomy.php:140
+msgid "开启 REST API"
+msgstr ""
+
+#: pages/contents-posttype.php:227 pages/contents-taxonomy.php:147
+msgid "自定义命名空间别名"
+msgstr ""
+
+#: pages/contents-posttype.php:232 pages/contents-taxonomy.php:152
+msgid "自定义控制类名"
+msgstr ""
+
+#: pages/contents-posttype.php:241
+msgid "可见性设置"
+msgstr ""
+
+#: pages/contents-posttype.php:244 pages/contents-taxonomy.php:54
+msgid "显示设置"
+msgstr ""
+
+#: pages/contents-posttype.php:248
+msgid "公开显示文章类型"
+msgstr ""
+
+#: pages/contents-posttype.php:254 pages/contents-taxonomy.php:64
+msgid "在后台界面中显示"
+msgstr ""
+
+#: pages/contents-posttype.php:260
+msgid "在后台菜单中显示"
+msgstr ""
+
+#: pages/contents-posttype.php:266
+msgid "在后台工具栏中显示"
+msgstr ""
+
+#: pages/contents-posttype.php:272 pages/contents-taxonomy.php:82
+msgid "在导航菜单中显示"
+msgstr ""
+
+#: pages/contents-posttype.php:278 pages/contents-taxonomy.php:94
+msgid "显示在前端页面查询"
+msgstr ""
+
+#: pages/contents-posttype.php:285
+msgid "菜单位置"
+msgstr ""
+
+#: pages/contents-posttype.php:290
+msgid "在文章后"
+msgstr ""
+
+#: pages/contents-posttype.php:291
+msgid "在媒体后"
+msgstr ""
+
+#: pages/contents-posttype.php:292
+msgid "在连接后"
+msgstr ""
+
+#: pages/contents-posttype.php:293
+msgid "在页面后"
+msgstr ""
+
+#: pages/contents-posttype.php:294
+msgid "在评论后"
+msgstr ""
+
+#: pages/contents-posttype.php:295
+msgid "在第一个分隔符后"
+msgstr ""
+
+#: pages/contents-posttype.php:296
+msgid "在插件后"
+msgstr ""
+
+#: pages/contents-posttype.php:297
+msgid "在用户后"
+msgstr ""
+
+#: pages/contents-posttype.php:298
+msgid "在工具后"
+msgstr ""
+
+#: pages/contents-posttype.php:299
+msgid "在设置后"
+msgstr ""
+
+#: pages/contents-posttype.php:300
+msgid "在第二个分隔符后"
+msgstr ""
+
+#: pages/contents-posttype.php:305
+msgid "菜单图标"
+msgstr ""
+
+#: pages/contents-posttype.php:308
+msgid ""
+"文章类型图标。使用 Dashicon 名称或完整图标 URL (http://…/icon.png)。"
+msgstr ""
+
+#: pages/contents-posttype.php:313
+msgid "菜单显示名称"
+msgstr ""
+
+#: pages/contents-posttype.php:317
+msgid "工具栏显示名称"
+msgstr ""
+
+#: pages/contents-posttype.php:324
+msgid "新建自定义文章类型"
+msgstr ""
+
+#: pages/contents-posttype.php:326
+msgid "编辑自定义文章类型"
+msgstr ""
+
+#: pages/contents-taxonomy.php:15
+msgid "分类法别名"
+msgstr ""
+
+#: pages/contents-taxonomy.php:19
+msgid "分类法名称"
+msgstr ""
+
+#: pages/contents-taxonomy.php:20
+msgid "分类法显示的名称。例如：商品，事件或者电影。"
+msgstr ""
+
+#: pages/contents-taxonomy.php:24
+msgid "分类法描述"
+msgstr ""
+
+#: pages/contents-taxonomy.php:32
+msgid "菜单名"
+msgstr ""
+
+#: pages/contents-taxonomy.php:33
+msgid "分类法在菜单上显示的名称。例如：商品，事件或者电影。"
+msgstr ""
+
+#: pages/contents-taxonomy.php:37
+msgid "应用到自定义分类别名"
+msgstr ""
+
+#: pages/contents-taxonomy.php:38
+msgid "多个别名使用英文逗号“,”分隔"
+msgstr ""
+
+#: pages/contents-taxonomy.php:42
+msgid "层级支持"
+msgstr ""
+
+#: pages/contents-taxonomy.php:46
+msgid "否（类似标签）"
+msgstr ""
+
+#: pages/contents-taxonomy.php:46
+msgid "是（类似分类）"
+msgstr ""
+
+#: pages/contents-taxonomy.php:50
+msgid "显示数量回调函数"
+msgstr ""
+
+#: pages/contents-taxonomy.php:58
+msgid "公开显示分类法"
+msgstr ""
+
+#: pages/contents-taxonomy.php:70
+msgid "在后台列表显示"
+msgstr ""
+
+#: pages/contents-taxonomy.php:76
+msgid "在标签云里显示"
+msgstr ""
+
+#: pages/contents-taxonomy.php:88
+msgid "在快速编辑里显示"
+msgstr ""
+
+#: pages/contents-taxonomy.php:118
+msgid "添加文章类型前缀"
+msgstr ""
+
+#: pages/contents-taxonomy.php:124
+msgid "添加层级分类别名"
+msgstr ""
+
+#: pages/contents-taxonomy.php:160
+msgid "新建分类法"
+msgstr ""
+
+#: pages/contents-taxonomy.php:162
+msgid "编辑分类法"
+msgstr ""
+
+#: pages/contents-wp-menu.php:11
+msgid "菜单别名"
+msgstr ""
+
+#: pages/contents-wp-menu.php:15
+msgid "菜单标题"
+msgstr ""
+
+#: pages/contents-wp-menu.php:19
+msgid "菜单输出"
+msgstr ""
+
+#: pages/contents-wp-menu.php:20
+msgid ""
+"直接显示导航菜单还是返回 HTML 片段，如果想将导航的代码作为赋值使用，可"
+"设置为否。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:23
+msgid "否"
+msgstr ""
+
+#: pages/contents-wp-menu.php:23
+msgid "是"
+msgstr ""
+
+#: pages/contents-wp-menu.php:28
+msgid "菜单 Class"
+msgstr ""
+
+#: pages/contents-wp-menu.php:29
+msgid "用于形成菜单的 ul 元素的 CSS 类。默认为：menu。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:33
+msgid "菜单 ID"
+msgstr ""
+
+#: pages/contents-wp-menu.php:34
+msgid "应用于构成菜单的 ul 元素的 ID。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:38
+msgid "封装标签 Class"
+msgstr ""
+
+#: pages/contents-wp-menu.php:39
+msgid "用于封装标签元素的 CSS 类。默认值：{menu_slug}-navigation。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:43
+msgid "封装标签 ID"
+msgstr ""
+
+#: pages/contents-wp-menu.php:44
+msgid "应用于构成封装元素的 ID。默认值：{menu_slug}-navigation。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:48
+msgid "链接前文字"
+msgstr ""
+
+#: pages/contents-wp-menu.php:49
+msgid "链接标记之前的文本。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:53
+msgid "链接后文字"
+msgstr ""
+
+#: pages/contents-wp-menu.php:54
+msgid "链接标记之后的文本。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:58
+msgid "链接文字前添加"
+msgstr ""
+
+#: pages/contents-wp-menu.php:59
+msgid "文本在链接文本之前。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:63
+msgid "链接文字后添加"
+msgstr ""
+
+#: pages/contents-wp-menu.php:64
+msgid "文本在链接文本之后。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:68
+msgid "菜单显示深度"
+msgstr ""
+
+#: pages/contents-wp-menu.php:69
+msgid "要包含多少层次结构级别。0 意味着所有。默认为 0。"
+msgstr ""
+
+#: pages/contents-wp-menu.php:73
+msgid "菜单显示格式"
+msgstr ""
+
+#: pages/contents-wp-menu.php:74
+#, php-format
+msgid ""
+"如何包装列表项。默认是一个带有 id 和类的 ul。使用带有编号占位符的 "
+"printf() 格式。例如：<code>&lt;ul id=\"%1$s\" class=\"%2$s\"&gt;"
+"%3$s&lt;/ul&gt;</code>"
+msgstr ""
+
+#: pages/contents-wp-menu.php:81
+msgid "新建菜单"
+msgstr ""
+
+#: pages/contents-wp-menu.php:83
+msgid "编辑菜单"
+msgstr ""
+
+#: pages/contents.php:44
+msgid "导出配置"
+msgstr ""
+
+#: pages/contents.php:46 pages/contents.php:128
+msgid "删除"
+msgstr ""
+
+#: pages/contents.php:63
+msgid "导入配置信息"
+msgstr ""
+
+#: pages/contents.php:95
+msgid "导出配置信息"
+msgstr ""
+
+#: pages/contents.php:109
+msgid "新建"
+msgstr ""
+
+#: pages/contents.php:109
+msgid "导入配置"
+msgstr ""
+
+#: pages/contents.php:121
+msgid "删除内容"
+msgstr ""
+
+#: pages/contents.php:124
+#, php-format
+msgid "是否确认删除 %s 内容？"
+msgstr ""
+
+#: pages/wwpo.php:16
+msgid "基本设置"
+msgstr ""
+
+#: pages/wwpo.php:19
+msgid "媒体上传目录"
+msgstr ""
+
+#: pages/wwpo.php:20
+msgid "默认目录<code>wp-content/uploads</code>"
+msgstr ""
+
+#: pages/wwpo.php:24
+msgid "媒体访问地址"
+msgstr ""
+
+#: pages/wwpo.php:25
+msgid "默认地址<code>{siteurl}/wp-content/uploads</code>"
+msgstr ""
+
+#: pages/wwpo.php:29
+msgid "Webfont 地址"
+msgstr ""
+
+#: templates/form.php:28
+msgid "未知表单"
+msgstr ""
+
+#: templates/list-thumb.php:33
+msgid "取消选择"
+msgstr ""
+
+#: templates/popup.php:106
+msgid "关闭面板"
+msgstr ""
+
+#: templates/popup.php:136
+msgid "Search"
+msgstr ""
+
+#: templates/popup.php:137
+msgid "Enter keywords"
+msgstr ""
+
+#: templates/wp-filter.php:29
+msgid "搜索"
+msgstr ""
