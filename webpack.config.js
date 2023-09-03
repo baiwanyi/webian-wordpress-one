@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
     entry: {
-        apps: './plugins/webian-wordpress-one/apps.js',
+        apps: './wp.webian.dev/wp-content/plugins/webian-wordpress-one/apps.js',
     },
     output: {
         filename: '[name].min.js',
