@@ -6,3 +6,11 @@
  * Author: Yeeloving
  * Updated: 2022-11-30
  */
+
+ /**
+ * 加载引用文件
+ */
+require WWPO_MOD_PATH . 'alioss/aliyun-oss-sdk.phar';
+require WWPO_MOD_PATH . 'alioss/class-wwpo-alioss.php';
+require WWPO_MOD_PATH . 'alioss/media.php';
+require WWPO_MOD_PATH . 'alioss/setting.php';

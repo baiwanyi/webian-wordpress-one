@@ -60,7 +60,7 @@ function wwpo_oss_delete_attachment($post_id)
      */
     $alioss = new WWPO_Alioss();
 
-    if (empty($alioss->ossclient)) {
+    if (empty($alioss->ossdata['enable']) || empty($alioss->ossclient)) {
         return;
     }
 

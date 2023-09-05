@@ -224,9 +224,20 @@ class WWPO_Alioss
         return $image_mime;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $object
+     * @param [type] $style
+     * @return void
+     */
     public function signurl($object, $style = null)
     {
-        if (empty($this->ossclient)) {
+        if (empty($this->ossdata['enable'])) {
+            return;
+        }
+
+        if (empty($this->ossclient) && !WP_DEBUG) {
             return;
         }
 

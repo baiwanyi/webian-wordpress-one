@@ -15,10 +15,6 @@ function wwpo_oss_cdnurl($object, $style = null)
 
     $alioss = new WWPO_Alioss();
 
-    if (empty($alioss->ossclient)) {
-        return;
-    }
-
     return $alioss->signurl($object, $style);
 }
 
@@ -40,7 +36,7 @@ function wwpo_oss_delete_object($object) {
 
     $alioss = new WWPO_Alioss();
 
-    if (empty($alioss->ossclient)) {
+    if (empty($alioss->ossdata['enable']) || empty($alioss->ossclient)) {
         return;
     }
 
@@ -66,7 +62,7 @@ function wwpo_oss_upload_object($object, $content) {
 
     $alioss = new WWPO_Alioss();
 
-    if (empty($alioss->ossclient)) {
+    if (empty($alioss->ossdata['enable']) || empty($alioss->ossclient)) {
         return;
     }
 

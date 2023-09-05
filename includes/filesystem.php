@@ -66,11 +66,12 @@ function wwpo_list_files($folder = '', $levels = 1, $exclusions = [])
  *
  * @since 1.0.0
  * @param string $dir
+ * @param string $pattern 匹配指定模式，默认：*，所有文件
  */
-function wwpo_total_files($dir)
+function wwpo_total_files($dir, $pattern = '/*')
 {
     $i = 0;
-    $array = glob($dir);
+    $array = glob($dir . $pattern);
     foreach ($array as $file) {
         if (is_file($file)) {
             $i++;

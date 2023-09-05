@@ -320,7 +320,7 @@ final class WWPO_Core
             wp_register_script('webui-cdn', $cdn_url . '/js/webui.min.js', null, WWPO_VER, true);
             wp_register_style('wwpo-style', $cdn_url . '/style.css', null, WWPO_VER, 'all');
         } else {
-            wp_register_script('webui-cdn', '//webui.webian.cn/dist/webui.min.js', null, WWPO_VER, true);
+            wp_register_script('webui-cdn', '//cdn.webian.cn/webui/webui.min.js', null, WWPO_VER, true);
             wp_register_style('wwpo-style', WWPO_TMPL_URL . '/style.css', null, WWPO_VER, 'all');
         }
     }
@@ -374,7 +374,7 @@ final class WWPO_Core
         global $current_screen;
 
         /** 启用 WEBUI 框架 */
-        wp_enqueue_script('weadminui', '//webui.webian.cn/dist/weadminui.min.js', ['jquery', 'underscore'], null, true);
+        wp_enqueue_script('weadminui', '//cdn.webian.cn/webui/weadminui.min.js', ['jquery', 'underscore'], null, true);
 
         /**
          * 设定本地化参数值
@@ -404,7 +404,7 @@ final class WWPO_Core
         wp_localize_script('weadminui', 'webuiSettings', $webuiSettings);
 
         /** 启用后台样式*/
-        wp_enqueue_style('weadminui', '//webui.webian.cn/assets/css/weadminui.min.css', null, null, 'all');
+        wp_enqueue_style('weadminui', '//cdn.webian.cn/webui/weadminui.min.css', null, null, 'all');
     }
 
     /**
