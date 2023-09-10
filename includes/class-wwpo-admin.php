@@ -108,6 +108,62 @@ class WWPO_Admin
     }
 
     /**
+     * 后台内页侧边栏
+     *
+     * @since 1.0.0
+     */
+    public function admin_sidebar()
+    {
+        global $wwpo_admins;
+
+        $page_name = $this->page_name();
+
+        if (empty($wwpo_admins[$page_name]['sidebar'])) {
+            return;
+        }
+
+        $page_tabs = $this->tabs(key($wwpo_admins[$page_name]['sidebar']));
+
+        echo '<div class="webui-admin-sidebar">';
+        echo '<ul class="webui-admin-sidebar__inner">';
+
+        foreach ($wwpo_admins[$page_name]['sidebar'] as $tab_key => $tab_val) {
+
+            $page_url       = $this->add_query(['tab' => $tab_key]);
+            $page_active    = ($tab_key == $page_tabs) ? ' active' : '';
+
+            if (isset($tab_val['submenu']) && empty($page_active)) {
+                $submenu_keys = array_keys($tab_val['submenu']);
+                $page_active = in_array($page_tabs, $submenu_keys) ? ' active' : '';
+            }
+
+            echo '<li class="webui-admin-sidebar__item">';
+            printf(
+                '<a href="%s" class="webui-admin-sidebar__menu%s"><span class="dashicons-before dashicons-%s"></span><span class="webui-admin-sidebar__name">%s</span></a>',
+                $page_url,
+                $page_active,
+                $tab_val['icon'] ?? 'wordpress',
+                $tab_val['title']
+            );
+
+            if (isset($tab_val['submenu'])) {
+                echo '<ul class="webui-admin-sidebar__submenu">';
+                foreach ($tab_val['submenu'] as $submenu_key => $submenu_title) {
+                    $submenu_url    = $this->add_query(['tab' => $submenu_key]);
+                    $submenu_active = ($submenu_key == $page_tabs) ? ' active' : '';
+                    printf('<li><a href="%s" class="submenu%s">%s</a></li>', $submenu_url, $submenu_active, $submenu_title);
+                }
+                echo '</ul>';
+            }
+
+            echo '</li>';
+        }
+
+        echo '</ul>';
+        echo '</div>';
+    }
+
+    /**
      * 后台页面消息
      *
      * @since 1.0.0

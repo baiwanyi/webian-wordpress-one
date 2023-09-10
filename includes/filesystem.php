@@ -137,8 +137,8 @@ function wwpo_require_dir($path)
 function wwpo_load_template($slug, $name = null, $args = [])
 {
     $located = '';
-    $template_names[] = $slug . '.php';
     $template_names[] = $slug . '-' . $name . '.php';
+    $template_names[] = $slug . '.php';
 
     foreach ($template_names as $template_name) {
 

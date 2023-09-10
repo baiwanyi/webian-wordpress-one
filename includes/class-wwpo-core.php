@@ -237,6 +237,12 @@ final class WWPO_Core
                 $menu_icon = sprintf('data:image/svg+xml;base64,%s', $menu_val['svg']);
             }
 
+            if (isset($menu_val['sidebar'])) {
+                add_filter('admin_body_class', function () {
+                    return 'wwpo-webui-sidebar';
+                });
+            }
+
             /** 判断父级菜单别名，注册子菜单 */
             if (isset($menu_val['parent'])) {
                 add_submenu_page($menu_val['parent'], $page_title, $menu_title, $menu_role, $menu_slug, [self::$instance, 'admin_page']);
@@ -446,6 +452,7 @@ final class WWPO_Core
         $page_tabs      = WWPO_Admin::tabs();
         $wwpo_admin     = new WWPO_Admin();
 
+        $wwpo_admin->admin_sidebar();
         echo '<div class="wrap">';
         $wwpo_admin->admin_header();
         $wwpo_admin->admin_message();

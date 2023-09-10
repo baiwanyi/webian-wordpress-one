@@ -10,7 +10,7 @@
 class WWPO_Weapp
 {
     /** 接口常量 */
-    const KEY_OPTION = 'wwpo_wechat_app';
+    const KEY_OPTION = 'wwpo_wxapps_data';
     const KEY_USERMETA = 'wwpo_wxapp_usermeta';
     const KEY_OPENID = 'wwpo_wxapp_openid';
     const DOMAIN = 'https://api.weixin.qq.com';

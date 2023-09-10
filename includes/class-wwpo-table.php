@@ -128,7 +128,7 @@ class WWPO_Table extends WP_List_Table
      * @param array $data       内容数组
      * @param array    设置参数
      */
-    static function result($data,  $settings = [])
+    static function result($data, $settings = [])
     {
         if (empty($settings['column'])) {
             return;
@@ -190,7 +190,7 @@ class WWPO_Table extends WP_List_Table
          */
         if (isset($data['result'])) {
             $this->total    = count($data['result']);
-            $this->items    = array_slice($data['result'], $offset, $limit);
+            $this->items    = $data['result'];
         }
 
         /**
