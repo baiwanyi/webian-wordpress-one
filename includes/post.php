@@ -301,45 +301,6 @@ function wwpo_get_meta($table_name, $post_id, $meta_key)
 }
 
 /**
- * 获取 option 表数据并缓存到 Redis
- *
- * @since 1.0.0
- * @param string $option_key    数据字段名
- * @param string $default       默认值
- */
-function wwpo_get_option($option_key, $default = false)
-{
-    // 设定 Redis 数据库保存别名，将 - 和 _ 替换为 :
-    $redis_key = str_replace(['-', '_'], ':', $option_key);
-
-    // 获取 Redis 缓存内容
-    $option_value = WWPO_Redis::get($redis_key);
-
-    /** 判断缓存内容，获取 option 表数据并缓存到 Redis */
-    if (empty($option_value)) {
-        $option_value = get_option($option_key, $default);
-        WWPO_Redis::set($redis_key, $option_value);
-    }
-
-    // 返回数据
-    return $option_value;
-}
-
-/**
- * 更新 option 表数据并缓存到 Redis
- *
- * @since 1.0.0
- * @param string $option_key     数据字段名
- * @param string $option_value   数据值
- */
-function wwpo_update_option($option_key, $option_value)
-{
-    $redis_key = str_replace(['-', '_'], ':', $option_key);
-    WWPO_Redis::set($redis_key, $option_value);
-    update_option($option_key, $option_value);
-}
-
-/**
  * 保存文章内容中远程图片到本地
  *
  * @since 1.0.0

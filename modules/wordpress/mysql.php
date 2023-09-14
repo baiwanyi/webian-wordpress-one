@@ -156,7 +156,7 @@ function wwpo_admin_display_wp_mysql_clean()
     foreach ($array_clean_type as $clean_key => $clean_val) {
 
         // 获取数据库冗余数据数量
-        $clean_count = wwpo_mysql_clean_count($clean_key);
+        $clean_count = wwpo_wp_mysql_clean_count($clean_key);
 
         // 设定显示内容数组
         $data[$clean_key] = [
@@ -195,7 +195,7 @@ function wwpo_admin_display_wp_mysql_clean()
  * @since 1.0.0
  * @param string $which
  */
-function wwpo_extra_tablenav_mysql($which)
+function wwpo_wp_mysql_extra_tablenav($which)
 {
     if ('top' != $which) {
         return;
@@ -206,10 +206,10 @@ function wwpo_extra_tablenav_mysql($which)
 
     // 清除冗余页面添加清理所有按钮
     if ('clean' == $current_tabs) {
-        echo '<button type="button" data-action="wpajax" class="btn btn-outline-danger" value="mysqlclean">清理所有冗余</button>';
+        echo '<button type="button" data-action="wpajax" class="button" value="mysqlclean">清理所有冗余</button>';
     }
 }
-add_action('wwpo_mysql_extra_tablenav', 'wwpo_extra_tablenav_mysql');
+add_action('wwpo_mysql_extra_tablenav', 'wwpo_wp_mysql_extra_tablenav');
 
 /**
  * 统计需要清理冗余数量函数
@@ -217,7 +217,7 @@ add_action('wwpo_mysql_extra_tablenav', 'wwpo_extra_tablenav_mysql');
  * @since 1.0.0
  * @param string $key   清理类型
  */
-function wwpo_mysql_clean_count($key)
+function wwpo_wp_mysql_clean_count($key)
 {
     global $wpdb;
     switch ($key) {
@@ -269,7 +269,7 @@ function wwpo_mysql_clean_count($key)
  * @since 1.0.0
  * @param string $key   清理类型
  */
-function wwpo_mysql_clean_up($key)
+function wwpo_wp_mysql_clean_up($key)
 {
     global $wpdb;
     switch ($key) {
@@ -319,7 +319,7 @@ function wwpo_mysql_clean_up($key)
  *
  * @since 1.0.0
  */
-function wwpo_ajax_mysql_optimize()
+function wwpo_ajax_wp_mysql_optimize()
 {
     global $wpdb;
 
@@ -332,34 +332,34 @@ function wwpo_ajax_mysql_optimize()
     // 返回信息
     echo WWPO_Error::toast('success', __('优化完成', 'wwpo'), ['url' => 'reload']);
 }
-add_action('wwpo_ajax_admin_mysqloptimize', 'wwpo_ajax_mysql_optimize');
+add_action('wwpo_ajax_admin_mysqloptimize', 'wwpo_ajax_wp_mysql_optimize');
 
 /**
  * 数据库清理 AJAX 操作函数
  *
  * @since 1.0.0
  */
-function wwpo_ajax_mysql_clean()
+function wwpo_ajax_wp_mysql_clean()
 {
     if (empty($_POST['post'])) {
-        wwpo_mysql_clean_up('revision');
-        wwpo_mysql_clean_up('draft');
-        wwpo_mysql_clean_up('autodraft');
-        wwpo_mysql_clean_up('moderated');
-        wwpo_mysql_clean_up('spam');
-        wwpo_mysql_clean_up('trash');
-        wwpo_mysql_clean_up('postmeta');
-        wwpo_mysql_clean_up('redundantdata');
-        wwpo_mysql_clean_up('commentmeta');
-        wwpo_mysql_clean_up('relationships');
-        wwpo_mysql_clean_up('feed');
-        wwpo_mysql_clean_up('usermeta');
+        wwpo_wp_mysql_clean_up('revision');
+        wwpo_wp_mysql_clean_up('draft');
+        wwpo_wp_mysql_clean_up('autodraft');
+        wwpo_wp_mysql_clean_up('moderated');
+        wwpo_wp_mysql_clean_up('spam');
+        wwpo_wp_mysql_clean_up('trash');
+        wwpo_wp_mysql_clean_up('postmeta');
+        wwpo_wp_mysql_clean_up('redundantdata');
+        wwpo_wp_mysql_clean_up('commentmeta');
+        wwpo_wp_mysql_clean_up('relationships');
+        wwpo_wp_mysql_clean_up('feed');
+        wwpo_wp_mysql_clean_up('usermeta');
     }
     //
     else {
-        wwpo_mysql_clean_up($_POST['post']);
+        wwpo_wp_mysql_clean_up($_POST['post']);
     }
 
     echo WWPO_Error::toast('success', __('优化完成', 'wwpo'), ['url' => 'reload']);
 }
-add_action('wwpo_ajax_admin_mysqlclean', 'wwpo_ajax_mysql_clean');
+add_action('wwpo_ajax_admin_mysqlclean', 'wwpo_ajax_wp_mysql_clean');

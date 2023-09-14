@@ -7,6 +7,8 @@
  * Updated: 2023-01-01
  */
 
+ define('OPTION_CONTENTS_KEY', 'wwpo-data-contents');
+
 /**
  * 加载引用文件
  */
@@ -46,7 +48,7 @@ function wwpo_admin_display_content()
     $post_id = WWPO_Admin::post_id();
 
     // 获取自定义内容选项值
-    $option_data = wwpo_get_option(WWPO_Custom::OPTION_CONTENTS_DATA, []);
+    $option_data = get_option(OPTION_CONTENTS_KEY, []);
 
     if (empty($post_id)) {
         wwpo_contents_page_list_table($option_data);

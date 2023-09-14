@@ -89,7 +89,7 @@ class WWPO_Form
         $content .= sprintf('<table class="webui__form-table %s"><tbody>%s</tbody></table>', esc_attr($table_class), $table_body);
 
         /** 设定表单按钮 */
-        if (isset($data['button']) || isset($data['submit'])) {
+        if (isset($data['button']) || isset($data['submit']) || isset($data['submits'])) {
 
             if (isset($data['button'])) {
                 $button = WWPO_Button::wp($data['button']);
@@ -97,6 +97,13 @@ class WWPO_Form
 
             if (isset($data['submit'])) {
                 $button = WWPO_Button::submit($data['submit']);
+            }
+
+            if (isset($data['submits'])) {
+                $button = '';
+                foreach ($data['submits'] as $submit) {
+                    $button .= WWPO_Button::submit($submit);
+                }
             }
 
             return sprintf(

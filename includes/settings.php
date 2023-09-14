@@ -17,7 +17,7 @@ function wwpo_admin_display_settings()
     $current_tabs = WWPO_Admin::tabs('common');
 
     // 获取设置保存值
-    $option_data = wwpo_get_option('wwpo-settings-common');
+    $option_data = get_option('wwpo-settings-common');
 
     // 页面标签内容数组
     $array_admin_page['common']['title']      = __('通用设置', 'wwpo');
@@ -144,7 +144,7 @@ function wwpo_admin_post_update_settings()
     $option_key = sprintf('wwpo-settings-%s', $_POST['option_key']);
 
     // 更新到数据库
-    wwpo_update_option($option_key, $_POST['option_data']);
+    update_option($option_key, $_POST['option_data']);
 
     // 返回信息
     new WWPO_Error('message', 'updated_success', ['tab' => $_POST['option_key']]);

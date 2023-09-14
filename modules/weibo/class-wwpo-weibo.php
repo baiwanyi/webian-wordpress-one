@@ -47,7 +47,7 @@ class WWPO_Weibo
     {
 
         $this->user_id = get_current_user_id();
-        $this->option = wwpo_get_option('wwpo-settings-weibo');
+        $this->option = get_option('wwpo-settings-weibo');
         $this->accesstoken = get_user_meta($this->user_id, self::KEY_ACCESSTOKEN, true);
     }
 

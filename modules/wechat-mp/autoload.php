@@ -170,7 +170,7 @@ function wwpo_admin_post_update_wechat()
 
     if ('weapp' == $_POST['post_id']) {
         $message = 'weapp_updated';
-        update_option(WWPO_Weapp::KEY_OPTION, $updated);
+        update_option(WWPO_Wxapps::KEY_OPTION, $updated);
     }
 
     if ('wepay' == $_POST['post_id']) {

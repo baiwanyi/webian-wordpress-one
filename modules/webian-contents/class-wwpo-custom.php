@@ -8,8 +8,6 @@
  */
 class WWPO_Custom
 {
-    const OPTION_CONTENTS_DATA = 'wwpo-data-contents';
-
     /**
      * 自定义内容选项值
      *
@@ -34,7 +32,7 @@ class WWPO_Custom
     public function __construct()
     {
         // 获取自定义内容保存选项值
-        $this->option_data = get_option(self::OPTION_CONTENTS_DATA);
+        $this->option_data = get_option(OPTION_CONTENTS_KEY, []);
     }
 
     /**

@@ -32,7 +32,7 @@ class WWPO_WordPress
      */
     public function __construct()
     {
-        $this->option = wwpo_get_option('wwpo-settings-wordpress', []);
+        $this->option = get_option('wwpo-settings-wordpress', []);
     }
 
     /**

@@ -7,12 +7,18 @@
  * @package Webian WordPress One
  * @subpackage WordPress/wp
  */
-require __DIR__ . DIRECTORY_SEPARATOR . 'class-wp.php';
-require __DIR__ . DIRECTORY_SEPARATOR . 'interface.php';
-require __DIR__ . DIRECTORY_SEPARATOR . 'login.php';
-require __DIR__ . DIRECTORY_SEPARATOR . 'optimizing.php';
-require __DIR__ . DIRECTORY_SEPARATOR . 'post.php';
-require __DIR__ . DIRECTORY_SEPARATOR . 'themes.php';
+
+ /**
+ * 引用文件
+ *
+ * @since 1.0.0
+ */
+require WWPO_MOD_PATH . 'wordpress/wp/class-wp.php';
+require WWPO_MOD_PATH . 'wordpress/wp/interface.php';
+require WWPO_MOD_PATH . 'wordpress/wp/login.php';
+require WWPO_MOD_PATH . 'wordpress/wp/optimizing.php';
+require WWPO_MOD_PATH . 'wordpress/wp/post.php';
+require WWPO_MOD_PATH . 'wordpress/wp/themes.php';
 
 /**
  * WP 优化显示页面函数
@@ -85,7 +91,7 @@ function wwpo_admin_post_update_wordpress()
     $option_data[$option_key] = $_POST['option_data'];
 
     // 更新到数据库
-    wwpo_update_option('wwpo-settings-wordpress', $option_data);
+    update_option('wwpo-settings-wordpress', $option_data);
 
     // 返回信息
     new WWPO_Error('message', 'updated_success');

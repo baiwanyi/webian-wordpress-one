@@ -33,7 +33,7 @@ final class WWPO_Core
     public function __construct()
     {
         // 获取设置参数内容
-        $this->option_data = wwpo_get_option('wwpo-settings-common', []);
+        $this->option_data = get_option('wwpo-settings-common', []);
     }
 
     /**
@@ -156,7 +156,7 @@ final class WWPO_Core
      */
     public function active_modules()
     {
-        $modules_data = wwpo_get_option('wwpo-active-modules');
+        $modules_data = get_option('wwpo-active-modules');
 
         if (empty($modules_data)) {
             return;
@@ -213,7 +213,15 @@ final class WWPO_Core
             return;
         }
 
+        $current_page = WWPO_Admin::page_name();
+
         $wwpo_admins = wp_list_sort($wwpo_admins, 'menu_order', 'ASC', true);
+
+        if (isset($wwpo_admins[$current_page]['sidebar'])) {
+            add_filter('admin_body_class', function () {
+                return 'wwpo-webui-sidebar';
+            });
+        }
 
         /**
          * 循环后台菜单内容
@@ -235,12 +243,6 @@ final class WWPO_Core
             /** 判断使用 svg 图标，svg 必须 base64 转码 */
             if (isset($menu_val['svg'])) {
                 $menu_icon = sprintf('data:image/svg+xml;base64,%s', $menu_val['svg']);
-            }
-
-            if (isset($menu_val['sidebar'])) {
-                add_filter('admin_body_class', function () {
-                    return 'wwpo-webui-sidebar';
-                });
             }
 
             /** 判断父级菜单别名，注册子菜单 */

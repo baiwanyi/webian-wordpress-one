@@ -465,7 +465,7 @@ function wwpo_crm_customer_tmpl_location_table()
 function wwpo_admin_settings_common_mapapi($settings)
 {
     // 获取设置保存值
-    $option_data = wwpo_get_option('wwpo-settings-common');
+    $option_data = get_option('wwpo-settings-common');
 
     // 设置表单内容数组
     $settings['common']['formdata']['option_data[mapapi]'] = [

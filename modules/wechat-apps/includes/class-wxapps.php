@@ -7,12 +7,12 @@
  * @package Webian WordPress One
  * @subpackage Wechat
  */
-class WWPO_Weapp
+class WWPO_Wxapps
 {
     /** 接口常量 */
-    const KEY_OPTION = 'wwpo_wxapps_data';
-    const KEY_USERMETA = 'wwpo_wxapp_usermeta';
-    const KEY_OPENID = 'wwpo_wxapp_openid';
+    const KEY_OPTION = 'wwpo-wxapps-data';
+    const KEY_USERMETA = 'wwpo-wxapps-usermeta';
+    const KEY_OPENID = 'wwpo-wxapps-openid';
     const DOMAIN = 'https://api.weixin.qq.com';
 
     /**
@@ -30,7 +30,7 @@ class WWPO_Weapp
      */
     public function __construct()
     {
-        $this->namespace = 'wwpo';
+        $this->namespace = 'wwpo/wxapps';
     }
 
     /**
@@ -40,19 +40,19 @@ class WWPO_Weapp
      */
     public function register_routes()
     {
-        register_rest_route($this->namespace, 'weapp/userlogin', [
+        register_rest_route($this->namespace, 'userlogin', [
             'methods'               => WP_REST_Server::CREATABLE,
             'callback'              => [$this, 'rest_user_login'],
             'permission_callback'   => [$this, 'permissions_check'],
         ]);
 
-        register_rest_route($this->namespace, 'weapp/qrcode/unlimited', [
+        register_rest_route($this->namespace, 'qrcode/unlimited', [
             'methods'               => WP_REST_Server::CREATABLE,
             'callback'              => [$this, 'rest_create_limit_qrcode'],
             'permission_callback'   => [$this, 'permissions_check'],
         ]);
 
-        register_rest_route($this->namespace, 'weapp/page', [
+        register_rest_route($this->namespace, 'page', [
             'methods'               => WP_REST_Server::READABLE,
             'callback'              => [$this, 'rest_create_page'],
             'permission_callback'   => [$this, 'permissions_check'],
@@ -68,20 +68,20 @@ class WWPO_Weapp
      */
     public function access_token()
     {
-        $option = get_option(self::KEY_OPTION);
+        $option = get_option(self::KEY_OPTION, []);
 
-        if (empty($option['appid']) || empty($option['appsecret'])) {
+        if (empty($option['wxapps']['appid']) || empty($option['wxapps']['appsecret'])) {
             return;
         }
 
         /** 获取系统存储 ACCESS_TOKEN 信息 */
-        $access_token = $option['accesstoken'] ?? 0;
+        $access_token = $option['wxapps']['accesstoken'] ?? 0;
 
         /** 判断当系统的 ACCESS_TOKEN 信息为空或者有效时间过期（当前时间比有效时间多 7200 秒），则从服务器获取最新 ACCESS_TOKEN 信息 */
-        if (empty($access_token) || (NOW - $option['tokenexpires']) > 7200) {
+        if (empty($access_token) || (NOW - $option['wxapps']['tokenexpires']) > 7200) {
 
             /** 获取微信服务器 ACCESS_TOKEN */
-            $response = wwpo_curl(sprintf('%1$s/cgi-bin/token?grant_type=client_credential&appid=%2$s&secret=%3$s', self::DOMAIN, $option['appid'], $option['appsecret']));
+            $response = wwpo_curl(sprintf('%1$s/cgi-bin/token?grant_type=client_credential&appid=%2$s&secret=%3$s', self::DOMAIN, $option['wxapps']['appid'], $option['wxapps']['appsecret']));
 
             /** 判断 ACCESS_TOKEN 获取成功，执行更新数据库操作，否则返回完整错误信息 */
             if (empty($response['errcode'])) {
@@ -90,8 +90,8 @@ class WWPO_Weapp
                 $access_token = $response['access_token'];
 
                 // 设定保存时间，更新数据库
-                $option['accesstoken']  = $access_token;
-                $option['tokenexpires'] = NOW;
+                $option['wxapps']['accesstoken']  = $access_token;
+                $option['wxapps']['tokenexpires'] = NOW;
 
                 update_option(self::KEY_OPTION, $option);
 
@@ -116,8 +116,8 @@ class WWPO_Weapp
      */
     public function jscode2session($code)
     {
-        $option = get_option(self::KEY_OPTION);
-        $response = wwpo_curl(sprintf('%1$s/sns/jscode2session?appid=%2$s&secret=%3$s&js_code=%4$s&grant_type=authorization_code', self::DOMAIN, $option['appid'], $option['appsecret'], $code));
+        $option = get_option(self::KEY_OPTION, []);
+        $response = wwpo_curl(sprintf('%1$s/sns/jscode2session?appid=%2$s&secret=%3$s&js_code=%4$s&grant_type=authorization_code', self::DOMAIN, $option['wxapps']['appid'], $option['wxapps']['appsecret'], $code));
 
         if (empty($response['errcode'])) {
             return $response;
@@ -260,7 +260,7 @@ class WWPO_Weapp
         return [
             'title'     => $post->post_title,
             'excerpt'   => $post->post_excerpt,
-            'content'   => WWPO_Weapp::nodes($post->post_content),
+            'content'   => WWPO_Wxapps::nodes($post->post_content),
         ];
     }
 

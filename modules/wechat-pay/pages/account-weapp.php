@@ -12,7 +12,7 @@ if (!current_user_can('edit_posts')) {
     wp_die(__('您没有权限访问此页面。', 'wwpo'));
 }
 
-$option_data  = get_option(WWPO_Weapp::KEY_OPTION);
+$option_data  = get_option(WWPO_Wxapps::KEY_OPTION);
 
 echo WWPO_Form::table([
     'submit'    => 'updatewechat',

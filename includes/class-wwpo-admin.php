@@ -66,10 +66,13 @@ class WWPO_Admin
 
             $label_title = $data['label_title'] ?? $data['menu_title'];
 
-            if ('new' == $data['post_id']) {
-                $page_title = __('Add') . $label_title;
-            } else {
-                $page_title = __('Edit') . $label_title;
+            if (!self::tabs()) {
+
+                if ('new' == $data['post_id']) {
+                    $page_title = __('Add') . $label_title;
+                } else {
+                    $page_title = __('Edit') . $label_title;
+                }
             }
         }
 

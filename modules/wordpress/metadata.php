@@ -90,12 +90,6 @@ function wwpo_admin_display_wp_metadata()
             break;
     }
 
-
-
-
-
-
-
     /**  */
     if ('option' == $current_tabs) {
         $table_data['column']['autoload'] = '自动加载';
@@ -145,7 +139,7 @@ add_action('wwpo_admin_display_metadata', 'wwpo_admin_display_wp_metadata');
  * @since 1.0.0
  * @param string $which
  */
-function wwpo_extra_tablenav_metadata($which)
+function wwpo_wp_metadata_extra_tablenav($which)
 {
     if ('top' != $which) {
         return;
@@ -167,7 +161,7 @@ function wwpo_extra_tablenav_metadata($which)
     }
     echo '</div>';
 }
-add_action('wwpo_metadata_extra_tablenav', 'wwpo_extra_tablenav_metadata');
+add_action('wwpo_metadata_extra_tablenav', 'wwpo_wp_metadata_extra_tablenav');
 
 /**
  * 自定义表格列输出函数
@@ -176,7 +170,7 @@ add_action('wwpo_metadata_extra_tablenav', 'wwpo_extra_tablenav_metadata');
  * @param string    $column     表格列名称
  * @param integer   $post_id    产品编号
  */
-function wwpo_wp_table_metadata_custom_column($data, $column_name)
+function wwpo_wp_metadata_table_custom_column($data, $column_name)
 {
     //
     $current_view = $_GET['view'] ?? 'excerpt';
@@ -216,22 +210,22 @@ function wwpo_wp_table_metadata_custom_column($data, $column_name)
         }
 
         //
-        echo WWPO_Form::submit([
+        echo WWPO_button::wp([
             'value'     => 'metadatadelete',
             'text'      => __('Delete'),
             'css'       => 'link-delete',
             'dataset'   => $dataset
-        ], false);
+        ]);
     }
 }
-add_action('wwpo_table_metadata_custom_column', 'wwpo_wp_table_metadata_custom_column', 10, 2);
+add_action('wwpo_table_metadata_custom_column', 'wwpo_wp_metadata_table_custom_column', 10, 2);
 
 /**
  * 数据库清理 AJAX 操作函数
  *
  * @since 1.0.0
  */
-function wwpo_ajax_metadata_delete()
+function wwpo_ajax_wp_metadata_delete()
 {
     global $wpdb;
     $current_tabs       = $_POST['meta'];
@@ -268,14 +262,14 @@ function wwpo_ajax_metadata_delete()
 
     echo WWPO_Error::toast('success', __('选项值已删除', 'wwpo'), ['url' => 'reload']);
 }
-add_action('wwpo_ajax_admin_metadatadelete', 'wwpo_ajax_metadata_delete');
+add_action('wwpo_ajax_admin_metadatadelete', 'wwpo_ajax_wp_metadata_delete');
 
 /**
  * Undocumented function
  *
  * @return void
  */
-function wwpo_ajax_metadata_bulk_delete()
+function wwpo_ajax_wp_metadata_bulk_delete()
 {
     $bulk_ids   = $_POST['bulk_ids'] ?? '';
 
@@ -284,4 +278,4 @@ function wwpo_ajax_metadata_bulk_delete()
         return;
     }
 }
-add_action('wwpo_ajax_admin_metadatabulkdelete', 'wwpo_ajax_metadata_bulk_delete');
+add_action('wwpo_ajax_admin_metadatabulkdelete', 'wwpo_ajax_wp_metadata_bulk_delete');

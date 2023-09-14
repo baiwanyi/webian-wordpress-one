@@ -49,7 +49,7 @@ class WWPO_Alioss
     public function __construct()
     {
         //
-        $this->ossdata  = wwpo_get_option('wwpo-settings-alioss');
+        $this->ossdata  = get_option('wwpo-settings-alioss');
 
         /**  */
         if (empty($this->ossdata['enable']) || empty($this->ossdata['bucket']) || empty($this->ossdata['endpoint']) || empty($this->ossdata['accesskeyid']) || empty($this->ossdata['accesskeysecret'])) {

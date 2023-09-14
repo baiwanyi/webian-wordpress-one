@@ -14,7 +14,7 @@
 function wwpo_admin_display_modules()
 {
     // 获取模块保存设置
-    $modules_data = wwpo_get_option('wwpo-active-modules');
+    $modules_data = get_option('wwpo-active-modules');
 
     // 获取模块目录列表
     $array_modules_list = list_files(WWPO_MOD_PATH, 1);
@@ -144,7 +144,7 @@ function wwpo_admin_display_modules_submit()
     $modules_key = $_POST['module'];
 
     // 获取模块保存设置
-    $modules_data = wwpo_get_option('wwpo-active-modules');
+    $modules_data = get_option('wwpo-active-modules');
 
     if (empty($modules_key)) {
         echo new WWPO_Error('not_found_content');
@@ -189,7 +189,7 @@ function wwpo_admin_display_modules_submit()
         $message = __('模块已禁用', 'wwpo');
     }
 
-    wwpo_update_option('wwpo-active-modules', $modules_data);
+    update_option('wwpo-active-modules', $modules_data);
 
     echo WWPO_Error::toast('success', $message, ['url' => 'reload']);
 }

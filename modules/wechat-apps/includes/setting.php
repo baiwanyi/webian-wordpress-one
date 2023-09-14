@@ -13,8 +13,8 @@ function wwpo_wxapps_display_setting()
         wp_die(__('您没有权限访问此页面。', 'wwpo'));
     }
 
-    $option_data    = get_option(WWPO_Weapp::KEY_OPTION, []);
-    $option_data    = $option_data['setting'] ?? [];
+    $option_data    = get_option(WWPO_Wxapps::KEY_OPTION, []);
+    $option_data    = $option_data['wxapps'] ?? [];
 
     echo WWPO_Form::table([
         'submit'    => 'updatewxapps',

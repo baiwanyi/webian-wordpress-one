@@ -52,7 +52,7 @@ function wwpo_admin_post_update_contents()
 {
     $post_id        = $_POST['post_id'] ?? 0;
     $post_data      = $_POST['post_data'] ?? [];
-    $option_data    = wwpo_get_option(WWPO_Custom::OPTION_CONTENTS_DATA, []);
+    $option_data    = get_option(OPTION_CONTENTS_KEY, []);
 
     /** 判断自定义内容名称为空 */
     if (empty($post_data['title'])) {
@@ -90,7 +90,7 @@ function wwpo_admin_post_update_contents()
     $option_data[$post_id]['ID']    = $post_id;
 
     // 更新到数据库
-    wwpo_update_option(WWPO_Custom::OPTION_CONTENTS_DATA, $option_data);
+    update_option(OPTION_CONTENTS_KEY, $option_data);
 
     /** 判断 $post_id 为空，返回添加信息，转跳到编辑界面 */
     if (empty($_POST['post_id'])) {
@@ -121,7 +121,7 @@ add_action('wwpo_post_admin_updatecontents', 'wwpo_admin_post_update_contents');
 function wwpo_admin_post_delete_contents()
 {
     $post_id        = $_POST['post_id'];
-    $option_data    = wwpo_get_option(WWPO_Custom::OPTION_CONTENTS_DATA, []);
+    $option_data    = get_option(OPTION_CONTENTS_KEY, []);
 
     if (empty($option_data[$post_id])) {
         new WWPO_Error('message', 'not_found_content', [
@@ -140,7 +140,7 @@ function wwpo_admin_post_delete_contents()
     }
 
     unset($option_data[$post_id]);
-    wwpo_update_option(WWPO_Custom::OPTION_CONTENTS_DATA, $option_data);
+    update_option(OPTION_CONTENTS_KEY, $option_data);
 
     new WWPO_Error('message', 'success_deleted');
 }
@@ -153,7 +153,7 @@ add_action('wwpo_post_admin_deletecontents', 'wwpo_admin_post_delete_contents');
  */
 function wwpo_ajax_content_empty()
 {
-    delete_option(WWPO_Custom::OPTION_CONTENTS_DATA);
+    delete_option(OPTION_CONTENTS_KEY);
     echo new WWPO_Error('success', __('自定义内容设置已清空', 'wwpo'));
 }
 add_action('wwpo_ajax_admin_contentempty', 'wwpo_ajax_content_empty');

@@ -7,6 +7,17 @@
  * Updated: 2023-01-01
  */
 
+  /**
+ * 引用文件
+ *
+ * @since 1.0.0
+ */
+require WWPO_MOD_PATH . 'wordpress/development/autoload.php';
+require WWPO_MOD_PATH . 'wordpress/wp/autoload.php';
+require WWPO_MOD_PATH . 'wordpress/metadata.php';
+require WWPO_MOD_PATH . 'wordpress/mysql.php';
+require WWPO_MOD_PATH . 'wordpress/roles.php';
+
 /**
  * 注册后台菜单
  *

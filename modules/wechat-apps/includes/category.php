@@ -6,7 +6,7 @@ function wwpo_wxapps_display_category()
         wp_die(__('您没有权限访问此页面。', 'wwpo'));
     }
 
-    $option_data = get_option(WWPO_Weapp::KEY_OPTION);
+    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
     $option_data = $option_data['category'] ?? [];
     $option_data = wp_list_sort($option_data, 'menu_order');
 
@@ -15,6 +15,7 @@ function wwpo_wxapps_display_category()
             'thumb-apps'    => __('封面', 'wpmall'),
             'title-apps'    => __('Title'),
             'guid'          => __('链接地址', 'wpmall'),
+            'small-groups'   => '分组'
         ]
     ]);
 }
@@ -28,17 +29,12 @@ function wwpo_wxapps_display_category_edit()
 {
     wp_enqueue_media();
 
-    $option_data = get_option(WWPO_Weapp::KEY_OPTION);
+    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
     $option_data = $option_data['category'] ?? [];
 
     //
-    $post_id = WWPO_Admin::post_id(0);
-
-    if (empty($post_id)) {
-        $post_id = wwpo_unique(2, 12);
-    }
-
-    $option_data = $option_data[$post_id] ?? [];
+    $post_id        = WWPO_Admin::post_id(0);
+    $option_data    = $option_data[$post_id] ?? [];
 
     /**  */
     if (empty($option_data) && 'new' != $post_id) {
@@ -47,26 +43,35 @@ function wwpo_wxapps_display_category_edit()
     }
     //
     else {
+
+        if ('new' == $post_id) {
+            $post_id = wwpo_unique(2, 12);
+        }
+
         $option_data = wp_parse_args($option_data, [
             'thumb'         => 0,
             'title'         => '',
             'menu_order'    => 0,
+            'group'         => 1,
             'guid'          => ''
         ]);
     }
 
     //
-    $array_banner_form['hidden'] = [
-        'post_key'  => 'category',
-        'post_id'   => $post_id,
-        'thumb_id'  => $option_data['thumb']
+    $array_formdata = [
+        'hidden' => [
+            'post_key'  => 'category',
+            'post_id'   => $post_id,
+            'thumb_id'  => $option_data['thumb']
+        ],
+        'submits' => [
+            ['value' => 'updatewxapps'],
+            ['value' => 'deletewxapps', 'text' => __('Delete'), 'css' => 'link-delete large'],
+        ]
     ];
 
     //
-    $array_banner_form['submit'] = 'updatewxapps';
-
-    //
-    $array_banner_form['formdata'] = [
+    $array_formdata['formdata'] = [
         'updated[title]' => [
             'title' => '分类标题',
             'field' => ['type' => 'text', 'value' => $option_data['title']]
@@ -79,6 +84,14 @@ function wwpo_wxapps_display_category_edit()
             'title' => '分类链接',
             'field' => ['type' => 'text', 'value' => $option_data['guid']]
         ],
+        'updated[group]' => [
+            'title' => '分组',
+            'field' => [
+                'type'      => 'select',
+                'option'    => wwpo_wxapps_category_get_group(),
+                'selected'  => $option_data['group']
+            ]
+        ],
         'updated[menu_order]' => [
             'title' => '分类排序',
             'field' => ['type' => 'number', 'value' => $option_data['menu_order']]
@@ -86,8 +99,25 @@ function wwpo_wxapps_display_category_edit()
     ];
 
     if ($option_data['thumb']) {
-        $array_banner_form['formdata']['cover']['content'] .= sprintf('<figure id="wwpo-thumb-figure" class="figure m-0 w-50"><img src="%s" class="figure-img img-fluid rounded"></figure>', wp_get_attachment_url($option_data['thumb']));
+        $array_formdata['formdata']['cover']['content'] .= sprintf('<figure id="wwpo-thumb-figure" class="figure m-0 w-50"><img src="%s" class="figure-img img-fluid rounded"></figure>', wp_get_attachment_url($option_data['thumb']));
     }
 
-    echo WWPO_Form::table($array_banner_form);
+    echo WWPO_Form::table($array_formdata);
+}
+
+/**
+ * Undocumented function
+ *
+ * @param [type] $key
+ * @return void
+ */
+function wwpo_wxapps_category_get_group($key = null)
+{
+    $group = ['默认位置', '位置一', '位置二', '位置三', '位置四', '位置五'];
+
+    if (isset($key)) {
+        return $group[$key] ?? '未分组';
+    }
+
+    return $group;
 }

@@ -62,9 +62,14 @@ add_action('wwpo_admin_display_wxapps', 'wwpo_admin_display_wxapps');
  *
  * @since 1.0.0
  */
-function wwpo_admin_post_update_wechat()
+function wwpo_admin_post_update_wxapps()
 {
-    $option_data    = get_option(WWPO_Weapp::KEY_OPTION);
+    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
+
+    if (empty($option_data)) {
+        $option_data = [];
+    }
+
     $post_key       = $_POST['post_key'] ?? '';
     $post_id        = $_POST['post_id'] ?? 0;
     $url_query      = ['tab' => $post_key];
@@ -75,7 +80,7 @@ function wwpo_admin_post_update_wechat()
     }
 
     if ('setting' == $post_key) {
-        $option_data['setting'] = $_POST['updated'];
+        $option_data['wxapps'] = $_POST['updated'];
     } else {
 
         if (empty($post_id)) {
@@ -91,11 +96,46 @@ function wwpo_admin_post_update_wechat()
         $option_data[$post_key][$post_id]['thumb']  = $_POST['thumb_id'];
     }
 
-    update_option(WWPO_Weapp::KEY_OPTION, $option_data);
+    update_option(WWPO_Wxapps::KEY_OPTION, $option_data);
 
     new WWPO_Error('message', "{$post_key}_success_updated", $url_query);
 }
-add_action('wwpo_post_admin_updatewxapps', 'wwpo_admin_post_update_wechat');
+add_action('wwpo_post_admin_updatewxapps', 'wwpo_admin_post_update_wxapps');
+
+/**
+ * 自定义内容更新操作函数
+ *
+ * @since 1.0.0
+ */
+function wwpo_admin_post_delete_wxapps()
+{
+    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
+
+    if (empty($option_data)) {
+        $option_data = [];
+    }
+
+    $post_key   = $_POST['post_key'] ?? '';
+    $post_id    = $_POST['post_id'] ?? 0;
+    $page_url   = $_POST['_wwpourl'];
+
+    if (empty(($post_key))) {
+        new WWPO_Error('message', 'not_found_key', $page_url);
+        return;
+    }
+
+    if (empty($post_id)) {
+        new WWPO_Error('message', 'not_found_id', $page_url);
+        return;
+    }
+
+    unset($option_data[$post_key][$post_id]);
+
+    update_option(WWPO_Wxapps::KEY_OPTION, $option_data);
+
+    new WWPO_Error('message', "{$post_key}_success_delete", ['tab' => $post_key]);
+}
+add_action('wwpo_post_admin_deletewxapps', 'wwpo_admin_post_delete_wxapps');
 
 /**
  * Undocumented function
@@ -105,6 +145,8 @@ add_action('wwpo_post_admin_updatewxapps', 'wwpo_admin_post_update_wechat');
  */
 function wwpo_wxapps_extra_tablenav($which)
 {
+    $page_tabs = WWPO_Admin::tabs();
+
     if (!in_array(WWPO_Admin::tabs(), ['banner', 'category'])) {
         return;
     }
@@ -115,7 +157,7 @@ function wwpo_wxapps_extra_tablenav($which)
 
     printf(
         '<a href="%s" class="button">%s</a>',
-        add_query_arg(['post' => 'new', 'action' => 'edit']),
+        WWPO_Admin::add_query(['tab' => $page_tabs, 'post' => 'new', 'action' => 'edit']),
         __('Add')
     );
 }
@@ -172,6 +214,9 @@ function wwpo_wxapps_banner_table_column($data, $column_name)
             printf('<span class="text-success">%s</span>', $day_limit);
             break;
 
+        case 'groups':
+            echo wwpo_wxapps_category_get_group($data['group']);
+            break;
         default:
             break;
     }

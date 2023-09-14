@@ -149,11 +149,14 @@ function wwpo_admin_display_edit_user_roles()
 
     echo '<p class="submit">';
     echo WWPO_Button::submit(WWPO_AJAX_ROLE_UPDATE);
-    echo WWPO_Button::submit([
-        'text'  => __('Delete'),
-        'value' => WWPO_AJAX_ROLE_DELETE,
-        'css'   => 'link-delete large ms-2'
-    ]);
+
+    if ('administrator' != $role) {
+        echo WWPO_Button::submit([
+            'text'  => __('Delete'),
+            'value' => WWPO_AJAX_ROLE_DELETE,
+            'css'   => 'link-delete large'
+        ]);
+    }
     echo '</p></form>';
 }
 

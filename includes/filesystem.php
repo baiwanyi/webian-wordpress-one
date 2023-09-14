@@ -108,9 +108,9 @@ function wwpo_get_dir($path)
  * @since 1.0.0
  * @param string $path 需要加载的目录
  */
-function wwpo_require_dir($path)
+function wwpo_require_dir($path, $deep = 2)
 {
-    $array_files = wwpo_list_files($path, 2);
+    $array_files = wwpo_list_files($path, $deep);
 
     if (empty($array_files)) {
         return;

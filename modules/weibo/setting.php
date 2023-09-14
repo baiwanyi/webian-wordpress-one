@@ -9,7 +9,7 @@
 function wwpo_admin_settings_weibo($settings)
 {
     // 获取设置保存值
-    $option_data = wwpo_get_option('wwpo-settings-weibo');
+    $option_data = get_option('wwpo-settings-weibo');
 
     // 设置表单内容数组
     $settings['weibo'] = [

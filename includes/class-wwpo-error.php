@@ -34,7 +34,13 @@ class WWPO_Error
 
         if ('message' == $code) {
             $data['message'] = $message;
-            $page_url = WWPO_Admin::add_query($data);
+
+            if (is_array($data)) {
+                $page_url = WWPO_Admin::add_query($data);
+            } else {
+                $page_url = $data;
+            }
+
             wp_redirect($page_url);
             exit;
         }

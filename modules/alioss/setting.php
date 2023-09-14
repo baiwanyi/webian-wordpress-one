@@ -9,7 +9,7 @@
 function wwpo_admin_settings_oss($settings)
 {
     // 获取设置保存值
-    $option_data = wwpo_get_option('wwpo-settings-alioss');
+    $option_data = get_option('wwpo-settings-alioss');
 
     // 设置表单内容数组
     $settings['alioss'] = [

@@ -20,7 +20,7 @@ function wwpo_wp_navbar($menu_slug)
     }
 
     // 获取自定义内容
-    $array_option_data = wwpo_get_option(WWPO_Custom::OPTION_CONTENTS_DATA);
+    $array_option_data = get_option(OPTION_CONTENTS_KEY);
 
     /** 判断自定义内容，设定菜单默认值 */
     if (empty($array_option_data)) {
