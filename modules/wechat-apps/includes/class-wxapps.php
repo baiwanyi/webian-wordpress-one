@@ -224,7 +224,7 @@ class WWPO_Wxapps
             'width'         => $request['width'] ?? 500,
             'is_hyaline'    => $request['is_hyaline'] ?? false,
             'check_path'    => $request['check_path'] ?? true,
-            'env_version'   => $request['version'] ?? 'release',
+            'env_version'   => $request['version'] ?? 'release'
         ];
 
         if (isset($request['line_color'])) {
@@ -241,6 +241,8 @@ class WWPO_Wxapps
 
             return base64_encode($response);
         }
+
+        return $response;
     }
 
     /**

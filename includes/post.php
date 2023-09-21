@@ -39,6 +39,30 @@ function wwpo_get_post($table_name, $column, $post_id, $key = null, $output = OB
 }
 
 /**
+ * 获取 posts 表某个字段的值
+ *
+ * @since 1.0.0
+ * @param integer|string    $post
+ * @param string            $field
+ */
+function wwpo_get_post_field($post, $field)
+{
+    if (empty($post) || empty($field)) {
+        return false;
+    }
+
+    global $wpdb;
+
+    if (is_numeric($post)) {
+        $column = 'ID';
+    } else {
+        $column = 'post_name';
+    }
+
+    return $wpdb->get_var($wpdb->prepare("SELECT {$field} FROM {$wpdb->posts} WHERE {$column} = '%s'", $post));
+}
+
+/**
  * 获取单行数据
  *
  * @since 1.0.0
@@ -217,16 +241,16 @@ function wwpo_get_wheres($wheres)
         foreach ($wheres as $where_key => $where_val) {
 
             /** 判断查询内容为字符串格式，直接调用内容 */
-            if (is_string($where_val)) {
-                $where[] = $where_val;
+            if (is_array($where_val)) {
+                // 设定查询条件默认值
+                $where_val = wp_parse_args($where_val, $default);
+
+                // 预处理插件条件
+                $where[] = $wpdb->prepare("{$where_val['jion']} {$where_key} {$where_val['sign']} %{$where_val['format']}", $where_val['value']);
                 continue;
             }
 
-            // 设定查询条件默认值
-            $where_val = wp_parse_args($where_val, $default);
-
-            // 预处理插件条件
-            $where[] = $wpdb->prepare("{$where_val['jion']} {$where_key} {$where_val['sign']} %{$where_val['format']}", $where_val['value']);
+            $where[] = $wpdb->prepare("AND {$where_key} = '%s'", $where_val);
         }
 
         // 查询数组以空格连接并删除最右的连接符

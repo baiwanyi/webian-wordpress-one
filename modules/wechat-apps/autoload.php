@@ -222,3 +222,13 @@ function wwpo_wxapps_banner_table_column($data, $column_name)
     }
 }
 add_action('wwpo_table_wxapps_custom_column', 'wwpo_wxapps_banner_table_column', 10, 2);
+
+/**
+ * 注册 Rest API 接口
+ *
+ * @since 1.0.0
+ */
+add_action('rest_api_init', function () {
+    $controller = new WWPO_Wxapps();
+    $controller->register_routes();
+});
