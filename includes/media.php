@@ -9,7 +9,7 @@
  */
 function wwpo_oss_cdnurl($object, $style = null)
 {
-    if (!class_exists('WWPO_Alioss')) {
+    if (!class_exists('wwpo_alioss')) {
         return $object;
     }
 
@@ -26,7 +26,7 @@ function wwpo_oss_cdnurl($object, $style = null)
  */
 function wwpo_oss_delete_object($object) {
 
-    if (!class_exists('WWPO_Alioss')) {
+    if (!class_exists('wwpo_alioss')) {
         return;
     }
 
@@ -52,7 +52,7 @@ function wwpo_oss_delete_object($object) {
  */
 function wwpo_oss_upload_object($object, $content) {
 
-    if (!class_exists('WWPO_Alioss')) {
+    if (!class_exists('wwpo_alioss')) {
         return;
     }
 
