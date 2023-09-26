@@ -76,6 +76,36 @@ function wwpo_array_merge_ids($array)
 }
 
 /**
+ * 二维数组转换成一维数组
+ *
+ * @since 1.0.0
+ * @param array $array 需要合并的数组
+ */
+function wwpo_array_merge($array)
+{
+    $result = array_reduce($array, function ($result, $value) {
+        return array_merge($result, array_values($value));
+    }, []);
+
+    return $result;
+}
+
+/**
+ * 二维数组转换成一维数组（保留 KEY）
+ *
+ * @since 1.0.0
+ * @param array $array 需要合并的数组
+ */
+function wwpo_array_merge_index($array)
+{
+    $result = array_reduce($array, function ($result, $value) {
+        return array_merge($result, $value);
+    }, []);
+
+    return $result;
+}
+
+/**
  * 判断显示数组 key 值
  * 为空显示数组所有内容
  *
