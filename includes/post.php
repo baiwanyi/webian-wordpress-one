@@ -80,7 +80,7 @@ function wwpo_get_row($table_name, $column, $post_id, $expand = '', $output = OB
 
     global $wpdb;
 
-    $results = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE {$column} = %s {$expand}", $post_id), $output);
+    $results = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE {$column} = '%s' {$expand}", $post_id), $output);
 
     return $results;
 }
