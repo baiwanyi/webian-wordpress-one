@@ -401,6 +401,12 @@ final class WWPO_Core
             'debug'     => WP_DEBUG
         ];
 
+        $mapapi = $this->option_data['mapapi'] ?? '';
+
+        if ($mapapi) {
+            $localize_script['mapapi'] = $mapapi;
+        }
+
         /**
          * 自定义后台本地化参数接口
          *
