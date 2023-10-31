@@ -21,7 +21,7 @@ class WWPO_Wechat_User
      */
     static function codeurl($redirect, $role = 'base', $state = 'STATE')
     {
-        $option = get_option(WWPO_Wechat::KEY_WECHAT);
+        $option = get_option(WECHAT_KEY_OPTION);
 
         if (empty($option['appid'])) {
             return;
@@ -58,11 +58,11 @@ class WWPO_Wechat_User
             return ['errcode' => 41008];
         }
 
-        $option = get_option(WWPO_Wechat::KEY_WECHAT);
+        $option = get_option(WECHAT_KEY_OPTION);
         $data   = [];
 
         if (!empty($user_id)) {
-            $data = get_user_meta($user_id, WWPO_Wechat::KEY_USERMETA, true);
+            $data = get_user_meta($user_id, WECHAT_KEY_USERMETA, true);
         }
 
         $user_token     = $data['access_token'] ?? 0;
@@ -73,7 +73,7 @@ class WWPO_Wechat_User
             /** 获取微信服务器 user_token */
             $data = wwpo_curl(sprintf(
                 '%1$s/sns/oauth2/access_token?grant_type=authorization_code&appid=%2$s&secret=%3$s&code=%4$s',
-                WWPO_Wechat::DOMAIN,
+                WECHAT_DOMAIN,
                 $option['appid'],
                 $option['appsecret'],
                 $_GET['code']
@@ -92,8 +92,8 @@ class WWPO_Wechat_User
 
                 $data['userexpires'] = NOW;
 
-                update_user_meta($user_id, WWPO_Wechat::KEY_USERMETA, $data);
-                update_user_meta($user_id, WWPO_Wechat::KEY_OPENID, $data['openid']);
+                update_user_meta($user_id, WECHAT_KEY_USERMETA, $data);
+                update_user_meta($user_id, WECHAT_KEY_OPENID, $data['openid']);
             }
         }
 
@@ -134,7 +134,7 @@ class WWPO_Wechat_User
         return wwpo_curl(
             sprintf(
                 '%1$s/sns/userinfo?access_token=%2$s&openid=%2$s&lang=zh_CN',
-                WWPO_Wechat::DOMAIN,
+                WECHAT_DOMAIN,
                 $user_token['usertoken'],
                 $user_token['openid']
             )
@@ -410,7 +410,7 @@ class WWPO_Wechat_User
     {
         global $wpdb;
 
-        $user_id = $wpdb->get_var($wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = %s", WWPO_Wechat::KEY_OPENID, $openid));
+        $user_id = $wpdb->get_var($wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = %s", WECHAT_KEY_OPENID, $openid));
 
         return $user_id;
     }
@@ -424,7 +424,7 @@ class WWPO_Wechat_User
      */
     static function avatar($user_id, $size = 48)
     {
-        $usermeta = get_user_meta($user_id, WWPO_Wechat::KEY_USERMETA, true);
+        $usermeta = get_user_meta($user_id, WECHAT_KEY_USERMETA, true);
 
         if (empty($usermeta['headimgurl'])) {
             return get_stylesheet_directory_uri() . '/assets/images/avatar.png';

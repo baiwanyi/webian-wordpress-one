@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  * @package Webian WordPress One
- * @subpackage Wechat
+ * @subpackage Wechat/wxpay
  *
  * @api wwpo_wxpay_order_query  订单查询
  * @api wwpo_wxpay_native       商户 Native 支付
@@ -15,14 +15,12 @@
 
 class WWPO_Wxpay
 {
-    const KEY_OPTION = 'wwpo_wechat_pay';
     const DOMAIN = 'https://api.mch.weixin.qq.com/v3/pay/transactions/';
 
     /**
      * 账户别名
      *
      * @since 1.0.0
-     *
      * @var string
      */
     public $name;
@@ -31,7 +29,6 @@ class WWPO_Wxpay
      * 微信设置内容
      *
      * @since 1.0.0
-     *
      * @var array
      */
     public $data;
@@ -45,46 +42,62 @@ class WWPO_Wxpay
     public $namespace;
 
     /**
-     * 注册接口
-     *
-     * @since 1.0.0
-     */
-    public function register_routes()
-    {
-        register_rest_route($this->namespace, 'wxpay/query/(?P<name>[a-zA-Z0-9_-]+)', [
-            'methods'               => WP_REST_Server::READABLE,
-            'callback'              => [$this, 'rest_order_query'],
-            'permission_callback'   => [$this, 'permissions_check'],
-        ]);
-
-        register_rest_route($this->namespace, 'wxpay/notice/(?P<name>[a-zA-Z0-9_-]+)', [
-            'methods'               => WP_REST_Server::CREATABLE,
-            'callback'              => [$this, 'rest_notice'],
-            'permission_callback'   => [$this, 'permissions_check'],
-        ]);
-    }
-
-    /**
      * 构造函数
      *
      * @since 1.0.0
      */
     public function __construct()
     {
-        $this->namespace    = 'wwpo';
+        $this->namespace = 'wwpo/wxpay';
 
-        // $this->name     = $request['name'];
-        // $this->data     = \Wechat\wxloader::meta($this->name);
-        $privateKey = 'MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDavhVS1AXlBdfK ZKxJsaMM1dtIGerAS9atTlaq/5HkP7FDi7y2OLekZlRJ5TNWz++Ul+ENMNonhp0q Wrm+3VyulehMEWK4gjKbfADlaB6KGXeGxbB2p9t02gQXBr9MucSXdXPGgoOEg1+e/Axk2ujzIwpH1Jq4LwA1kC6Z36rZdc3YI9c7jUlz9zN/9NRRB+i9OnFXg5NgXvxq qmo+6VvZXpjNCC5l4Kh8wX4PAWC5fhVdRg5kNSV3LtCeu9MkT/RzfuTFjVil3Px5 BV3qSER5jsf5AGyKB+2XgQM6a9MkeNCpuKmeFw/+8cQFgaTVZNH6fvw5KO4zbMi5 AB9/a1iLAgMBAAECggEAZq8muWw4nCtjAmrCChIulX7q4mzwK3cufsqwmrNAnGJd 53R4kR4M70ruNIY41H7mW930UsnlDvr9Wn2ehn/J21cZ5mOe8TiFY0IR9Z8r/u43 kvfIf9sKhU827kxHj1ABfowvXje0X4eAYtS1SL8O7dw8Hj4qp13A/mQBzFAYFt58 0Y24GX2u5v7UmkU9L512HRHFqzjVP9+u05iJVmab3JEIfT+ZRo+SKEUvidANkOAI xAGHiBkHONF7KkzZYaLzFxZkudJfI3OCC0Ypg0hvW7/O6wqMK4MfrOqDKq82/2a2 MIOK23T39ZmT4NNf0pknkcVh9w3p1d13pEfpWTvesQKBgQD6ATWs5YBbdaESEaaq N43xdYGG1UUSUj1tgsTuDWADE7hIc9V3Eev8VE0ca0GI9XSvkc0LG96x1pHNzJY4 5IDbdzLCL63b2qoG+z73hzMfwWZrC/8E+AX/BPQFW2encUqysMxkBhyMUnM3d5oR 9+Cm09BQuYVnoLkaDpmMrTg54wKBgQDf/PQXyVvAqZ8Aj7/T1d68vIs37+NAItWs AKg5tUTcj5aLeeQinHNqB/2wsMZ/ISl2RTVmKFJUfa8CgaonFsINZNT4ND195MO5 4WTenZSmvFeBSltFa3yM/XWRJTw5fcLE969w8mOmBu6wakNVeN0pa8GrVjvYWuf1 trHZhC3HOQKBgQDa7hpCCUxpS049E4X/A91ieMNv/u2YyLoQX3by/HV63FcB46Yo umIMuwo3+9kNBd4kLasAsmxHEh7muOVIdxo8llq14KkAobFJodWXUCc+BNAaqAuw Hz6o/35t/oh8AmMmrlqesRdo7n8FMNCUMZzimxSOzJf9kqrmHajrn3lgfwKBgDC1 pa92jol7WaSZnjHHFMUei3gCpvzPln/tNKg4D12XrDlwrHgKZd7tFfJSvxfuckHS EybAJgdRvblh0Urm3BRllRrU4Xp7QUUvCuyOgEEyPCVVsjuKgG94vxRtcIdgHfcP lguN6rW0VDvxH+t6eT4EvP0xp5oJSuBYdpzC7eGhAoGBAKOywynN8+OtCN6MsuJz QD9kVAp8IlgI+SJgvFeErKuXMySkz2SVrR20Ip4pNEMs6kUJARaDdPgPH5WFh9rt oTdvtnPjhz8ZUdtvb3kvzYhCDXEswJp3Q6a1BqDn+Lw+fg1jCpY/CPSv0oxET93z NaQ6Biwhq1fdv8B1cx4U6wx/';
-        $apikeysecret = "-----BEGIN PRIVATE KEY-----\n" . wordwrap($privateKey, 64, "\n", true) . "\n-----END PRIVATE KEY-----\n";
-        $this->name     = 'kuajingdian';
+        $option_data    = get_option(WECHAT_KEY_OPTION, []);
+        $wechat_data    = $option_data['wechat'] ?? [];
+        $wxpay_data     = $option_data['wxpay'] ?? [];
+
+        if ($wxpay_data['apikeysecret']) {
+            $apikeysecret = "-----BEGIN PRIVATE KEY-----\n" . wordwrap($wxpay_data['apikeysecret'], 64, "\n", true) . "\n-----END PRIVATE KEY-----\n";
+        }
+
         $this->data     = [
-            'appid'         => 'wx2126e7b3720eec55',
-            'mchid'         => '1611929371',
-            'apikeyid'      => '27F3F764A55593918F2C55FD1E1AF336C696A774',
-            'apikeysecret'  => $apikeysecret,
-            'apiv3secret'   => 'yn9EXbyzXTYYXs9FOuLq05LBX5UWLSUr'
+            'appid'         => $wechat_data['appid'] ?? '',
+            'mchid'         => $wxpay_data['mchid'] ?? '',
+            'apikeyid'      => $wxpay_data['apikeyid'] ?? '',
+            'apikeysecret'  => $apikeysecret ?? '',
+            'apiv2secret'   => $wxpay_data['apiv2secret'] ?? '',
+            'apiv3secret'   => $wxpay_data['apiv3secret'] ?? ''
         ];
+    }
+
+    /**
+     * 注册接口
+     *
+     * @since 1.0.0
+     */
+    public function register_routes()
+    {
+        /**
+         * 微信支付订单查询接口
+         *
+         * @since 1.0.0
+         * @method GET /wwpo/wxpay/query/{NAME}
+         */
+        register_rest_route($this->namespace, 'query/(?P<name>[a-zA-Z0-9_-]+)', [
+            'methods'               => WP_REST_Server::READABLE,
+            'callback'              => [$this, 'rest_order_query'],
+            'permission_callback'   => [$this, 'permissions_check'],
+        ]);
+
+        /**
+         * 微信支付通知接口
+         *
+         * @since 1.0.0
+         * @method POST /wwpo/wxpay/notice/{NAME}
+         */
+        register_rest_route($this->namespace, 'notice/(?P<name>[a-zA-Z0-9_-]+)', [
+            'methods'               => WP_REST_Server::CREATABLE,
+            'callback'              => [$this, 'rest_notice'],
+            'permission_callback'   => [$this, 'permissions_check'],
+        ]);
     }
 
     /**
@@ -209,14 +222,14 @@ class WWPO_Wxpay
      *  @var string prepay_id   预支付交易会话标识（JSAPI 支付）
      * }
      */
-    public function create($data = [], $key = 'native')
+    public function create($out_trade_no, $data = [], $key = 'native')
     {
         // 设定
         $data = wp_parse_args($data, [
             'appid'         => $this->data['appid'],
             'mchid'         => $this->data['mchid'],
-            'out_trade_no'  => $request['out_trade_no'],
-            'notify_url'    => home_url('wp-json/wwpo/wxpay/notice/' . $this->name),
+            'out_trade_no'  => $out_trade_no,
+            'notify_url'    => home_url('wp-json/wwpo/wxpay/notice'),
         ]);
 
         /**
@@ -277,7 +290,7 @@ class WWPO_Wxpay
 
         // 获取下单返回二维码链接
         $response = $this->_response(self::DOMAIN . $key, $body);
-        $response['out_trade_no'] = $request['out_trade_no'];
+        $response['out_trade_no'] = $out_trade_no;
 
         /**
          * 设定商户 Native 支付获取商品信息动作：wwpo_wxpay_create
@@ -292,6 +305,13 @@ class WWPO_Wxpay
         return $response;
     }
 
+    /**
+     * Native 支付模式
+     * 商户系统按微信支付协议生成支付二维码，用户再用微信“扫一扫”完成支付的模式
+     *
+     * @since 1.0.0
+     * @param array $data
+     */
     public function native($data)
     {
         $response = $this->create($data, 'native');
@@ -309,10 +329,11 @@ class WWPO_Wxpay
     }
 
     /**
-     * Undocumented function
+     * JSAPI 支付模式
+     * 商户通过调用微信支付提供的JSAPI接口，在支付场景中调起微信支付模块完成收款。
      *
-     * @param [type] $request
-     * @return void
+     * @since 1.0.0
+     * @param array $data
      */
     public function jsapi($data)
     {
@@ -463,9 +484,9 @@ class WWPO_Wxpay
 
         /** 判断报文主体内容，为空使用 GET 方法，否则使用 POST 方法 */
         if (empty($body)) {
-            $sign = \WP_REST_Server::READABLE;
+            $sign = WP_REST_Server::READABLE;
         } else {
-            $sign = \WP_REST_Server::CREATABLE;
+            $sign = WP_REST_Server::CREATABLE;
         }
 
         /**

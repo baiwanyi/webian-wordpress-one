@@ -214,6 +214,9 @@ function wwpo_admin_post_create_wprole()
             exit;
         }
 
+        // 设定日志
+        wwpo_logs('admin:post:' . WWPO_AJAX_ROLE_CREATE . ':role:' . $_POST['role_slug']);
+
         new WWPO_Error('message', 'success_added');
         exit;
     }
@@ -229,6 +232,9 @@ function wwpo_admin_post_create_wprole()
 
         // 保存数据
         update_option('wwpo-roles', $wwpo_roles);
+
+        // 设定日志
+        wwpo_logs('admin:post:' . WWPO_AJAX_ROLE_CREATE . ':power:' . $_POST['role_slug']);
 
         new WWPO_Error('message', 'success_added');
         exit;
@@ -280,6 +286,9 @@ function wwpo_admin_post_update_wprole()
         $current_role->add_cap($role_new);
     }
 
+    // 设定日志
+    wwpo_logs('admin:post:' . WWPO_AJAX_ROLE_UPDATE . ':' . $_POST['role']);
+
     // 返回更新成功信息
     new WWPO_Error('message', 'success_updated', [
         'post'      => $_POST['role'],
@@ -296,6 +305,10 @@ add_action('wwpo_post_admin_' . WWPO_AJAX_ROLE_UPDATE, 'wwpo_admin_post_update_w
 function wwpo_admin_post_delete_wprole()
 {
     remove_role($_POST['role']);
+
+    // 设定日志
+    wwpo_logs('admin:post:' . WWPO_AJAX_ROLE_DELETE . ':' . $_POST['role']);
+
     new WWPO_Error('message', 'success_deleted');
 }
 add_action('wwpo_post_admin_' . WWPO_AJAX_ROLE_DELETE, 'wwpo_admin_post_delete_wprole');

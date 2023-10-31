@@ -1,6 +1,40 @@
 <?php
 
 /**
+ * 微信小程序应用函数
+ *
+ * @since 1.0.0
+ * @package Webian WordPress One
+ * @subpackage Wechat/wxapps
+ */
+
+ /**
+ * 小程序后台页面表格添加按钮函数
+ *
+ * @since 1.0.0
+ * @param string $which
+ */
+function wwpo_wxapps_extra_tablenav($which)
+{
+    $page_tabs = WWPO_Admin::tabs();
+
+    if (!in_array($page_tabs, ['banner', 'category'])) {
+        return;
+    }
+
+    if ('top' != $which) {
+        return;
+    }
+
+    printf(
+        '<a href="%s" class="button">%s</a>',
+        WWPO_Admin::add_query(['tab' => $page_tabs, 'post' => 'new', 'action' => 'edit']),
+        __('Add')
+    );
+}
+add_action('wwpo_wxapps_extra_tablenav', 'wwpo_wxapps_extra_tablenav');
+
+/**
  * 设置页面消息函数
  *
  * @since 1.0.0
@@ -24,27 +58,45 @@ function wwpo_admin_message_wxapps($message)
 add_filter('wwpo_admin_message', 'wwpo_admin_message_wxapps');
 
 /**
- * Undocumented function
+ * 广告展示显示函数
  *
- * @param [type] $adsense
- * @param integer $limit
- * @return void
+ * @since 1.0.0
+ * @param string    $adsense    广告位置
+ * @param integer   $limit      显示数量，默认：3
  */
 function wwpo_wxapps_get_banner($adsense, $limit = 3)
 {
     // 初始化内容
     $data = [];
 
-    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
+    // 获取广告展示内容
+    $option_data = get_option(WECHAT_KEY_OPTION, []);
     $option_data = $option_data['banner'] ?? [];
 
     if (empty($option_data)) {
         return;
     }
 
+    // 按照 menu_order 排序，并显示指定数量
     $option_data = wp_list_sort($option_data, 'menu_order');
     $option_data = array_slice($option_data, 0, $limit);
 
+    /**
+     * 遍历广告展示内容数组
+     *
+     * @property string $banner
+     * {
+     *  广告展示内容
+     *  @var string     start       起始时间
+     *  @var string     end         结束时间
+     *  @var string     adsense     广告位置
+     *  @var string     title       广告标题
+     *  @var string     content     广告内容
+     *  @var string     guid        广告链接
+     *  @var string     color       颜色
+     *  @var integer    thumb       广告封面 ID
+     * }
+     */
     foreach ($option_data as $banner) {
         $day_start  = str_replace('-', '', $banner['start']);
         $day_end    = str_replace('-', '', $banner['end']);
@@ -98,25 +150,38 @@ function wwpo_wxapps_get_pages()
 }
 
 /**
- * Undocumented function
+ * 获取首页分类内容函数
  *
- * @param integer $limit
- * @return void
+ * @since 1.0.0
  */
 function wwpo_wxapps_get_home_category()
 {
     // 初始化内容
     $data = [];
 
-    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
+    // 获取首页分类内容
+    $option_data = get_option(WECHAT_KEY_OPTION);
     $option_data = $option_data['category'] ?? [];
 
     if (empty($option_data)) {
         return;
     }
 
+    // 按照 menu_order 排序
     $option_data = wp_list_sort($option_data, 'menu_order');
 
+    /**
+     * 遍历首页分类内容数组
+     *
+     * @property string $category
+     * {
+     *  首页分类内容
+     *  @var string     group   分组
+     *  @var string     title   分类标题
+     *  @var string     guid    链接地址
+     *  @var integer    thumb   封面 ID
+     * }
+     */
     foreach ($option_data as $category) {
         $data[$category['group']][] = [
             'title' => $category['title'],

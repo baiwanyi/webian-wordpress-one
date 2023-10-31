@@ -250,12 +250,24 @@ function wwpo_ajax_wp_metadata_delete()
     }
 
     if ('option' == $current_tabs) {
+
+        // 设定日志
+        wwpo_logs('admin:post:metadelete:option:' . $current_meta_key);
+
         delete_option($current_meta_key);
     } else {
 
         if ($current_meta_id) {
+
+            // 设定日志
+            wwpo_logs('admin:post:metadelete:' . $current_tabs . ':id:' . $current_meta_id);
+
             $wpdb->delete($table_name, ['meta_id' => $current_meta_id]);
         } else {
+
+            // 设定日志
+            wwpo_logs('admin:post:metadelete:' . $current_tabs . ':key:' . $current_meta_key);
+
             $wpdb->delete($table_name, ['meta_key' => $current_meta_key]);
         }
     }

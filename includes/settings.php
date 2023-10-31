@@ -146,6 +146,9 @@ function wwpo_admin_post_update_settings()
     // 更新到数据库
     update_option($option_key, $_POST['option_data']);
 
+    // 设定日志
+    wwpo_logs('admin:post:updatesettings:' . $_POST['option_key']);
+
     // 返回信息
     new WWPO_Error('message', 'updated_success', ['tab' => $_POST['option_key']]);
 }

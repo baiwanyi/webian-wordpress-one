@@ -173,6 +173,9 @@ function wwpo_admin_display_modules_submit()
         // 设置模块启用
         $modules_data[$modules_key]['enable'] = 1;
         $message = __('模块已启用', 'wwpo');
+
+        // 设定日志
+        wwpo_logs('wwpo:modules:activated:' . $modules_key);
     }
     //
     else {
@@ -187,6 +190,9 @@ function wwpo_admin_display_modules_submit()
         // 设置模块禁用
         $modules_data[$modules_key]['enable'] = 0;
         $message = __('模块已禁用', 'wwpo');
+
+        // 设定日志
+        wwpo_logs('wwpo:modules:deactivated:' . $modules_key);
     }
 
     update_option('wwpo-active-modules', $modules_data);

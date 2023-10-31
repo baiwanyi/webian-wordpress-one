@@ -10,7 +10,6 @@
  * Domain Path: /languages
  */
 
-
 /** Define ABSPATH as this file's directory */
 if (!defined('WWPOPATH')) {
     define('WWPOPATH', __DIR__ . DIRECTORY_SEPARATOR);
@@ -79,6 +78,7 @@ require WWPOPATH . 'includes/formating.php';
 require WWPOPATH . 'includes/functions.php';
 require WWPOPATH . 'includes/general-template.php';
 require WWPOPATH . 'includes/http.php';
+require WWPOPATH . 'includes/logs.php';
 require WWPOPATH . 'includes/media.php';
 require WWPOPATH . 'includes/modules.php';
 require WWPOPATH . 'includes/post.php';

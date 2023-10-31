@@ -102,6 +102,10 @@ add_action('user_row_actions', 'wwpo_user_row_actions', 10, 2);
 function wwpo_ajax_login_current_user($request)
 {
     wwpo_user_login($request['user_id']);
+
+    // 设定日志
+    wwpo_logs('admin:ajax:logincurrentuser');
+
     return WWPO_Error::toast('success', '已切换用户，正在刷新页面。', ['url' => 'reload']);
 }
 add_filter('wwpo_ajax_admin_logincurrentuser', 'wwpo_ajax_login_current_user');

@@ -1,12 +1,25 @@
 <?php
 
+/**
+ * 首页分类页面
+ *
+ * @since 1.0.0
+ * @package Webian WordPress One
+ * @subpackage Wechat/wxapps
+ */
+
+/**
+ * 首页分类列表显示函数
+ *
+ * @since 1.0.0
+ */
 function wwpo_wxapps_display_category()
 {
     if (!current_user_can('edit_posts')) {
         wp_die(__('您没有权限访问此页面。', 'wwpo'));
     }
 
-    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
+    $option_data = get_option(WECHAT_KEY_OPTION, []);
     $option_data = $option_data['category'] ?? [];
     $option_data = wp_list_sort($option_data, 'menu_order');
 
@@ -21,56 +34,50 @@ function wwpo_wxapps_display_category()
 }
 
 /**
- * Undocumented function
+ * 首页分类内容编辑函数
  *
- * @return void
+ * @since 1.0.0
  */
-function wwpo_wxapps_display_category_edit()
+function wwpo_wxapps_display_category_edit($option_data)
 {
     wp_enqueue_media();
 
-    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
-    $option_data = $option_data['category'] ?? [];
-
-    //
     $post_id        = WWPO_Admin::post_id(0);
+    $option_data    = $option_data['category'] ?? [];
     $option_data    = $option_data[$post_id] ?? [];
 
-    /**  */
+    /** 判断首页分类内容 */
     if (empty($option_data) && 'new' != $post_id) {
         echo WWPO_Admin::messgae('error', '未找到相关内容');
         return;
     }
-    //
-    else {
 
-        if ('new' == $post_id) {
-            $post_id = wwpo_unique(2, 12);
-        }
-
-        $option_data = wp_parse_args($option_data, [
-            'thumb'         => 0,
-            'title'         => '',
-            'menu_order'    => 0,
-            'group'         => 1,
-            'guid'          => ''
-        ]);
+    if ('new' == $post_id) {
+        $post_id = wwpo_unique(2, 12);
     }
 
-    //
+    $option_data = wp_parse_args($option_data, [
+        'thumb'         => 0,
+        'title'         => '',
+        'menu_order'    => 0,
+        'group'         => 1,
+        'guid'          => ''
+    ]);
+
+
+    // 设定编辑表单
     $array_formdata = [
         'hidden' => [
-            'post_key'  => 'category',
-            'post_id'   => $post_id,
-            'thumb_id'  => $option_data['thumb']
+            'post_key'          => 'category',
+            'post_id'           => $post_id,
+            'updated[thumb]'    => $option_data['thumb']
         ],
         'submits' => [
-            ['value' => 'updatewxapps'],
-            ['value' => 'deletewxapps', 'text' => __('Delete'), 'css' => 'link-delete large'],
+            ['value' => 'updatewechat'],
+            ['value' => 'deletewechat', 'text' => __('Delete'), 'css' => 'link-delete large'],
         ]
     ];
 
-    //
     $array_formdata['formdata'] = [
         'updated[title]' => [
             'title' => '分类标题',
@@ -106,10 +113,10 @@ function wwpo_wxapps_display_category_edit()
 }
 
 /**
- * Undocumented function
+ * 首页分类内容分组函数
  *
- * @param [type] $key
- * @return void
+ * @since 1.0.0
+ * @param string $key
  */
 function wwpo_wxapps_category_get_group($key = null)
 {

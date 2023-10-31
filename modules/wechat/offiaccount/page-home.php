@@ -1,4 +1,7 @@
-<div class="card p-0 w-100">
+<?php
+function wwpo_wechat_display_home()
+{
+    echo '<div class="card p-0 w-100">
     <div class="card-header bg-white">帐号整体情况</div>
     <div class="card-body row text-center">
         <div class="col-4">
@@ -23,4 +26,5 @@
             <a href="#" class="h2 font-weight-light text-decoration-none">0</a>
         </div>
     </div>
-</div>
+</div>';
+}

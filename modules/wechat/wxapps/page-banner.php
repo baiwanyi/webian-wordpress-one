@@ -5,90 +5,82 @@
  *
  * @since 1.0.0
  * @package Webian WordPress One
- * @subpackage Wechat-apps
+ * @subpackage Wechat/wxapps
  */
 
 /**
- * Undocumented function
+ * 广告展示列表显示函数
  *
- * @return void
+ * @since 1.0.0
  */
-function wwpo_wxapps_display_banner()
+function wwpo_wxapps_display_banner($option_data)
 {
     if (!current_user_can('edit_posts')) {
         wp_die(__('您没有权限访问此页面。', 'wwpo'));
     }
 
-    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
     $option_data = $option_data['banner'] ?? [];
     $option_data = wp_list_sort($option_data, 'menu_order');
 
     echo WWPO_Table::result($option_data, [
         'column'    => [
-            'thumb-apps'    => __('封面', 'wpmall'),
+            'thumb-apps'    => __('封面', 'wwpo'),
             'title-apps'    => __('Title'),
-            'adsense-apps'  => __('广告位置', 'wpmall'),
-            'guid'          => __('链接地址', 'wpmall'),
-            'endtime'       => __('剩余广告时间', 'wpmall')
+            'adsense-apps'  => __('广告位置', 'wwpo'),
+            'guid'          => __('链接地址', 'wwpo'),
+            'endtime'       => __('剩余广告时间', 'wwpo')
         ]
     ]);
 }
 
 /**
- * Undocumented function
+ * 广告展示内容编辑函数
  *
- * @return void
+ * @since 1.0.0
  */
-function wwpo_wxapps_display_banner_edit()
+function wwpo_wxapps_display_banner_edit($option_data)
 {
     wp_enqueue_media();
 
-    $option_data = get_option(WWPO_Wxapps::KEY_OPTION);
-    $option_data = $option_data['banner'] ?? [];
-
-    //
     $post_id        = WWPO_Admin::post_id(0);
+    $option_data    = $option_data['banner'] ?? [];
     $option_data    = $option_data[$post_id] ?? [];
 
-    /**  */
+    /** 判断广告内容 */
     if (empty($option_data) && 'new' != $post_id) {
         echo WWPO_Admin::messgae('error', '未找到相关内容');
         return;
     }
-    //
-    else {
 
-        if ('new' == $post_id) {
-            $post_id = wwpo_unique(1, 12);
-        }
-
-        $option_data = wp_parse_args($option_data, [
-            'thumb'         => 0,
-            'adsense'       => '',
-            'title'         => '',
-            'content'       => '',
-            'menu_order'    => 0,
-            'color'         => '',
-            'guid'          => '',
-            'start'         => date('Y-m-d', NOW),
-            'end'           => date('Y-m-d', NOW),
-        ]);
+    if ('new' == $post_id) {
+        $post_id = wwpo_unique(1, 12);
     }
 
-    //
+    $option_data = wp_parse_args($option_data, [
+        'thumb'         => 0,
+        'adsense'       => '',
+        'title'         => '',
+        'content'       => '',
+        'menu_order'    => 0,
+        'color'         => '',
+        'guid'          => '',
+        'start'         => date('Y-m-d', NOW),
+        'end'           => date('Y-m-d', NOW),
+    ]);
+
+    // 设定编辑表单
     $array_formdata = [
         'hidden' => [
-            'post_key'  => 'banner',
-            'post_id'   => $post_id,
-            'thumb_id'  => $option_data['thumb']
+            'post_key'          => 'banner',
+            'post_id'           => $post_id,
+            'updated[thumb]'    => $option_data['thumb']
         ],
         'submits' => [
-            ['value' => 'updatewxapps'],
-            ['value' => 'deletewxapps', 'text' => __('Delete'), 'css' => 'link-delete large'],
+            ['value' => 'updatewechat'],
+            ['value' => 'deletewechat', 'text' => __('Delete'), 'css' => 'link-delete large'],
         ]
     ];
 
-    //
     $array_formdata['formdata'] = [
         'updated[title]' => [
             'title' => '广告标题',

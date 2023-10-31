@@ -5,17 +5,10 @@
  *
  * @since 1.0.0
  * @package Webian WordPress One
- * @subpackage Wechat
+ * @subpackage Wechat/offiaccount
  */
 class WWPO_Wechat
 {
-    /** 接口常量 */
-    const KEY_OPTION = 'wwpo_wechat_mp';
-    const KEY_MENU = 'wwpo_wechat_menu';
-    const KEY_USERMETA = 'wwpo_wxmp_usermeta';
-    const KEY_OPENID = 'wwpo_wxmp_openid';
-    const DOMAIN = 'https://api.weixin.qq.com';
-
     /**
      * 命名空间
      *
@@ -31,7 +24,7 @@ class WWPO_Wechat
      */
     public function __construct()
     {
-        $this->namespace = 'wwpo';
+        $this->namespace = 'wwpo/wechat';
     }
 
     /**
@@ -41,9 +34,15 @@ class WWPO_Wechat
      */
     public function register_routes()
     {
-        register_rest_route($this->namespace, 'wechat/mp', [
+        /**
+         * 公众号连接接口
+         *
+         * @since 1.0.0
+         * @method ALL /wwpo/wechat/connect
+         */
+        register_rest_route($this->namespace, 'connect', [
             'methods'               => WP_REST_Server::ALLMETHODS,
-            'callback'              => [$this, 'rest_wechat_mp'],
+            'callback'              => [$this, 'rest_connect'],
             'permission_callback'   => [$this, 'permissions_check'],
         ]);
     }
@@ -53,7 +52,7 @@ class WWPO_Wechat
      *
      * @since 1.0.0
      */
-    public function rest_wechat_mp($request)
+    public function rest_connect($request)
     {
         if (empty($request['echostr'])) {
             $this->message();
@@ -71,7 +70,7 @@ class WWPO_Wechat
          * 2、将 signature、timestamp、nonce、echostr 四个参数发送到开发者提供的 url
          * 3、利用接收到的参数进行验证。
          */
-        $option = get_option(self::KEY_OPTION);
+        $option = get_option(WECHAT_KEY_OPTION, []);
 
         /* 将 token、timestamp（时间戳）、nonce（随机数）三个参数进行字典序排序 */
         $array = [$option['token'], $request['timestamp'], $request['nonce']];
@@ -92,6 +91,7 @@ class WWPO_Wechat
     /**
      * Undocumented function
      *
+     * @since 1.0.0
      * @param integer $code
      */
     static function errcode($code = 0)
@@ -120,7 +120,7 @@ class WWPO_Wechat
         // 获取到微信推送过来 post 数据
         $data = file_get_contents('php://input');
 
-        $option = get_option(self::KEY_OPTION);
+        $option = get_option(WECHAT_KEY_OPTION);
 
         /** 判断数据为空 */
         if (empty($data)) {
@@ -214,16 +214,16 @@ class WWPO_Wechat
      */
     static function access_token()
     {
-        $option = get_option(self::KEY_OPTION);
+        $option = get_option(WECHAT_KEY_OPTION, []);
 
         /** 获取系统存储 ACCESS_TOKEN 信息 */
-        $access_token = $option['accesstoken'] ?? 0;
+        $access_token = $option['wechat']['accesstoken'] ?? 0;
 
         /** 判断当系统的 ACCESS_TOKEN 信息为空或者有效时间过期（当前时间比有效时间多 7200 秒），则从服务器获取最新 ACCESS_TOKEN 信息 */
-        if (empty($access_token) || (NOW - $option['tokenexpires']) > 7200) {
+        if (empty($access_token) || (NOW - $option['wechat']['tokenexpires']) > 7200) {
 
             /** 获取微信服务器 ACCESS_TOKEN */
-            $response = wwpo_curl(sprintf('%1$s/cgi-bin/token?grant_type=client_credential&appid=%2$s&secret=%3$s', self::DOMAIN, $option['appid'], $option['appsecret']));
+            $response = wwpo_curl(sprintf('%1$s/cgi-bin/token?grant_type=client_credential&appid=%2$s&secret=%3$s', WECHAT_DOMAIN, $option['wechat']['appid'], $option['wechat']['appsecret']));
 
             /** 判断 ACCESS_TOKEN 获取成功，执行更新数据库操作，否则返回完整错误信息 */
             if (empty($response['errcode'])) {
@@ -232,10 +232,10 @@ class WWPO_Wechat
                 $access_token = $response['access_token'];
 
                 // 设定保存时间，更新数据库
-                $option['accesstoken']  = $access_token;
-                $option['tokenexpires'] = NOW;
+                $option['wechat']['accesstoken']  = $access_token;
+                $option['wechat']['tokenexpires'] = NOW;
 
-                update_option(self::KEY_OPTION, $option);
+                update_option(WECHAT_KEY_OPTION, $option);
 
                 // 返回获取的 ACCESS_TOKEN
                 return $access_token;
@@ -268,7 +268,7 @@ class WWPO_Wechat
         }
 
         // 设定请求 URL 参数
-        $url = sprintf('%s/%s', self::DOMAIN, $action);
+        $url = sprintf('%s/%s', WECHAT_DOMAIN, $action);
         $url = add_query_arg('access_token', $access_token, $url);
 
         $option = null;

@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  * @package Webian WordPress One
- * @subpackage Wechat
+ * @subpackage Wechat/wxpay
  */
 class WWPO_Wxpay_Names
 {
@@ -13,7 +13,6 @@ class WWPO_Wxpay_Names
      * 开户银行对照表
      *
      * @since 1.0.0
-     *
      * @param string $bank_type 银行别名
      */
     static function bank($bank_type)
@@ -862,7 +861,6 @@ class WWPO_Wxpay_Names
      * 交易类型对照表
      *
      * @since 1.0.0
-     *
      * @param string $trade_type 交易类型
      */
     static function trade($trade_type)
@@ -891,7 +889,6 @@ class WWPO_Wxpay_Names
      * 交易状态对照表
      *
      * @since 1.0.0
-     *
      * @param string $status 交易状态别名
      */
     static function status($status)

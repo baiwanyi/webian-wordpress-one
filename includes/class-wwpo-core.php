@@ -315,7 +315,7 @@ final class WWPO_Core
         // 获取设置保存值
         $webfont_url    = $this->option_data['webfont'] ?? '';
         $cdn_url        = $this->option_data['cdnurl'] ?? '';
-        $cdn_url = get_stylesheet_directory_uri() . '/assets';
+        $cdn_url        = get_stylesheet_directory_uri() . '/assets';
 
         // 注册 webfont 样式
         if ($webfont_url) {
@@ -443,6 +443,13 @@ final class WWPO_Core
             'parent'        => 'webian-wordpress-one',
             'menu_title'    => __('模块管理', 'wwpo'),
             'menu_order'    => 10
+        ];
+
+        $menus['wwpo-logs'] = [
+            'parent'        => 'webian-wordpress-one',
+            'menu_title'    => __('操作日志', 'wwpo'),
+            'role'          => 'edit_posts',
+            'menu_order'    => 11
         ];
 
         return $menus;

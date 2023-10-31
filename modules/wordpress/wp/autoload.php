@@ -93,6 +93,9 @@ function wwpo_admin_post_update_wordpress()
     // 更新到数据库
     update_option('wwpo-settings-wordpress', $option_data);
 
+    // 设定日志
+    wwpo_logs('admin:post:updatewordpress:' . $option_key);
+
     // 返回信息
     new WWPO_Error('message', 'updated_success');
 }

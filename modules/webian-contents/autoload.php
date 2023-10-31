@@ -30,7 +30,6 @@ function wwpo_contents_admin_menu($menus)
     $menus['wwpo-contents'] = [
         'parent'        => 'webian-wordpress-one',
         'menu_title'    => __('自定义内容', 'wwpo'),
-        'role'          => 'edit_posts',
         'menu_order'    => 11
     ];
 

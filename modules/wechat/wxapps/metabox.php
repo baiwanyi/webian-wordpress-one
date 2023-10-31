@@ -5,18 +5,11 @@
  *
  * @since 1.0.0
  * @package Webian WordPress One
- * @subpackage Wechat
+ * @subpackage Wechat/wxapps
  */
 
 /** 定义元数据名称 */
 define('WWPO_META_PAGE_WEAPP_KEY', '_wppo_weapp_page');
-
-/**
- * 使用经典编辑器
- *
- * @since 1.0.0
- */
-
 
 /**
  * 添加元数据操作框函数

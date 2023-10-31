@@ -317,3 +317,39 @@ function wwpo_check_upload($uploader, $nonce, $ext = null)
 
     return true;
 }
+
+/**
+ * 日志写入函数
+ *
+ * @since 1.0.0
+ * @param string $code      日志事件代码
+ * @param string $page_url  日志页面地址
+ */
+function wwpo_logs($code, $page_url = null)
+{
+    if (empty($code)) {
+        return;
+    }
+
+    if (isset($_POST['pagenow'])) {
+        $page_url = urldecode($_POST['pagenow']);
+        $page_url = str_replace(['-', '_'], ':', $page_url);
+    }
+
+    if (empty($page_url)) {
+        $page_url = $_SERVER['PHP_SELF'];
+
+        if ($_SERVER['QUERY_STRING']) {
+            $page_url .= '?' . $_SERVER['QUERY_STRING'];
+        }
+    }
+
+    wwpo_insert_post(WWPO_SQL_LOGS, [
+        'user_post'     => get_current_user_id(),
+        'event_code'    => $code,
+        'event_page'    => $page_url,
+        'user_agent'    => wwpo_get_agent(),
+        'user_ip'       => wwpo_get_ip(),
+        'time_post'     => NOW_TIME,
+    ]);
+}

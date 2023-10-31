@@ -24,7 +24,6 @@ function wwpo_get_post($table_name, $column, $post_id, $key = null, $output = OB
 
     global $wpdb;
 
-
     if (empty($key)) {
         return $wpdb->get_results($wpdb->prepare("SELECT * FROM {$table_name} WHERE {$column} = %s", $post_id), $output);
     }

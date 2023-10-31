@@ -94,12 +94,19 @@ function wwpo_admin_post_update_contents()
 
     /** 判断 $post_id 为空，返回添加信息，转跳到编辑界面 */
     if (empty($_POST['post_id'])) {
+
+        // 设定日志
+        wwpo_logs('admin:post:addcontents:' . $post_id);
+
         new WWPO_Error('message', 'success_added', [
             'post'      => $post_id,
             'action'    => 'edit'
         ]);
         exit;
     }
+
+    // 设定日志
+    wwpo_logs('admin:post:updatecontents:' . $post_id);
 
     // 返回更新成功信息
     new WWPO_Error('message', 'success_updated', [
@@ -142,6 +149,9 @@ function wwpo_admin_post_delete_contents()
     unset($option_data[$post_id]);
     update_option(OPTION_CONTENTS_KEY, $option_data);
 
+    // 设定日志
+    wwpo_logs('admin:post:deletecontents:' . $post_id);
+
     new WWPO_Error('message', 'success_deleted');
 }
 add_action('wwpo_post_admin_deletecontents', 'wwpo_admin_post_delete_contents');
@@ -154,6 +164,10 @@ add_action('wwpo_post_admin_deletecontents', 'wwpo_admin_post_delete_contents');
 function wwpo_ajax_content_empty()
 {
     delete_option(OPTION_CONTENTS_KEY);
+
+    // 设定日志
+    wwpo_logs('admin:ajax:contentempty');
+
     echo new WWPO_Error('success', __('自定义内容设置已清空', 'wwpo'));
 }
 add_action('wwpo_ajax_admin_contentempty', 'wwpo_ajax_content_empty');

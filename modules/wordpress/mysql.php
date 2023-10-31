@@ -329,6 +329,9 @@ function wwpo_ajax_wp_mysql_optimize()
         $wpdb->query("OPTIMIZE TABLE {$row->Name}");
     }
 
+    // 设定日志
+    wwpo_logs('admin:ajax:mysqloptimize');
+
     // 返回信息
     echo WWPO_Error::toast('success', __('优化完成', 'wwpo'), ['url' => 'reload']);
 }
@@ -341,7 +344,9 @@ add_action('wwpo_ajax_admin_mysqloptimize', 'wwpo_ajax_wp_mysql_optimize');
  */
 function wwpo_ajax_wp_mysql_clean()
 {
-    if (empty($_POST['post'])) {
+    $clean_key = $_POST['post'] ?? 'all';
+
+    if ('all' == $clean_key) {
         wwpo_wp_mysql_clean_up('revision');
         wwpo_wp_mysql_clean_up('draft');
         wwpo_wp_mysql_clean_up('autodraft');
@@ -357,8 +362,11 @@ function wwpo_ajax_wp_mysql_clean()
     }
     //
     else {
-        wwpo_wp_mysql_clean_up($_POST['post']);
+        wwpo_wp_mysql_clean_up($clean_key);
     }
+
+    // 设定日志
+    wwpo_logs('admin:ajax:mysqlclean:' . $clean_key);
 
     echo WWPO_Error::toast('success', __('优化完成', 'wwpo'), ['url' => 'reload']);
 }
