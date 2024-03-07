@@ -1,0 +1,64 @@
+<table class="table align-middle text-center table-bordered fixed">
+    <thead class="table-light">
+        <tr>
+            <% _.each(_.sortBy(data.modal, 'order' ), function(modal) {
+               var title=_.get(data.option, modal.type) || '—';
+               %>
+            <th scope="col">{{title}}</th>
+            <% }) %>
+            <th scope="col">库存</th>
+            <th scope="col">出厂价</th>
+            <th scope="col">展示价</th>
+            <th scope="col">会员价</th>
+            <th scope="col">编码</th>
+        </tr>
+    </thead>
+    <tbody>
+    <%
+    var primary=_.where(data.modal, {order:0});
+    var modal_keys=_.keys(data.modal);
+
+    _.each(_.sortBy(primary[0].list, 'order'), function(primary_option) {
+
+        if(2==_.size(data.modal)) {
+
+            var secondary=_.where(data.modal, {order:1});
+            var rows = _.size(secondary[0].list);
+
+            _.each(_.sortBy(secondary[0].list, 'order'), function(secondary_option, secondary_index) {
+                var sku = modal_keys[0] + ':' + primary_option.id + ':' + modal_keys[1] + ':' + secondary_option.id;
+                var table = _.defaults(data.table[sku], data.default);
+                var sku_name = primary_option.name + '-' + secondary_option.name
+            %>
+            <tr data-sku="{{sku}}" data-skuname="{{sku_name}}">
+            <% if (0==secondary_index) { %>
+            <td rowspan="{{rows}}">{{primary_option.name || '—'}}</td>
+            <% } %>
+            <td>{{secondary_option.name || '—'}}</td>
+            <td><input type="text" value="{{table.stock}}" data-type="stock" class="regular-text"></td>
+            <td><input type="text" value="{{table.buy}}" data-type="buy" class="regular-text"></td>
+            <td><input type="text" value="{{table.sale}}" data-type="sale" class="regular-text"></td>
+            <td><input type="text" value="{{table.vip}}" data-type="vip" class="regular-text"></td>
+            <td><input type="text" value="{{table.code}}" data-type="code" class="regular-text"></td>
+            </tr>
+            <%
+            })
+        } else {
+            var sku = modal_keys[0] + ':' + primary_option.id;
+            var table = _.defaults(data.table[sku], data.default);
+            var sku_name = primary_option.name;
+            %>
+            <tr data-sku="{{sku}}" data-skuname="{{sku_name}}">
+            <td>{{primary_option.name || '—'}}</td>
+            <td><input type="text" value="{{table.stock}}" data-type="stock" class="regular-text"></td>
+            <td><input type="text" value="{{table.buy}}" data-type="buy" class="regular-text"></td>
+            <td><input type="text" value="{{table.sale}}" data-type="sale" class="regular-text"></td>
+            <td><input type="text" value="{{table.vip}}" data-type="vip" class="regular-text"></td>
+            <td><input type="text" value="{{table.code}}" data-type="code" class="regular-text"></td>
+            </tr>
+        <%
+        }
+    })
+    %>
+    </tbody>
+</table>

@@ -97,7 +97,7 @@ function wwpo_wxapps_get_banner($adsense, $limit = 3)
      *  @var integer    thumb       广告封面 ID
      * }
      */
-    foreach ($option_data as $banner) {
+    foreach ($option_data as $i => $banner) {
         $day_start  = str_replace('-', '', $banner['start']);
         $day_end    = str_replace('-', '', $banner['end']);
         $day_now    = date('Ymd', NOW);
@@ -111,13 +111,16 @@ function wwpo_wxapps_get_banner($adsense, $limit = 3)
             continue;
         }
 
-        $data[] = [
+        $data[$i] = [
             'title'     => $banner['title'],
             'content'   => $banner['content'],
             'guid'      => $banner['guid'],
-            'color'     => $banner['color'],
-            'thumb'     => wp_get_attachment_image_url($banner['thumb'], 'banner')
+            'color'     => $banner['color']
         ];
+
+        if (isset($banner['thumb'])) {
+            $data[$i]['thumb'] = wp_get_attachment_image_url($banner['thumb'], 'banner');
+        }
     }
 
     return $data;

@@ -417,7 +417,7 @@ class WWPO_Table extends WP_List_Table
      */
     protected function column_default($data, $column_name)
     {
-        $column_name = str_replace('small-', '', $column_name);
+        $column_name = str_replace(['small-', 'medium-'], '', $column_name);
         $default = $data[$column_name] ?? null;
 
         if (isset($default)) {

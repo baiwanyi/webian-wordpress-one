@@ -25,6 +25,7 @@ foreach (get_defined_constants() as $name => $value) {
 /** 判断搜索关键字，筛选关键字内容 */
 if (isset($_GET['s'])) {
     $data = wp_list_filter($data, ['name' => $_GET['s']]);
+    $data = wp_list_sort($data, ['value'=> 'ASC']);
 }
 
 // 显示表格内容

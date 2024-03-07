@@ -1,0 +1,33 @@
+<tr id="item-modal-{{data.oimeta_id}}">
+    <td class="border-start-0">
+        <div class="input-group">
+            <input type="text" class="form-control" value="{{data.item_modal}}"
+                   data-action="wwpoordermodalupdate"
+                   data-modal-type="name" data-modal-id="{{data.oimeta_id}}"
+                   data-item="{{data.item_id}}">
+            <button type="button" class="button button-link-delete" value="modaldelete"
+                    data-action="wpmallorderitem"
+                    data-modal="{{data.oimeta_id}}">
+                <span class="dashicons-before dashicons-no-alt"></span>
+            </button>
+        </div>
+    </td>
+    <td class="position-relative">
+        <input type="number" class="regular-text" value="0"
+               data-action="wwpoordermodalupdate"
+               data-modal-type="amount" data-modal-id="{{data.oimeta_id}}"
+               data-item="{{data.item_id}}">
+    </td>
+    <td class="position-relative">
+        <input type="number" class="regular-text" value="0"
+               data-action="wwpoordermodalupdate"
+               data-modal-type="buy" data-modal-id="{{data.oimeta_id}}"
+               data-item="{{data.item_id}}">
+    </td>
+    <td class="position-relative">
+        <input type="number" class="regular-text" value="0" data-action="wwpoordermodalupdate"
+               data-modal-type="sale" data-modal-id="{{data.oimeta_id}}"
+               data-item="{{data.item_id}}">
+    </td>
+    <td id="wwpo-order-items-modal-total-{{data.oimeta_id}}" class="border-end-0">0.00</td>
+</tr>

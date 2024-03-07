@@ -70,7 +70,7 @@ function wwpo_wxapps_display_category_edit($option_data)
         'hidden' => [
             'post_key'          => 'category',
             'post_id'           => $post_id,
-            'updated[thumb]'    => $option_data['thumb']
+            'thumb_id'    => $option_data['thumb']
         ],
         'submits' => [
             ['value' => 'updatewechat'],

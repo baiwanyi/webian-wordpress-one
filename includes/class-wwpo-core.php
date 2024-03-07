@@ -71,13 +71,6 @@ final class WWPO_Core
             self::$instance = new WWPO_Core();
 
             /**
-             * 加载激活模块
-             *
-             * @since 1.0.0
-             */
-            self::$instance->active_modules();
-
-            /**
              * 注册统计分析
              *
              * @since 1.0.0
@@ -146,6 +139,13 @@ final class WWPO_Core
              * @since 1.0.0
              */
             add_action('after_setup_theme', [self::$instance, 'load_theme_textdomain']);
+
+            /**
+             * 加载激活模块
+             *
+             * @since 1.0.0
+             */
+            self::$instance->active_modules();
         }
     }
 

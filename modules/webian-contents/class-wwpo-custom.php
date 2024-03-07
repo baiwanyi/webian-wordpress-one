@@ -333,7 +333,9 @@ class WWPO_Custom
      */
     private function post_type_label($post_type_title, $name_menu, $name_adminbar)
     {
-        $post_type_label = [
+        $post_type_label = [];
+        $post_type_label = apply_filters('wwpo_post_type_label', $post_type_label);
+        $post_type_label = wp_parse_args($post_type_label, [
             'singular_name'         => $post_type_title,
             'name'                  => $post_type_title,
             'menu_name'             => $name_menu,
@@ -361,7 +363,7 @@ class WWPO_Custom
             'items_list'            => sprintf('%s列表', $post_type_title),
             'items_list_navigation' => sprintf('%s列表导航', $post_type_title),
             'filter_items_list'     => sprintf('%s筛选列表', $post_type_title),
-        ];
+        ]);
 
         return $post_type_label;
     }
@@ -379,7 +381,9 @@ class WWPO_Custom
      */
     private function taxonomy_label($taxonomy_title, $name_menu = '')
     {
-        $taxonomy_label = [
+        $taxonomy_label = [];
+        $taxonomy_label = apply_filters('wwpo_taxonomy_label', $taxonomy_label);
+        $taxonomy_label = wp_parse_args($taxonomy_label, [
             'singular_name'                 => $taxonomy_title,
             'name'                          => $taxonomy_title,
             'menu_name'                     => empty($name_menu) ? $taxonomy_title : $name_menu,
@@ -401,7 +405,7 @@ class WWPO_Custom
             'items_list'                    => sprintf('%s列表', $taxonomy_title),
             'items_list_navigation'         => sprintf('%s列表导航', $taxonomy_title),
             'back_to_items'                 => sprintf('返回%s', $taxonomy_title)
-        ];
+        ]);
 
         return $taxonomy_label;
     }

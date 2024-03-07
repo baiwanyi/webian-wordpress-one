@@ -71,9 +71,9 @@ function wwpo_wxapps_display_banner_edit($option_data)
     // 设定编辑表单
     $array_formdata = [
         'hidden' => [
-            'post_key'          => 'banner',
-            'post_id'           => $post_id,
-            'updated[thumb]'    => $option_data['thumb']
+            'post_key'  => 'banner',
+            'post_id'   => $post_id,
+            'thumb_id'  => $option_data['thumb']
         ],
         'submits' => [
             ['value' => 'updatewechat'],
@@ -145,7 +145,7 @@ function wwpo_wxapps_display_banner_edit($option_data)
     ];
 
     if ($option_data['thumb']) {
-        $array_formdata['formdata']['cover']['content'] .= sprintf('<figure id="wwpo-thumb-figure" class="figure m-0 w-50"><img src="%s" class="figure-img img-fluid rounded"></figure>', wp_get_attachment_url($option_data['thumb']));
+        $array_formdata['formdata']['cover']['content'] .= sprintf('<figure id="wwpo-thumb-figure" class="figure m-0 w-50"><img src="%s" class="figure-img img-fluid rounded"></figure>', wp_get_attachment_image_url($option_data['thumb']));
     }
 
     echo WWPO_Form::table($array_formdata);

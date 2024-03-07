@@ -1,0 +1,15 @@
+<% _.each(_.sortBy(data, 'sort'), function(item) { %>
+    <div id="post-{{item.id}}" class="mt-2 col-6 col-lg-3">
+        <input type="hidden" name="wpmall-media[]" value="{{item.id}}">
+        <div class="card m-0 p-0 overflow-hidden">
+            <div class="ratio ratio-1x1" data-action="mediaview">
+                <img src="{{item.url}}" class="thumb">
+            </div>
+            <div class="card-body text-end">
+                <button type="button" data-action="mediaremove" class="btn btn-danger btn-sm lh-1" value="{{item.id}}">
+                    <span class="dashicons dashicons-no"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+<% }) %>

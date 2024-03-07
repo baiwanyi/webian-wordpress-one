@@ -1,0 +1,29 @@
+<% _.each(_.sortBy(data.modal, 'order'), function(modal) { %>
+    <div id="wpmall-modal-{{modal.id}}" data-modal="{{modal.id}}">
+        <div class="border-bottom mt-4 mb-3 pb-2">
+            <div class="hstack gap-1">
+                <select data-action="modalselected">
+                    <option value="0">选择规格类型</option>
+                    <% _.each(data.option, function(option_name, option_key) {
+                    var selected=(option_key==modal.type) ? ' selected' : '' ;
+                    %>
+                    <option value="{{option_key}}"{{selected}}>{{option_name}}</option>
+                    <% }) %>
+                </select>
+                <button class="button" type="button" data-action="wpmallmodal" value="optioncreate">添加</button>
+                <button class="button ms-auto button-link-delete" type="button" data-action="wpmallmodal" value="delete">删除</button>
+            </div>
+        </div>
+        <div id="wpmall-modal-list-{{modal.id}}" class="row g-2 mb-3">
+            <% _.each(_.sortBy(modal.list, 'order'), function(option) { %>
+                <div id="wpmall-modal-option-{{option.id}}" data-modal="{{modal.id}}" data-option="{{option.id}}" class="col-6 col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-text dashicons-before dashicons-move"></span>
+                        <input type="text" class="form-control" placeholder="请输入规格名称" value="{{option.name}}">
+                        <button class="btn btn-outline-danger" type="button" data-action="wpmallmodal" value="optiondelete">删除</button>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+<% }) %>

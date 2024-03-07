@@ -54,7 +54,7 @@ class WWPO_Wxpay
         $wechat_data    = $option_data['wechat'] ?? [];
         $wxpay_data     = $option_data['wxpay'] ?? [];
 
-        if ($wxpay_data['apikeysecret']) {
+        if (isset($wxpay_data['apikeysecret'])) {
             $apikeysecret = "-----BEGIN PRIVATE KEY-----\n" . wordwrap($wxpay_data['apikeysecret'], 64, "\n", true) . "\n-----END PRIVATE KEY-----\n";
         }
 

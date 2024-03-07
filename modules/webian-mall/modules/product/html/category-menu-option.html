@@ -1,0 +1,7 @@
+<% _.each(data, function(term, index) { %>
+<div class="webui-select-menu__option">
+    <label class="webui-select-menu__label" for="webui-checkbox-{{index}}">{{term.name}}</label>
+    <input type="checkbox" name="wpmall-{{term.type}}[]" value="{{index}}" class="webui-select-menu__checkbox"
+           id="webui-checkbox-{{index}}">
+</div>
+<% }) %>

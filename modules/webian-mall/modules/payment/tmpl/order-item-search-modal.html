@@ -1,0 +1,29 @@
+<div class="hstack gap-3">
+    <div class="webui__admin-field">
+        <div class="input-group">
+            <span class="input-group-text dashicons-before dashicons-search"></span>
+            <input type="search" class="form-control" id="wwpo-modal-search-key" placeholder="搜索货号或品名...">
+            <button type="button" class="button" data-action="wpmallorderitem" value="search">搜索</button>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered align-middle table-hover">
+        <thead class="table-light">
+            <tr>
+                <th class="column-index">#</th>
+                <th class="column-small">缩略图</th>
+                <th>货品名称</th>
+                <th>货号</th>
+                <th>出厂价</th>
+                <th>销售价</th>
+            </tr>
+        </thead>
+        <tbody id="wwpo-order-search-items" class="table-group-divider">
+            <tr>
+                <td colspan="6" class="noitems text-center">没有找到相关内容</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

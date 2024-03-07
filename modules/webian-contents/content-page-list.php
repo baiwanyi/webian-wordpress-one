@@ -30,6 +30,10 @@ function wwpo_contents_page_list_table($option_data)
                     'option'        => WWPO_Custom::post_type(),
                     'show_option_all' => __('选择内容类型', 'wwpo')
                 ]
+            ],
+            'import' => [
+                'title' => __('导入配置', 'wwpo'),
+                'field' => ['type' => 'textarea',]
             ]
         ]
     ]);
@@ -62,8 +66,8 @@ function wwpo_contents_extra_tablenav($which)
     }
 
     foreach ([
-        'contentloadlocal'  => '读取本地设置',
-        'contentsavelocal'  => '保存设置到本地',
+        // 'contentloadlocal'  => '读取本地设置',
+        // 'contentsavelocal'  => '保存设置到本地',
         'contentempty'      => '清空设置'
 
     ] as $button_key => $button_text) {

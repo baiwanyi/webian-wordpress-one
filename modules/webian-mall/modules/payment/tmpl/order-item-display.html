@@ -1,0 +1,105 @@
+<% _.each(data, function (item) {
+   %>
+    <div id="item-{{item.item_id}}" class="card w-100 mw-100 p-0">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>产品编号：<span class="user-select-all">{{item.barcode}}</span></div>
+            <button type="button" class="btn btn-link text-danger text-decoration-none p-0"
+                    data-action="wpmallorderitem" data-item="{{item.item_id}}"
+                    value="delete">删除</button>
+        </div>
+
+        <div class="row g-0">
+            <div class="col-md-3">
+                <div class="m-3">
+                    <div class="ratio ratio-1x1">
+                        <img src="{{item.thumb_url}}" class="thumb rounded">
+                    </div>
+                    <h4>{{item.item_title}}</h4>
+                </div>
+            </div>
+            <div class="col-md-9 border-start">
+                <table id="wwpo-order-items-table" class="table table-bordered fixed text-center align-middle mb-0">
+                    <tbody>
+                        <tr class="border-top-0">
+                            <th scope="col" class="border-start-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="modalinput" placeholder="规格/码数">
+                                    <button type="button" class="button" data-action="wpmallorderitem"
+                                            data-item="{{item.item_id}}" value="modalcreate">
+                                        <span class="dashicons-before dashicons-plus-alt2"></span>
+                                    </button>
+                                </div>
+                            </th>
+                            <th scope="col">数量</th>
+                            <th scope="col">进货价</th>
+                            <th scope="col">销售价</th>
+                            <th scope="col" class="border-end-0">小计金额（元）</th>
+                        </tr>
+                        <% _.each(item.modal, function (modal) {
+                           if (modal.oimeta_id) {
+                           %>
+                            <tr id="item-modal-{{modal.oimeta_id}}">
+                                <td class="border-start-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" value="{{modal.item_modal}}"
+                                               data-action="wwpoordermodalupdate"
+                                               data-modal-type="name"
+                                               data-modal-id="{{modal.oimeta_id}}"
+                                               data-item="{{item.item_id}}">
+                                        <button type="button" class="button button-link-delete" value="modaldelete"
+                                                data-action="wpmallorderitem"
+                                                data-modal="{{modal.oimeta_id}}">
+                                            <span class="dashicons-before dashicons-no-alt"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="position-relative">
+                                    <input type="number" class="regular-text" value="{{modal.amount || 0}}"
+                                           data-action="wwpoordermodalupdate"
+                                           data-modal-type="amount"
+                                           data-modal-id="{{modal.oimeta_id}}"
+                                           data-item="{{item.item_id}}">
+                                </td>
+                                <td class="position-relative">
+                                    <input type="number" class="regular-text" value="{{modal.price_buy}}"
+                                           data-action="wwpoordermodalupdate"
+                                           data-modal-type="buy"
+                                           data-modal-id="{{modal.oimeta_id}}"
+                                           data-item="{{item.item_id}}">
+                                </td>
+                                <td class="position-relative">
+                                    <input type="number" class="regular-text" value="{{modal.price_sale}}"
+                                           data-action="wwpoordermodalupdate"
+                                           data-modal-type="sale"
+                                           data-modal-id="{{modal.oimeta_id}}"
+                                           data-item="{{item.item_id}}">
+                                </td>
+                                <td id="wwpo-order-items-modal-total-{{modal.oimeta_id}}" class="border-end-0">
+                                    {{modal.total || '0.00'}}
+                                </td>
+                            </tr>
+                            <%
+                               }
+                               } ) %>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row g-0">
+                <div class="col-md-3"></div>
+                <div class="col-md-9 border-start">
+                    <ul class="list-inline p-3 m-0">
+                        <li class="list-inline-item m-0 me-4">
+                            <strong class="pe-2">总数量</strong>
+                            <span id="wwpo-order-items-amount">{{item.amount || 0}}</span>
+                        </li>
+                        <li class="list-inline-item m-0 me-4">
+                            <strong class="pe-2">总金额</strong>
+                            <span id="wwpo-order-items-total">{{item.price_total || '0.00'}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } ) %>
