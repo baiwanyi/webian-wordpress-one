@@ -54,41 +54,6 @@ function wwpo_contents_page_list_table($option_data)
 }
 
 /**
- * Undocumented function
- *
- * @since 1.0.0
- * @param string $which
- */
-function wwpo_contents_extra_tablenav($which)
-{
-    if ('top' != $which) {
-        return;
-    }
-
-    foreach ([
-        // 'contentloadlocal'  => '读取本地设置',
-        // 'contentsavelocal'  => '保存设置到本地',
-        'contentempty'      => '清空设置'
-
-    ] as $button_key => $button_text) {
-
-        $button_css = 'button me-2';
-
-        if ('contentempty' == $button_key) {
-            $button_css .= ' button-link-delete';
-        }
-
-        printf(
-            '<button type="button" data-action="wpajax" class="%s" value="%s">%s</button>',
-            $button_css,
-            $button_key,
-            $button_text
-        );
-    }
-}
-add_action('wwpo_wwpo-contents_extra_tablenav', 'wwpo_contents_extra_tablenav');
-
-/**
  * 自定义内容表格列输出函数
  *
  * @since 1.0.0

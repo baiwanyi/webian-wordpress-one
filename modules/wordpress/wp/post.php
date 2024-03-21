@@ -109,3 +109,51 @@ function wwpo_wordpress_wp_post($option_data)
 
     return $formdata;
 }
+
+/**
+     * 保存文章内容中远程图片到本地
+     *
+     * @since 1.0.0
+     * @param string $post_content  文章内容
+     */
+    function save_remote_image($post_content)
+    {
+        // 正则查询文章内容中的图片
+        preg_match_all('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', $post_content, $matchall);
+
+        /** 判断没有图片直接返回内容 */
+        if (empty($matchall)) {
+            return $post_content;
+        }
+
+        // 设定图片域名
+        $image_url = parse_url(home_url(), PHP_URL_HOST);
+
+        /**
+         * 遍历正则的文章图片内容数组
+         */
+        foreach ($matchall[2] as $key => $image) {
+
+            // 判断当前图片域名是否为远程图片
+            if ($image_url == parse_url($image, PHP_URL_HOST)) {
+                continue;
+            }
+
+            // 获取远程图片，同时保存本地和OSS
+            $image_src = wwpo_get_remote_image($image);
+
+            // 判断保存成功，获取图片地址
+            if (empty($image_src)) {
+                continue;
+            }
+
+            // 设定图片地址和 OSS 样式
+            $image_file = sprintf('<img src="%1$s?x-oss-process=style/postview" class="thumb lazy">', $image_src);
+
+            // 替换文章内容中图片
+            $post_content = str_replace($matchall[0][$key], $image_file, $post_content);
+        }
+
+        // 返回文章内容
+        return $post_content;
+    }

@@ -89,24 +89,9 @@ class WWPO_Form
         $content .= sprintf('<table class="webui__form-table %s"><tbody>%s</tbody></table>', esc_attr($table_class), $table_body);
 
         /** 设定表单按钮 */
-        if (isset($data['button']) || isset($data['submit'])) {
+        if (isset($data['button'])) {
 
-            $button = '';
-
-            if (isset($data['button'])) {
-                $button = WWPO_Button::wp($data['button']);
-            }
-
-            if (isset($data['submit'])) {
-
-                if (is_array($data['submit'])) {
-                    foreach ($data['submit'] as $submit) {
-                        $button .= WWPO_Button::submit($submit);
-                    }
-                } else {
-                    $button = WWPO_Button::submit($data['submit']);
-                }
-            }
+            $button = sprintf('<button>%s</button>', __('Save Post'));
 
             return sprintf(
                 '<form id="webui__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
@@ -157,15 +142,11 @@ class WWPO_Form
         $content .= '</div>';
 
         /** 设定表单按钮 */
-        if (isset($data['button']) || isset($data['submit'])) {
+        if (isset($data['button'])) {
 
-            if (isset($data['button'])) {
-                $button = WWPO_Button::wp($data['button']);
-            }
 
-            if (isset($data['submit'])) {
-                $button = WWPO_Button::submit($data['submit']);
-            }
+            $button = sprintf('<button>%s</button>', __('Save Post'));
+
 
             return sprintf(
                 '<form id="webui__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',

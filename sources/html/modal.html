@@ -1,0 +1,22 @@
+<div id="webui-modal-{{data.id}}" class="modal fade" tabindex="-1">
+    <div class="modal-dialog {{data.size}}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title m-0">{{data.title}}</h3>
+                <button type="button" data-action="dismissmodal" data-target="#webui-modal-{{data.id}}" class="btn-close"></button>
+            </div>
+            <div class="modal-body">{{{data.content}}}</div>
+            <% if (data.close || data.button) { %>
+                <div class="modal-footer">
+                    <% if (data.close) { %>
+                        <button type="button" data-action="dismissmodal" data-target="#webui-modal-{{data.id}}" class="btn btn-outline-dark">关闭</button>
+                    <% } %>
+                    <% _.each(data.button, function(button, key) { %>
+                        <button type="button" class="{{button.css}}" data-action="{{button.action}}" value="{{key}}">{{button.title}}</button>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<div id="webui-modal-{{data.id}}-backdrop" class="modal-backdrop fade"></div>
