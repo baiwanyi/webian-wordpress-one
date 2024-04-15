@@ -20,7 +20,7 @@ define('WWPO_KEY_MINIPROGRAMS', 'wwpo:miniprograms:data');
  *
  * @since 1.0.0
  */
-wwpo_require_dir(WWPO_MOD_PATH . 'webian-miniprograms/includes');
+// wwpo_require_dir(WWPO_MOD_PATH . 'webian-miniprograms/includes');
 
 /**
  * 添加后台管理菜单

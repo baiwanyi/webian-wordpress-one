@@ -1,0 +1,20 @@
+.webui__admin-editor {
+    margin-top: 0.75rem;
+
+    &__before {
+        margin-top: 0.5rem;
+        &:empty {
+            margin: 0;
+        }
+    }
+}
+
+.block-editor {
+    & .is-desktop-preview {
+        padding: 0 1rem;
+    }
+}
+
+.quicktags-toolbar {
+    width: 100% !important;
+}

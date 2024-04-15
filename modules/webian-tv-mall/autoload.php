@@ -19,4 +19,4 @@ define('WWPO_KEY_MPDATA', 'wwpo:miniprograms:data');
  *
  * @since 1.0.0
  */
-wwpo_require_dir(WWPO_MOD_PATH . 'douyin-vod-apps/includes');
+// wwpo_require_dir(WWPO_MOD_PATH . 'douyin-vod-apps/includes');

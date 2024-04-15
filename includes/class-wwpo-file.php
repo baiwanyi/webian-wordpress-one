@@ -179,7 +179,7 @@ class WWPO_File
                 }
 
                 if (is_dir($folder . $file)) {
-                    $files2 = wwpo_list_files($folder . $file, $levels - 1);
+                    $files2 = self::list($folder . $file, $levels - 1);
                     if ($files2) {
                         $files = array_merge($files, $files2);
                     } else {

@@ -43,8 +43,9 @@ function wwpo_admin_page_setting_analytics($admin_page)
 
     $admin_page['analytics'] = [
         'title'     => __('站点统计', 'wwpo'),
-        'fields'    => [
+        'formdata'  => [
             'option_data[analytics][type]' => [
+                'title' => '统计平台',
                 'field' => [
                     'type'      => 'select',
                     'option'    => [
@@ -56,6 +57,7 @@ function wwpo_admin_page_setting_analytics($admin_page)
                 ]
             ],
             'option_data[analytics][code]' => [
+                'title' => '统计代码',
                 'field' => ['type' => 'text', 'value' => $option_data['code'] ?? '']
             ]
         ]

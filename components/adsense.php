@@ -44,6 +44,7 @@ function wwpo_admin_page_setting_adsense($admin_page)
     $admin_page['adsense']['title'] = __('站点广告', 'wwpo');
     $admin_page['adsense']['formdata'] = [
         'option_data[adsense][type]' => [
+            'title' => '广告平台',
             'field' => [
                 'type'      => 'select',
                 'option'    => [
@@ -55,6 +56,7 @@ function wwpo_admin_page_setting_adsense($admin_page)
             ]
         ],
         'option_data[adsense][code]' => [
+            'title' => '广告代码',
             'field' => ['type' => 'text', 'value' => $option_data['code'] ?? '']
         ]
     ];

@@ -13,7 +13,7 @@ class WWPO_Admin
      *
      * @since 1.0.0
      */
-    static function page()
+    static function display()
     {
         $current_page_name  = self::page_name();
         $current_page_title = get_admin_page_title();

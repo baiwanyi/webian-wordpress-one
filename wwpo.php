@@ -10,11 +10,6 @@
  * Domain Path: /languages
  */
 
-/** 将 WWPOPATH 定义为此文件的目录 */
-if (!defined('WWPOPATH')) {
-    define('WWPOPATH', __DIR__ . DIRECTORY_SEPARATOR);
-}
-
 /**
  * 自定义常量
  *
@@ -36,52 +31,51 @@ if (WP_DEBUG) {
     define('WWPO_VER', '2.0.0');
 }
 
-/** 定义插件路径 */
-define('WWPO_DIR_PATH', plugin_dir_path(__FILE__));
-define('WWPO_MOD_PATH', WWPO_DIR_PATH . 'modules' . DIRECTORY_SEPARATOR);
-
-/** 定义插件地址 */
-define('WWPO_DIR_URL', plugin_dir_url(__FILE__));
-define('WWPO_ASS_URL', WWPO_DIR_URL . 'assets');
+/** 定义插件路径和地址 */
+define('WWPO_PLUGIN_FILE', __FILE__);
+define('WWPO_PLUGIN_PATH', plugin_dir_path(WWPO_PLUGIN_FILE));
+define('WWPO_PLUGIN_URL', plugin_dir_url(WWPO_PLUGIN_FILE));
 
 /** 定义插件名 */
-define('WWPO_DIR_NAME', basename(WWPO_DIR_PATH));
+define('WWPO_PLUGIN_DIR', basename(WWPO_PLUGIN_PATH));
+define('WWPO_PLUGIN_NAME', plugin_basename(WWPO_PLUGIN_FILE));
 
 /** 定义 option 相关名称 */
 define('OPTION_SETTING_KEY', 'wwpo-settings-data');
 define('OPTION_CONTENT_KEY', '');
 
 /** 加载文件 */
-require WWPOPATH . 'includes/class-wwpo-array.php';
-require WWPOPATH . 'includes/class-wwpo-check.php';
-require WWPOPATH . 'includes/class-wwpo-file.php';
-require WWPOPATH . 'includes/class-wwpo-get.php';
-require WWPOPATH . 'includes/class-wwpo-meta.php';
-require WWPOPATH . 'includes/class-wwpo-post.php';
-require WWPOPATH . 'includes/class-wwpo-rest-controller.php';
-require WWPOPATH . 'includes/class-wwpo-rest-user-controller.php';
-require WWPOPATH . 'includes/class-wwpo-template.php';
-require WWPOPATH . 'includes/class-wwpo-util.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-array.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-check.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-file.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-get.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-load.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-meta.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-post.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-rest-controller.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-rest-user-controller.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-template.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-util.php';
 
 if (is_admin()) {
-    require WWPOPATH . 'includes/class-wwpo-admin.php';
-    require WWPOPATH . 'includes/class-wwpo-error.php';
-    require WWPOPATH . 'includes/class-wwpo-form.php';
-    require WWPOPATH . 'includes/class-wwpo-list-table.php';
+    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-admin.php';
+    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-error.php';
+    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-form.php';
+    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-list-table.php';
 }
 
 /** */
-require WWPOPATH . 'includes/register.php';
+require WWPO_PLUGIN_PATH . 'includes/register.php';
 
 /**
  *
  */
-WWPO_File::require(WWPO_DIR_PATH . 'components');
+WWPO_File::require(WWPO_PLUGIN_PATH . 'components');
 
 /**
  *
  */
-WWPO_File::require(WWPO_DIR_PATH . 'pages');
+WWPO_File::require(WWPO_PLUGIN_PATH . 'pages');
 
 /**
  * 启动初始化动作加载函数

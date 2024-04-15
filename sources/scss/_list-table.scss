@@ -1,0 +1,122 @@
+// Tables
+//
+// Prevent double borders
+
+table {
+    caption-side: bottom;
+    border-collapse: collapse;
+}
+
+caption {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: $secondary;
+    text-align: left;
+}
+
+// 1. Removes font-weight bold by inheriting
+// 2. Matches default `<td>` alignment by inheriting `text-align`.
+// 3. Fix alignment for Safari
+
+th {
+    font-weight: 600; // 1
+    text-align: inherit; // 2
+    text-align: -webkit-match-parent; // 3
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+
+th[class*='column-taxonomy'] {
+    width: 10rem;
+}
+
+th[class*='column-small'] {
+    width: 5rem;
+}
+
+th[class*='column-index'] {
+    width: 3rem;
+}
+
+th[class*='column-action'] {
+    width: 10rem;
+}
+
+th[class*='column-medium'],
+[class*='column-thumb'] {
+    position: relative;
+    width: 8rem;
+}
+
+[class*='column-thumb'] {
+    line-height: 0;
+}
+
+.thumb-small {
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+}
+
+.wp-list-table {
+    & td {
+        & button + button,
+        & select + button {
+            margin-left: 0.25rem !important;
+        }
+    }
+}
+
+.table-overflow {
+    width: 150%;
+    border: none !important;
+}
+
+table.nowrap {
+    overflow: auto;
+
+    & * {
+        word-break: keep-all;
+    }
+
+    &.fixed {
+        table-layout: unset;
+    }
+
+    & th {
+        word-break: keep-all;
+        white-space: nowrap;
+    }
+    & td {
+        word-break: keep-all;
+        white-space: nowrap;
+    }
+}
+
+.tablenav .no-pages {
+    display: block !important;
+
+    & .displaying-num {
+        display: inline-block;
+        margin: 5px 0 !important;
+    }
+}
+
+.tablenav .no-pages .pagination-links {
+    display: none;
+}
+
+form {
+    & .table-responsive {
+        overflow: unset !important;
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "webian-wordpress-one",
+    "description": "Support for import assertions in acorn",
+    "version": "2.0.0",
+    "keywords": [],
+    "author": "Baiwanyi",
+    "license": "ISC",
+    "devDependencies": {
+        "terser-webpack-plugin": "^5.3.9",
+        "webpack": "^5.72.0",
+        "webpack-cli": "^4.9.2"
+    },
+    "dependencies": {
+        "@toast-ui/editor": "^3.2.2",
+        "chart.js": "^4.4.2",
+        "expose-loader": "^4.0",
+        "html-loader": "^4.2",
+        "marked": "^12.0.1",
+        "prismjs": "^1.29.0",
+        "qrcode": "^1.5.3",
+        "sass": "^1.72.0",
+        "sass-loader": "^13.3.3"
+    },
+    "main": "webpack.config.js",
+    "scripts": {
+        "build": "webpack --config webpack.config.js",
+        "style": "sass --no-source-map --watch --style compressed sources/wwpo.scss:assets/css/wwpo.min.css"
+    }
+}

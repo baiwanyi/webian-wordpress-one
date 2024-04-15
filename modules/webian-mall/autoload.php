@@ -35,8 +35,8 @@ define('WWPO_RD_WPMALL_KEY', WWPO_RD_KEY . 'wpmall:');
  *
  * @since 1.0.0
  */
-wwpo_require_dir(WWPO_WPMALL_PATH . 'includes');
-wwpo_require_dir(WWPO_WPMALL_PATH . 'modules');
+// wwpo_require_dir(WWPO_WPMALL_PATH . 'includes');
+// wwpo_require_dir(WWPO_WPMALL_PATH . 'modules');
 
 /**
  * 注册后台样式脚本

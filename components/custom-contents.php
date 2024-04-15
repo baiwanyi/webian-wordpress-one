@@ -550,3 +550,86 @@ class WWPO_Custom
         ]);
     }
 }
+
+/**
+ * 注册自定义文章类型
+ *
+ * @since 1.0.0
+ */
+add_action('wwpo_init', ['WWPO_Custom', 'init']);
+
+/**
+ * 添加后台管理菜单
+ *
+ * @since 1.0.0
+ * @param array $menus 菜单内容数组
+ */
+function wwpo_register_admin_menu_contents($menus)
+{
+    $menus['wwpo-contents'] = [
+        'parent'        => 'webian-wordpress-one',
+        'menu_title'    => __('自定义内容', 'wwpo')
+    ];
+
+    return $menus;
+}
+add_filter('wwpo_menus', 'wwpo_register_admin_menu_contents');
+
+/**
+ * 自定义内容列表界面
+ *
+ * @since 1.0.0
+ */
+function wwpo_register_admin_display_contents()
+{
+    // 获取自定义内容选项值
+    $option_data = get_option(OPTION_CONTENTS_KEY, []);
+
+    WWPO_Table::result($option_data, [
+        'index'     => true,
+        'column'    => [
+            'content_title'         => '名称',
+            'small-slug'            => '别名',
+            'content_type'          => '类型',
+            'content_option'        => '参数设置',
+            'small-content_status'  => '状态'
+        ],
+    ]);
+}
+add_action('wwpo_admin_display_wwpo-contents', 'wwpo_register_admin_display_contents');
+
+/**
+ * 自定义内容表格列输出函数
+ *
+ * @since 1.0.0
+ * @param array     $data           表格列值
+ * @param string    $column_name    表格列名称
+ */
+function wwpo_content_table_column($data, $column_name)
+{
+    switch ($column_name) {
+
+            //
+        case 'content_title':
+            printf('<strong><a data-wwpo-ajax="" data-post="%s">%s</a></strong>', $data['ID'], $data['title']);
+            break;
+
+            //
+        case 'content_type':
+            echo WWPO_Custom::post_type($data['type']);
+            break;
+
+            //
+        case 'content_status':
+            if (empty($data['enable'])) {
+                printf('<span class="text-black-50">%s</span>', __('已禁用', 'wwpo'));
+            } else {
+                printf('<span class="text-primary">%s</span>', __('已启用', 'wwpo'));
+            }
+            break;
+
+        default:
+            break;
+    }
+}
+add_action('wwpo_table_wwpo-contents_custom_column', 'wwpo_content_table_column', 10, 2);

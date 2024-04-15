@@ -1,0 +1,89 @@
+.hide-sidebar .attachments-browser .media-toolbar,
+.hide-sidebar .attachments-browser .attachments {
+    right: 0;
+    margin-right: 0;
+}
+
+.hide-toolbar .attachments-browser .attachments {
+    top: 0.75rem;
+}
+
+.btn-close {
+    cursor: pointer;
+}
+
+.offcanvas {
+    &-top {
+        & .offcanvas-header:last-of-type {
+            gap: 0.5rem;
+            justify-content: end;
+        }
+    }
+}
+
+.wwpo-webui-sidebar {
+    & .wrap {
+        margin-right: 19rem;
+    }
+
+    & #wpfooter {
+        right: 18rem;
+    }
+}
+
+.webui-admin-sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 18rem;
+    padding: 3rem 0;
+    background-color: var(--bs-white);
+
+    & a {
+        display: block;
+        color: var(--bs-gray-700);
+
+        &.active {
+            color: var(--bs-primary);
+        }
+
+        &:hover {
+            color: var(--bs-primary);
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    &__inner {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    &__item {
+        margin: 0;
+        border-bottom: 1px solid var(--bs-gray-300);
+    }
+
+    &__menu {
+        padding: 0.75rem 0;
+        font-size: 1.2rem;
+    }
+
+    &__name {
+        font-weight: 300;
+        margin-left: 0.5rem;
+    }
+
+    &__submenu {
+        padding: 0.75rem 0 1rem 1.75rem;
+
+        & li {
+            font-weight: 300;
+            font-size: 1rem;
+            padding: 0.25rem 0;
+        }
+    }
+}

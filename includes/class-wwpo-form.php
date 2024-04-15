@@ -90,13 +90,10 @@ class WWPO_Form
 
         /** 设定表单按钮 */
         if (isset($data['button'])) {
-
-            $button = sprintf('<button>%s</button>', __('Save Post'));
-
             return sprintf(
                 '<form id="webui__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
                 $content,
-                $button
+                WWPO_Button::submit($data['button'])
             );
         }
 
@@ -143,15 +140,10 @@ class WWPO_Form
 
         /** 设定表单按钮 */
         if (isset($data['button'])) {
-
-
-            $button = sprintf('<button>%s</button>', __('Save Post'));
-
-
             return sprintf(
                 '<form id="webui__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
                 $content,
-                $button
+                WWPO_Button::submit($data['button'])
             );
         }
 
@@ -370,6 +362,7 @@ class WWPO_Form
         );
     }
 
+
     /**
      * Undocumented function
      *
@@ -428,7 +421,7 @@ class WWPO_Form
     private function _display_content($form_key, $form_data, $content = '')
     {
         if (isset($form_data['button'])) {
-            $content .= WWPO_Button::wp($form_data['button']);
+            $content .= WWPO_Button::submit($form_data['button']);
         }
 
         /** 判断直接显示内容 */
@@ -453,7 +446,7 @@ class WWPO_Form
             foreach ($form_data['fields'] as $field_key => $field_data) {
 
                 if (isset($field_data['button'])) {
-                    $content .= WWPO_Button::wp($field_data['button']);
+                    $content .= WWPO_Button::submit($field_data['button']);
                 }
 
                 /** 判断直接显示内容 */

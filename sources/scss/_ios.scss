@@ -1,0 +1,68 @@
+/*! 微信自定义菜单 - 手机样式 */
+.device-ios {
+    margin: 1.25rem auto 2rem;
+    width: 18rem;
+    height: 36rem;
+    background: var(--bs-gray-800);
+    border-radius: 2.5rem;
+    border: 2px solid var(--bs-gray-700);
+    padding: 6.5rem 1.25rem;
+    position: relative;
+}
+.device-ios:before {
+    content: '';
+    width: 4rem;
+    height: 0.75rem;
+    border-radius: 0.75rem;
+    position: absolute;
+    left: 50%;
+    margin-left: -1.875rem;
+    background: var(--bs-gray-700);
+    top: 3.125rem;
+
+}
+.device-ios:after {
+    content: '';
+    position: absolute;
+    width: 3.75rem;
+    height: 3.75rem;
+    left: 50%;
+    margin-left: -1.875rem;
+    bottom: 1.25rem;
+    border-radius: 100%;
+    box-sizing: border-box;
+    border: 5px solid var(--bs-gray-700);
+}
+/*!*/
+.device-inner {
+    position: relative;
+    background-color: var(--bs-gray-200);
+    height: 100%;
+}
+.device-inner .menu {
+    position: absolute;
+    padding-top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3rem;
+    background-color: var(--bs-gray-100);
+    border-top: 1px solid var(--bs-gray-200);
+    display: flex;
+}
+.device-inner .menu a {
+    display: block;
+    float: left;
+    width: 100%;
+    text-align: center;
+    line-height: 3rem;
+    border-left: 1px solid var(--bs-gray-200);
+    text-decoration: none;
+}
+.device-inner .menu a:first-of-type {
+    border-left: none;
+}
+.device-inner .menu .hover {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    font-weight: 600;
+}

@@ -1,0 +1,109 @@
+.webui-select-menu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid var(--bs-gray-500);
+    background-color: var(--bs-white);
+    color: var(--bs-gray-800);
+    padding: 4px 8px;
+
+    & .webui-loading {
+        vertical-align: middle;
+    }
+
+    &.show {
+        border-color: var(--bs-primary);
+
+        & .webui-select-menu__list {
+            display: block;
+        }
+    }
+
+    &__title {
+        margin: 0;
+        padding: 5px 10px;
+    }
+
+    &__list {
+        display: none;
+        z-index: 999;
+        position: absolute;
+        width: 100%;
+        max-height: 240px;
+        top: 40px;
+        left: 0;
+        right: 0;
+        background-color: var(--bs-white);
+        border: 1px solid var(--bs-gray-200);
+        border-radius: 4px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+    }
+
+    &__label {
+        display: block;
+        width: 100%;
+        line-height: 1.25rem;
+        user-select: none;
+    }
+
+    &__checkbox {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border: none !important;
+        border-radius: 0 !important;
+        display: block !important;
+        height: 1.25rem !important;
+        margin: 0 !important;
+        width: 1.25rem !important;
+        box-shadow: none !important;
+
+        &:checked::before {
+            font-family: dashicons;
+            content: '\f147' !important;
+            line-height: 1.25rem !important;
+            height: 1.25rem !important;
+            font-size: 1.75rem !important;
+            color: var(--bs-primary);
+            margin: 0 !important;
+            width: 1.25rem !important;
+        }
+    }
+
+    &__option {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-bottom: 1px solid var(--bs-gray-200);
+
+        & .webui-select-menu__option {
+            margin-left: 10px;
+            padding-left: 0;
+        }
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+    }
+}
+
+.webui-select-category {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+
+    & .button {
+        flex: 0 0 auto;
+    }
+
+    &__text {
+        padding: 0 4px;
+    }
+}

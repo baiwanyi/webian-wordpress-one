@@ -68,7 +68,7 @@ function wwpo_register_admin_menu()
 
         /** 判断父级菜单别名，注册子菜单 */
         if (isset($menu_data['parent'])) {
-            add_submenu_page($menu_data['parent'], $page_title, $menu_data['menu_title'], $menu_data['role'], $menu_slug, ['WWPO_Admin', 'page']);
+            add_submenu_page($menu_data['parent'], $page_title, $menu_data['menu_title'], $menu_data['role'], $menu_slug, ['WWPO_Admin', 'display']);
             continue;
         }
 
@@ -78,13 +78,13 @@ function wwpo_register_admin_menu()
          * 主菜单在子菜单后注册，防止子菜单先注册
          * 主菜单注册后再注册「所有」标题菜单，否则主菜单会被覆盖无法显示
          */
-        add_menu_page($page_title, $menu_data['menu_title'], $menu_data['role'], $menu_slug, ['WWPO_Admin', 'page'], $menu_icon, $menu_data['position']);
+        add_menu_page($page_title, $menu_data['menu_title'], $menu_data['role'], $menu_slug, ['WWPO_Admin', 'display'], $menu_icon, $menu_data['position']);
 
         /** 判断显示「所有」菜单标题
          * 用于列表页面，如：所有产品、所有订单等。
          */
         if (isset($menu_data['label_title'])) {
-            add_submenu_page($menu_slug, $menu_data['label_title'], $menu_data['label_title'], $menu_data['role'], $menu_slug, ['WWPO_Admin', 'page']);
+            add_submenu_page($menu_slug, $menu_data['label_title'], $menu_data['label_title'], $menu_data['role'], $menu_slug, ['WWPO_Admin', 'display']);
             continue;
         }
     }
@@ -133,29 +133,31 @@ add_action('wp_ajax_wwpoupdatepost', 'wwpo_register_admin_ajax');
  *
  * @since 1.0.0
  */
-function wwpo_register_display_admin_settings()
+function wwpo_register_admin_display_settings()
 {
     // 获取设置保存值
     $option_data = get_option(OPTION_SETTING_KEY);
 
     // 页面标签内容数组
-    $array_admin_page['common']['title']      = __('通用设置', 'wwpo');
-    $array_admin_page['common']['formdata']   = [
-        'option_data[webfont]'  => [
-            'title' => __('Webfont 地址', 'wwpo'),
-            'field' => ['type' => 'text', 'value' => $option_data['webfont'] ?? '']
-        ],
-        'option_data[cdnurl]'  => [
-            'title' => __('静态 CDN 地址', 'wwpo'),
-            'field' => ['type' => 'text', 'value' => $option_data['cdnurl'] ?? '']
-        ],
-        'option_data[keywords]'  => [
-            'title'     => __('SEO 搜索关键字', 'wwpo'),
-            'field' => ['type' => 'textarea', 'value' => $option_data['keywords'] ?? '']
-        ],
-        'option_data[description]'  => [
-            'title'     => __('SEO 简介', 'wwpo'),
-            'field' => ['type' => 'textarea', 'value' => $option_data['description'] ?? '']
+    $array_admin_page['common'] = [
+        'title'     =>  __('通用设置', 'wwpo'),
+        'formdata'  => [
+            'option_data[webfont]'  => [
+                'title' => __('Webfont 地址', 'wwpo'),
+                'field' => ['type' => 'text', 'value' => $option_data['webfont'] ?? '']
+            ],
+            'option_data[cdnurl]'  => [
+                'title' => __('静态 CDN 地址', 'wwpo'),
+                'field' => ['type' => 'text', 'value' => $option_data['cdnurl'] ?? '']
+            ],
+            'option_data[keywords]'  => [
+                'title'     => __('SEO 搜索关键字', 'wwpo'),
+                'field' => ['type' => 'textarea', 'value' => $option_data['keywords'] ?? '']
+            ],
+            'option_data[description]'  => [
+                'title'     => __('SEO 简介', 'wwpo'),
+                'field' => ['type' => 'textarea', 'value' => $option_data['description'] ?? '']
+            ]
         ]
     ];
 
@@ -167,48 +169,73 @@ function wwpo_register_display_admin_settings()
      */
     $array_admin_page = apply_filters('wwpo_admin_page_settings', $array_admin_page);
 
-    // 显示设置表单
-    echo WWPO_Form::table([
-        'button'    => 'updatesettings',
-        'formdata'  => $array_admin_page
-    ]);
+    echo '<form id="webui__admin-form" method="POST" autocomplete="off">';
+
+    echo WWPO_Form::hidden(['option_key' => OPTION_SETTING_KEY]);
+
+    foreach ($array_admin_page as $admin_page) {
+        // 显示设置表单
+        echo WWPO_Form::table($admin_page);
+    }
+
+    echo WWPO_Button::submit('updatesettings');
+    echo '</form>';
 }
-add_action('wwpo_admin_display_webian-wordpress-one', 'wwpo_register_display_admin_settings');
+add_action('wwpo_admin_display_webian-wordpress-one', 'wwpo_register_admin_display_settings');
+
 
 /**
- * 后台管理菜单
+ * 设置保存操作函数
  *
  * @since 1.0.0
  */
-// function admin_menus($menus)
-// {
+function wwpo_register_ajax_update_settings()
+{
+    /** 判断保存 KEY */
+    if (empty($_POST['option_key'])) {
+        echo new WWPO_Error('error', 'no_option_key');
+        exit;
+    }
 
+    // 更新到数据库
+    update_option($_POST['option_key'], $_POST['option_data']);
 
-//     $menus['wwpo-modules'] = [
-//         'parent'        => 'webian-wordpress-one',
-//         'menu_title'    => __('模块管理', 'wwpo'),
-//         'menu_order'    => 10
-//     ];
+    // 设定日志
+    wwpo_logs('admin:post:updatesettings:' . $_POST['option_key']);
 
-//     $menus['wwpo-logs'] = [
-//         'parent'        => 'webian-wordpress-one',
-//         'menu_title'    => __('操作日志', 'wwpo'),
-//         'role'          => 'edit_posts',
-//         'menu_order'    => 11
-//     ];
+    // 返回信息
+    echo new WWPO_Error('updated', 'updated_success');
+}
+add_action('wwpo_ajax_updatesettings', 'wwpo_register_ajax_update_settings');
 
-//     return $menus;
-// }
+/**
+ * 注册加载模块
+ *
+ * @since 1.0.0
+ */
+function wwpo_register_active_modules()
+{
+    // 获取模块目录
+    $modules_list = WWPO_File::dir(WWPO_PLUGIN_PATH . 'modules');
 
+    if (empty($modules_list)) {
+        return;
+    }
 
-// /**
-//  * 注册 WWPO 菜单
-//  *
-//  * @since 1.0.0
-//  */
-// add_filter('wwpo_menus', [self::$instance, 'admin_menus']);
+    foreach ($modules_list as $modules_dir) {
 
+        // 设定模块别名和模块 autoload.php 文件路径
+        $modules_autoload = $modules_dir . DIRECTORY_SEPARATOR . 'autoload.php';
 
+        // 判断 autoload.php 文件为空
+        if (!file_exists($modules_autoload)) {
+            continue;
+        }
+
+        require $modules_autoload;
+    }
+}
+add_action('wwpo_init', 'wwpo_register_active_modules');
 
 /**
  * 注册 REST API 组件
@@ -230,6 +257,97 @@ add_action('rest_api_init', 'wwpo_register_rest_route');
  */
 function wwpo_register_theme_textdomain()
 {
-    load_plugin_textdomain('wwpo', false, WWPO_DIR_NAME . '/languages');
+    load_plugin_textdomain('wwpo', false, WWPO_PLUGIN_PATH . '/languages');
 }
 add_action('after_setup_theme', 'wwpo_register_theme_textdomain');
+
+/**
+ * 添加后台样式和脚本
+ *
+ * @since 1.0.0
+ */
+function wwpo_register_admin_scripts()
+{
+    global $current_screen;
+
+    /** 启用 WEBUI 框架 */
+    wp_enqueue_script('wwpo', WWPO_PLUGIN_URL . '/assets/js/wwpo.min.js', ['jquery', 'underscore'], null, true);
+
+    /**
+     * 设定本地化参数值
+     *
+     * @var string  ajaxurl     RestAPI 地址
+     * @var string  nonce       Rest 请求随机数
+     * @var string  pagenow     当前页面
+     * @var string  pagenonce   当前页面随机数
+     * @var boolean debug       开发模式
+     */
+    $localize_script = [
+        'ajaxurl'   => home_url('wp-json'),
+        'nonce'     => wp_create_nonce('wp_rest'),
+        'pagenow'   => $current_screen->id,
+        'pagenonce' => wp_create_nonce($current_screen->id),
+        'debug'     => WP_DEBUG
+    ];
+
+    /**
+     * 自定义后台本地化参数接口
+     *
+     * @since 1.0.0
+     */
+    $webuiSettings = apply_filters('wwpo_admin_script', $localize_script);
+
+    // 应用后台本地化脚本
+    wp_localize_script('wwpo', 'webuiSettings', $webuiSettings);
+
+    /** 启用后台样式*/
+    wp_enqueue_style('wwpo-style', WWPO_PLUGIN_URL . '/assets/css/wwpo.min.css');
+}
+add_action('admin_enqueue_scripts', 'wwpo_register_admin_scripts');
+
+/**
+ * 在插件页面上添加插件元链接
+ *
+ * @since 2.0.0
+ * @param string[]  $plugin_meta    插件元数据的数组.
+ * @param string    $plugin_file    插件文件相对于插件目录的路径
+ */
+function wwpo_register_plugin_row_meta($plugin_meta, $plugin_file)
+{
+    if ($plugin_file != WWPO_PLUGIN_NAME) {
+        return $plugin_meta;
+    }
+
+    $plugin_meta[] = sprintf(
+        '<a href="%s">%s</a>',
+        esc_url(admin_url('tools.php?page=wwpo-layout')),
+        esc_html__('布局模板', 'wwpo')
+    );
+
+    $plugin_meta[] = sprintf(
+        '<a href="%s">%s</a>',
+        esc_url(admin_url('tools.php?page=wwpo-development')),
+        esc_html__('开发工具', 'wwpo')
+    );
+
+    return $plugin_meta;
+}
+add_filter('plugin_row_meta', 'wwpo_register_plugin_row_meta', 10, 2);
+
+/**
+ * 将设置页面添加到插件页面上的插件操作链接
+ *
+ * @since 2.0.0
+ * @param string[] $actions 当前插件操作链接。
+ */
+function wwpo_register_plugin_actions_links($actions)
+{
+    $links['wwpo-setting'] = sprintf(
+        '<a href="%s">%s</a>',
+        esc_url(admin_url('admin.php?page=webian-wordpress-one')),
+        esc_html__('设置', 'wwpo')
+    );
+
+    return array_merge($links, $actions);
+}
+add_filter(sprintf('%splugin_action_links_%s', is_multisite() ? 'network_admin_' : '',  WWPO_PLUGIN_NAME), 'wwpo_register_plugin_actions_links');

@@ -5,8 +5,8 @@
  */
 function wwpo_shortcodes_init()
 {
-    wwpo_shortcodes_loader(WWPOPATH);
-    wwpo_shortcodes_loader(TEMPLATEPATH . DIRECTORY_SEPARATOR);
+    // wwpo_shortcodes_loader(WWPOPATH);
+    // wwpo_shortcodes_loader(TEMPLATEPATH . DIRECTORY_SEPARATOR);
 }
 add_action('init', 'wwpo_shortcodes_init');
 

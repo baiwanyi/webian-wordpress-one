@@ -1,0 +1,115 @@
+#webui__admin-form {
+    &__title {
+        font-size: 1.1rem;
+        margin: 1rem 0;
+        font-weight: 550;
+    }
+
+    & .submit {
+        display: flex;
+        gap: 0.5rem;
+    }
+}
+
+.webui__form-table {
+    & .description {
+        margin: 0 0 0.75rem;
+    }
+
+    & .input-group {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.form-wrap {
+    & label {
+        display: block;
+        margin-top: 0.75rem;
+        margin-bottom: 0;
+    }
+}
+
+.webui__checkbox-label {
+    display: inline-block;
+    vertical-align: top;
+    user-select: none;
+}
+
+.webui__input-label {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.webui__admin-field {
+    margin-bottom: 0.5rem;
+}
+
+.webui__admin-group {
+    & .button {
+        min-height: 30px !important;
+        height: 30px !important;
+        line-height: 28px !important;
+    }
+}
+.input-group {
+    &:not(.has-validation)
+        > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(
+            .form-floating
+        ) {
+        margin-right: -1px;
+    }
+}
+
+// 去除datalist的下拉图标
+input[list]::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+
+.actions {
+    & .webui__admin-field {
+        display: inline-block;
+    }
+}
+
+.button {
+    &.dashicons-before::before {
+        line-height: 28px !important;
+    }
+}
+
+#col-left.col-wrap {
+    & .regular-text,
+    & .large-text {
+        width: 90% !important;
+    }
+}
+
+/*!*/
+// .webui__admin-field__checkbox,
+// .webui__admin-field__radio {
+//     display: inline-block;
+//     height: 30px;
+//     margin-right: 7px;
+//     margin-top: 0;
+// }
+// .webui__admin-field__checkbox label,
+// .webui__admin-field__radio label {
+//     display: inline-block;
+//     padding: 7px 15px;
+//     background-color: #ddd;
+//     color: #555;
+//     border-radius: 5px;
+// }
+// .webui__admin-field__checkbox label:hover,
+// .webui__admin-field__radio label:hover {
+//     background-color: #ccc;
+// }
+// .webui__admin-field__checkbox input[type="checkbox"],
+// .webui__admin-field__radio input[type="radio"] {
+//     display: none;
+// }
+// .webui__admin-field__checkbox input[type="checkbox"]:checked + label,
+// .webui__admin-field__radio input[type="radio"]:checked + label {
+//     background-color: #0085ba;
+//     color: #fff;
+// }

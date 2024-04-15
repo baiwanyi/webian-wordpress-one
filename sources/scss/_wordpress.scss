@@ -1,0 +1,28 @@
+.wp-list-table.media {
+    display: table;
+}
+
+#titlediv #title-prompt-text {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+#media-upload-header:empty {
+    padding: 0;
+    border: none;
+}
+
+#wp-content-wrap ~ #wp-content-editor-container {
+    margin-top: 20px;
+}
+
+a[rel='upload'] .dashicons {
+    margin-right: 3px;
+    line-height: 30px;
+}
+
+.wwpo-not-post-title {
+    & #post-body-content {
+        margin-bottom: 0 !important;
+    }
+}

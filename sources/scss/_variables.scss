@@ -1,0 +1,58 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+// Color system
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+
+$black: #000 !default;
+$blue: #007cba !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #ff6149 !default;
+$yellow: #ffc107 !default;
+$green: #28a745 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+// scss-docs-start theme-color-variables
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-900 !default;
+
+$font-size-base: 0.875rem;
+$font-size-sm: $font-size-base;
+$font-size-lg: 1rem;
+$body-color: #3c434a;
+$body-bg: #f0f0f1;
+
+$zindex-dropdown: 991000 !default;
+$zindex-sticky: 991020 !default;
+$zindex-fixed: 991030 !default;
+$zindex-offcanvas-backdrop: 991040 !default;
+$zindex-offcanvas: 991045 !default;
+$zindex-modal-backdrop: 991050 !default;
+$zindex-modal: 991055 !default;
+$zindex-popover: 991070 !default;
+$zindex-tooltip: 991080 !default;
+$zindex-toast: 991090 !default;
+
+$input-bg: #fff;

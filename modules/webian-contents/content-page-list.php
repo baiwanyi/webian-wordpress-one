@@ -53,39 +53,4 @@ function wwpo_contents_page_list_table($option_data)
     echo '</div></main>';
 }
 
-/**
- * 自定义内容表格列输出函数
- *
- * @since 1.0.0
- * @param array     $data           表格列值
- * @param string    $column_name    表格列名称
- */
-function wwpo_content_table_column($data, $column_name)
-{
-    switch ($column_name) {
 
-            //
-        case 'content_title':
-            $page_url = WWPO_Admin::page_url();
-            echo WWPO_Admin::title($data['ID'], $data['title'], 'edit', $page_url);
-            break;
-
-            //
-        case 'content_type':
-            echo WWPO_Custom::post_type($data['type']);
-            break;
-
-            //
-        case 'content_status':
-            if (empty($data['enable'])) {
-                printf('<span class="text-black-50">%s</span>', __('已禁用', 'wwpo'));
-            } else {
-                printf('<span class="text-primary">%s</span>', __('已启用', 'wwpo'));
-            }
-            break;
-
-        default:
-            break;
-    }
-}
-add_action('wwpo_table_wwpo-contents_custom_column', 'wwpo_content_table_column', 10, 2);
