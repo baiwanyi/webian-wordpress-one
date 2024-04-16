@@ -49,12 +49,15 @@ require WWPO_PLUGIN_PATH . 'includes/class-wwpo-array.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-check.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-file.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-get.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-image.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-load.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-meta.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-post.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-rest-controller.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-rest-user-controller.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-template.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-url.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-user.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-util.php';
 
 if (is_admin()) {
@@ -73,11 +76,6 @@ require WWPO_PLUGIN_PATH . 'includes/register.php';
 WWPO_File::require(WWPO_PLUGIN_PATH . 'components');
 
 /**
- *
- */
-WWPO_File::require(WWPO_PLUGIN_PATH . 'pages');
-
-/**
  * 启动初始化动作加载函数
  *
  * @since 1.0.0
@@ -87,3 +85,5 @@ do_action('wwpo_init');
 if (is_admin()) {
     do_action('wwpo_admin_init');
 }
+
+// register_activation_hook( WWPO_PLUGIN_FILE, 'my_plugin_activate' );

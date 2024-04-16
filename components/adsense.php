@@ -16,16 +16,17 @@
 function wwpo_register_header_adsense()
 {
     $option_data = WWPO_Get::option(OPTION_SETTING_KEY, 'adsense');
+    $option_type = $option_data['type'] ?? 'close';
 
-    if ('close' == $option_data['type'] || empty($option_data['code'])) {
+    if ('close' == $option_type || empty($option_data['code'])) {
         return;
     }
 
-    if ('baidu' == $option_data['type']) {
+    if ('baidu' == $option_type) {
         return;
     }
 
-    if ('google' == $option_data['type']) {
+    if ('google' == $option_type) {
         printf('<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=%s" crossorigin="anonymous"></script>', $option_data['code']);
     }
 }

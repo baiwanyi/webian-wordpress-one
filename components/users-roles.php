@@ -15,6 +15,27 @@ const WWPO_AJAX_ROLE_DELETE     = 'wproledelete';
 const WWPO_AJAX_ROLE_UPDATE     = 'wproleupdate';
 
 /**
+ * 注册后台菜单
+ *
+ * @since 1.0.0
+ * @param array $menus
+ */
+function wwpo_wp_admin_menus($menus)
+{
+
+
+    $menus['wwpo-roles'] = [
+        'parent'        => 'users.php',
+        'menu_title'    => __('用户角色', 'wwpo'),
+        'page_title'    => __('用户角色', 'wwpo'),
+        'menu_order'    => 10
+    ];
+
+    return $menus;
+}
+add_filter('wwpo_menus', 'wwpo_wp_admin_menus');
+
+/**
  * 用户角色管理显示页面函数
  *
  * @since 1.0.0
@@ -148,14 +169,14 @@ function wwpo_admin_display_edit_user_roles()
     }
 
     echo '<p class="submit">';
-    echo WWPO_Button::submit(WWPO_AJAX_ROLE_UPDATE);
+    // echo WWPO_Button::submit(WWPO_AJAX_ROLE_UPDATE);
 
     if ('administrator' != $role) {
-        echo WWPO_Button::submit([
-            'text'  => __('Delete'),
-            'value' => WWPO_AJAX_ROLE_DELETE,
-            'css'   => 'link-delete large'
-        ]);
+        // echo WWPO_Button::submit([
+        //     'text'  => __('Delete'),
+        //     'value' => WWPO_AJAX_ROLE_DELETE,
+        //     'css'   => 'link-delete large'
+        // ]);
     }
     echo '</p></form>';
 }

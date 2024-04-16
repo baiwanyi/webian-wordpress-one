@@ -62,70 +62,25 @@ class WWPO_Get
     }
 
     /**
-     * 获取第一段内容
+     * 获取指定段落内容函数
      *
      * @since 1.0.0
-     * @param string $text 文本内容
+     * @param string    $text   文本内容
+     * @param integer   $index  指定段落，默认：0，即第一段
      */
-    static function first_section($text)
+    static function section($text, $index = 0)
     {
         if (empty($text)) {
             return;
         }
 
         $text = explode("\n", trim(strip_tags($text)));
-        return trim($text['0']);
+        return trim($text[$index]);
     }
 
-    /**
-     * 获取远程图片函数
-     *
-     * @since 1.0.0
-     * @param string  $image_url 图片地址
-     */
-    static function remote_image($image_url, $subdir = null, $ext = null)
-    {
-        // 设定保存到本地的图片文件名和文件夹
-        $uploads    = wp_upload_dir();
-        $subdir     = $subdir ?? $uploads['subdir'];
 
-        $attachment_filename    = WWPO_File::name($image_url, $ext);
-        $attachment_basedir     = $uploads['basedir'] . $subdir;
 
-        /** 判断文件名没有扩展名的情况下，将 jpg 作为文件的扩展名 */
-        if (empty(pathinfo($image_url, PATHINFO_EXTENSION))) {
-            $attachment_filename .= '.jpg';
-        }
 
-        /** 判断保存文件夹为空则新建文件夹 */
-        if (!file_exists($attachment_basedir)) {
-            wp_mkdir_p($attachment_basedir);
-        }
-
-        // 获取远程图片文件信息
-        $headers = WWPO_Util::curl($image_url, [
-            'timeout'   => 60,
-            'stream'    => true,
-            'filename'  => $attachment_basedir . DIRECTORY_SEPARATOR . $attachment_filename
-        ]);
-
-        if (empty($headers)) {
-            return;
-        }
-
-        return ltrim($subdir, '/')  . '/' . $attachment_filename;
-    }
-
-    /**
-     * 获取当前页面地址函数
-     *
-     * @since 1.0.0
-     * @return string
-     */
-    static function page_url()
-    {
-        return set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-    }
 
     /**
      * 获取当前 IP 地址函数
@@ -145,29 +100,6 @@ class WWPO_Get
     static function agent()
     {
         return $_SERVER['HTTP_USER_AGENT'] ?? '';
-    }
-
-    /**
-     * 获取 url 地址中的参数，返回数组格式
-     *
-     * @since 1.0.0
-     * @param string $url 需要解析的 url 地址
-     */
-    static function url_query($url)
-    {
-        $query = parse_url($url, PHP_URL_QUERY);
-
-        if (empty($query)) {
-            return;
-        }
-
-        parse_str($query, $array_query);
-
-        if (empty($array_query)) {
-            return;
-        }
-
-        return $array_query;
     }
 
     /**

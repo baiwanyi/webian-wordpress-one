@@ -8,6 +8,23 @@
  * @subpackage WordPress
  */
 
+ /**
+ * 添加后台管理菜单
+ *
+ * @since 1.0.0
+ * @param array $menus 菜单内容数组
+ */
+function wwpo_register_admin_menu_mysql($menus)
+{
+    $menus['wwpo-mysql'] = [
+        'parent'        => 'tools.php',
+        'menu_title'    => __('数据库清理优化', 'wwpo')
+    ];
+
+    return $menus;
+}
+add_filter('wwpo_menus', 'wwpo_register_admin_menu_mysql');
+
 /**
  * 数据库优化显示页面函数
  *
@@ -16,10 +33,10 @@
 function wwpo_admin_display_wp_mysql()
 {
     // 获取当前标签
-    $current_tabs = WWPO_Admin::tabs('table');
+    $current_tabs = $_GET['tab'] ?? 'table';
 
     // 显示页面标签
-    wwpo_wp_tabs([
+    WWPO_Template::tabs([
         'table' => '数据库表',
         'clean' => '清除冗余'
     ]);
@@ -27,7 +44,7 @@ function wwpo_admin_display_wp_mysql()
     // 显示页面内容
     call_user_func("wwpo_admin_display_wp_mysql_{$current_tabs}");
 }
-add_action('wwpo_admin_display_mysql', 'wwpo_admin_display_wp_mysql');
+add_action('wwpo_admin_display_wwpo-mysql', 'wwpo_admin_display_wp_mysql');
 
 /**
  * 数据库表优化页面函数
@@ -202,7 +219,7 @@ function wwpo_wp_mysql_extra_tablenav($which)
     }
 
     // 获取当前标签
-    $current_tabs = WWPO_Admin::tabs('table');
+    $current_tabs = WWPO_Template::tabs('table');
 
     // 清除冗余页面添加清理所有按钮
     if ('clean' == $current_tabs) {

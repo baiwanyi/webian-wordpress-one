@@ -169,7 +169,8 @@ function wwpo_register_admin_display_settings()
      */
     $array_admin_page = apply_filters('wwpo_admin_page_settings', $array_admin_page);
 
-    echo '<form id="webui__admin-form" method="POST" autocomplete="off">';
+    echo '<main class="wwpo__admin-body">';
+    echo '<form id="wwpo-admin-form" class="wwpo__admin-content" method="POST" autocomplete="off">';
 
     echo WWPO_Form::hidden(['option_key' => OPTION_SETTING_KEY]);
 
@@ -178,8 +179,14 @@ function wwpo_register_admin_display_settings()
         echo WWPO_Form::table($admin_page);
     }
 
-    echo WWPO_Button::submit('updatesettings');
+    // echo WWPO_Button::submit('updatesettings');
     echo '</form>';
+    echo '<aside class="wwpo__admin-toc"><h4>页面导航</h4><ul>';
+    foreach ($array_admin_page as $admin_page) {
+        printf('<li><a href="#%1$s" rel="anchor">%1$s</a></li>', $admin_page['title']);
+    }
+    echo '</ul></aside>';
+    echo '</main>';
 }
 add_action('wwpo_admin_display_webian-wordpress-one', 'wwpo_register_admin_display_settings');
 
@@ -295,10 +302,10 @@ function wwpo_register_admin_scripts()
      *
      * @since 1.0.0
      */
-    $webuiSettings = apply_filters('wwpo_admin_script', $localize_script);
+    $wwpoSettings = apply_filters('wwpo_admin_script', $localize_script);
 
     // 应用后台本地化脚本
-    wp_localize_script('wwpo', 'webuiSettings', $webuiSettings);
+    wp_localize_script('wwpo', 'wwpoSettings', $wwpoSettings);
 
     /** 启用后台样式*/
     wp_enqueue_style('wwpo-style', WWPO_PLUGIN_URL . '/assets/css/wwpo.min.css');

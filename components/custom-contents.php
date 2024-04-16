@@ -1,6 +1,27 @@
 <?php
 
 /**
+ * 注册自定义文章类型
+ *
+ * @since 1.0.0
+ */
+// add_action('init', ['WWPO_Custom', 'load_post_type'], 0);
+
+/**
+ * 注册自定义文章分类
+ *
+ * @since 1.0.0
+ */
+// add_action('init', ['WWPO_Custom', 'load_taxonomy'], 0);
+
+/**
+ * 注册自定义菜单
+ *
+ * @since 1.0.0
+ */
+// add_action('after_setup_theme', ['WWPO_Custom', 'load_wp_menu']);
+
+/**
  * 自定义文章/分类生成操作类
  *
  * @since 1.0.0
@@ -17,14 +38,6 @@ class WWPO_Custom
     public $option_data = [];
 
     /**
-     * 设定类实例
-     *
-     * @since 1.0.0
-     * @var WWPO_Custom $instance 类实例参数
-     */
-    static protected $instance;
-
-    /**
      * 构造函数
      *
      * @since 1.0.0
@@ -32,41 +45,29 @@ class WWPO_Custom
     public function __construct()
     {
         // 获取自定义内容保存选项值
-        $this->option_data = get_option(OPTION_CONTENTS_KEY, []);
+        $this->option_data = get_option('OPTION_CONTENTS_KEY', []);
     }
 
     /**
-     * 初始化动作加载函数
+     * 自定义内容列表界面
      *
      * @since 1.0.0
      */
-    static function init()
+    function display()
     {
-        /** 判断实例内容，加载插件模块和钩子 */
-        if (empty(self::$instance) && !self::$instance instanceof WWPO_Custom) {
-            self::$instance = new WWPO_Custom();
+        // 获取自定义内容选项值
+        $option_data = get_option('OPTION_CONTENTS_KEY', []);
 
-            /**
-             * 注册自定义文章类型
-             *
-             * @since 1.0.0
-             */
-            add_action('init', [self::$instance, 'load_post_type'], 0);
-
-            /**
-             * 注册自定义文章分类
-             *
-             * @since 1.0.0
-             */
-            add_action('init', [self::$instance, 'load_taxonomy'], 0);
-
-            /**
-             * 注册自定义菜单
-             *
-             * @since 1.0.0
-             */
-            add_action('after_setup_theme', [self::$instance, 'load_wp_menu']);
-        }
+        WWPO_Table::result($option_data, [
+            'index'     => true,
+            'column'    => [
+                'content_title'         => '名称',
+                'small-slug'            => '别名',
+                'content_type'          => '类型',
+                'content_option'        => '参数设置',
+                'small-content_status'  => '状态'
+            ],
+        ]);
     }
 
     /**
@@ -552,13 +553,6 @@ class WWPO_Custom
 }
 
 /**
- * 注册自定义文章类型
- *
- * @since 1.0.0
- */
-add_action('wwpo_init', ['WWPO_Custom', 'init']);
-
-/**
  * 添加后台管理菜单
  *
  * @since 1.0.0
@@ -575,27 +569,7 @@ function wwpo_register_admin_menu_contents($menus)
 }
 add_filter('wwpo_menus', 'wwpo_register_admin_menu_contents');
 
-/**
- * 自定义内容列表界面
- *
- * @since 1.0.0
- */
-function wwpo_register_admin_display_contents()
-{
-    // 获取自定义内容选项值
-    $option_data = get_option(OPTION_CONTENTS_KEY, []);
 
-    WWPO_Table::result($option_data, [
-        'index'     => true,
-        'column'    => [
-            'content_title'         => '名称',
-            'small-slug'            => '别名',
-            'content_type'          => '类型',
-            'content_option'        => '参数设置',
-            'small-content_status'  => '状态'
-        ],
-    ]);
-}
 add_action('wwpo_admin_display_wwpo-contents', 'wwpo_register_admin_display_contents');
 
 /**

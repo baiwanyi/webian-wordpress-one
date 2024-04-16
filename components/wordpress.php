@@ -1,5 +1,17 @@
 <?php
 
+/*
+ * Modules Name: WP 优化模块
+ * Description: 常用的函数和 Hook，屏蔽所有 WordPress 所有不常用的功能。
+ * Version: 3.0.0
+ * Author: Yeeloving
+ * Updated: 2023-01-01
+ */
+add_action('init', ['WWPO_WordPress', 'remove_wp_header']);
+add_action('wwpo_admin_display_wordpress', ['WWPO_WordPress', 'display']);
+add_filter('wwpo_menus', ['WWPO_WordPress', 'admin_menu']);
+add_action('wp_body_open', ['WWPO_WordPress', 'updated_post_view']);
+
 /**
  * WordPress 优化项目类
  *
@@ -18,14 +30,6 @@ class WWPO_WordPress
     public $option;
 
     /**
-     * 设定类实例
-     *
-     * @since 1.0.0
-     * @var WWPO_WordPress $instance 类实例参数
-     */
-    static protected $instance;
-
-    /**
      * 构造函数
      *
      * @since 1.0.0
@@ -36,31 +40,446 @@ class WWPO_WordPress
     }
 
     /**
-     * 初始化动作加载函数
-     * 确保在同一时间内内存中只存在一个实例。避免到处都需要定义全局变量。
+     * 添加后台管理菜单
+     *
+     * @since 1.0.0
+     * @param array $menus 菜单内容数组
+     */
+    public static function admin_menu($menus)
+    {
+        $menus['wordpress'] = [
+            'parent'        => 'webian-wordpress-one',
+            'menu_title'    => __('WP 优化', 'wwpo'),
+            'page_title'    => __('WordPress 优化设置', 'wwpo'),
+            'menu_order'    => 10
+        ];
+
+        return $menus;
+    }
+
+    /**
+     * WP 优化显示页面函数
      *
      * @since 1.0.0
      */
-    static public function init()
+    public static function display()
     {
-        /** 判断实例内容，加载插件模块和钩子 */
-        if (empty(self::$instance) && !self::$instance instanceof WWPO_WordPress) {
-            self::$instance = new WWPO_WordPress();
+        // 获取当前标签
+        $current_tabs   = $_GET['tab'] ?? 'optimizing';
 
-            /**
-             * WordPress 优化设置
-             *
-             * @since 1.0.0
-             */
-            self::$instance->remove_wp_header();
-            self::$instance->wp_clean();
-            self::$instance->wp_function();
-            self::$instance->wp_user();
-            self::$instance->wp_security();
-            self::$instance->wp_login();
-            self::$instance->wp_interface();
-            self::$instance->wp_post();
+        // 获取当前设置参数
+        $option_data    = get_option('wwpo-settings-wordpress', []);
+        $option_data    = $option_data[$current_tabs] ?? [];
+        $option_form    = [
+            'submit'    => 'updatewordpress',
+            'hidden'    => ['option_key' => $current_tabs]
+        ];
+
+        // 显示页面标签
+        WWPO_Template::tabs([
+            'optimizing'    => '优化',
+            'login'         => '登录',
+            'themes'        => '主题',
+            'interface'     => '界面',
+            'post'          => '发布'
+        ]);
+
+        $option_form['formdata'] = call_user_func([__CLASS__, "_wp_{$current_tabs}"], $option_data);
+
+        // 显示表单内容
+        echo WWPO_Form::table($option_form);
+    }
+
+    /**
+     * WordPress 优化设置模块
+     *
+     * @since 1.0.0
+     * @package Webian WordPress One
+     * @subpackage WordPress/wp
+     */
+    static function _wp_optimizing($option_data)
+    {
+        /**
+         * 移除头部冗余内容数组
+         *
+         * @since 1.0.0
+         */
+        $remove_wp_header = [
+            'remove_generator'  => ['title' => '移除 WordPress 版本信息'],
+            'remove_restapi'    => ['title' => '移除 REST API 功能'],
+            'remove_embeds'     => ['title' => '移除 Embeds 功能'],
+            'remove_emoji'      => ['title' => '移除 Emoji 表情JS脚本和CSS样式'],
+            'remove_gutenberg'  => ['title' => '移除 Gutenberg 编辑器CSS样式'],
+            'remove_canonical'  => ['title' => '移除 Canonical 标签'],
+            'remove_noindex'    => ['title' => '移除 Noindex 标签'],
+            'remove_feed'       => ['title' => '移除 Feed 功能'],
+            'remove_sworg'      => ['title' => '移除 s.w.org 加速链接'],
+            'remove_js'         => ['title' => '移除所有 JavaScript 文件'],
+            'remove_css'        => ['title' => '移除所有 Style 文件'],
+            'remove_shortlink'  => ['title' => '移除自动生成的短链接'],
+            'remove_dns'        => ['title' => '移除加载 DNS 链接（dns-prefetch）'],
+            'remove_xmlrpc'     => ['title' => '移除离线编辑器开放接口，关闭 XML-RPC 功能'],
+            'remove_post_index' => ['title' => '移除当前文章索引链接'],
+            'remove_post_link'  => ['title' => '移除上下篇文章索引链接'],
+            'remove_post_more'  => ['title' => '移除开始和父级文章索引链接'],
+            'remove_block'      => ['title' => '移除 Block 脚本和样式']
+        ];
+
+        /**
+         * 清理优化内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_clean = [
+            'disable_revision'          => ['title' => '禁用日志修订功能'],
+            'disable_trackbacks'        => ['title' => '禁用 Trackbacks 功能'],
+            'remove_dashboard_welcome'  => ['title' => '移除 WordPress 仪表盘欢迎面板'],
+            'remove_dashboard_widget'   => ['title' => '移除 WordPress 仪表盘系统模块'],
+            'remove_nav_menu_class'     => ['title' => '移除前台菜单多余 CSS 样式', 'desc' => '可在 <a href="/wp-admin/options-discussion.php#moderation_keys"><strong>[主题 - 保留菜单样式]</strong></a> 中设置保留的样式名称。'],
+            'remove_body_class'         => ['title' => '移除前台 Body 多余 CSS 样式', 'desc' => '可在 <a href="/wp-admin/options-discussion.php#moderation_keys"><strong>[主题 - 保留 Body 样式]</strong></a> 中设置保留的样式名称。']
+        ];
+
+        /**
+         * 功能增强内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_function = [
+            'disable_autoupdate'    => ['title' => '禁用 WordPress 后台自动更新功能'],
+            'shortcode_first'       => ['title' => '让 Shortcode 优先于 wpautop 执行'],
+            'only_show_upload'      => ['title' => '<strong>添加媒体</strong>只显示用户上传文件'],
+            'only_show_media'       => ['title' => '<strong>媒体库</strong>只显示用户上传文件'],
+            'search_result_post'    => ['title' => '搜索结果只有一篇时直接重定向到日志'],
+            'upload_rename'         => ['title' => '上传图片按照<code>年-月-日-时-分-秒-6位随机字母数字</code>的格式重新命名']
+        ];
+
+        /**
+         * 用户设置内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_user = [
+            'strict_user'           => ['title' => '严格用户模式', 'desc' => '严格用户模式下，昵称和显示名称都是唯一的，并且用户名中不允许出现非法关键词（非法关键词是在 <a href="/wp-admin/options-discussion.php#moderation_keys"><strong>[设置 - 讨论]</strong></a> 中 <code>评论审核</code> 和 <code>评论黑名单</code> 中定义的关键词）。'],
+            'disabled_admin_color'  => ['title' => '禁用管理界面配色方案'],
+            'disable_admin_bar'     => ['title' => '移除顶部工具栏 AdminBar'],
+        ];
+
+        /**
+         * 安全防护内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_security = [
+            'disable_admin_user'    => ['title' => '禁止使用 Admin 用户名尝试登录'],
+            'block_bad_queries'     => ['title' => '阻止非法访问'],
+            'disable_code_edit'     => ['title' => '禁用后台代码编辑功能'],
+            'disable_themes_setup'  => ['title' => '禁用后台主题安装'],
+        ];
+
+        /**
+         * 设置表单内容数组
+         *
+         * @since 1.0.0
+         */
+        $formdata = [
+            'remove-wp-header' => [
+                'title'     => '移除 Header 项目',
+                'fields'    => self::_format_checkbox('wp_header', $remove_wp_header, $option_data)
+            ],
+            'wp-clean' => [
+                'title'     => '清理优化',
+                'fields'    => self::_format_checkbox('wp_clean', $wp_clean,  $option_data)
+            ],
+            'wp-function'  => [
+                'title'     => '功能增强',
+                'fields'    => self::_format_checkbox('wp_function', $wp_function, $option_data)
+            ],
+            'wp-user'  => [
+                'title'     => '用户设置',
+                'fields'    => self::_format_checkbox('wp_user', $wp_user, $option_data)
+            ],
+            'wp-security'  => [
+                'title'     => '安全防护',
+                'fields'    => self::_format_checkbox('wp_security', $wp_security, $option_data)
+            ]
+        ];
+
+        return $formdata;
+    }
+
+    /**
+     * WordPress 登录设置模块
+     *
+     * @since 1.0.0
+     * @package Webian WordPress One
+     * @subpackage WordPress/wp
+     */
+    static function _wp_login($option_data)
+    {
+        /** 获取系统权限 */
+        $roles = new WP_Roles();
+
+        /** 获取系统权限名内容数组 */
+        foreach ($roles->get_names() as $role_key => $role_name) {
+            if ('administrator' == $role_key) {
+                continue;
+            }
+            $wp_admin_role[$role_key] = ['title' => translate_user_role($role_name)];
         }
+
+        /**
+         * 登录设置表单内容数组
+         *
+         * @since 1.0.0
+         */
+        $formdata = [
+            'admin_role'  => [
+                'title'     => '允许登录后台的角色',
+                'fields'    => self::_format_checkbox('admin_role', $wp_admin_role, $option_data)
+            ],
+            'admin_token'  => [
+                'title' => '登录界面跳转请求参数',
+                'desc'  => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'text', 'name' => 'option_data[admin_token]', 'value' => $option_data['admin_token'] ?? '']
+            ],
+            'admin_login_redirect' => [
+                'title' => '登录转跳地址',
+                'field' => ['type' => 'text', 'name' => 'option_data[admin_login_redirect]', 'value' => $option_data['admin_login_redirect'] ?? '']
+            ],
+            'admin_logout_redirect' => [
+                'title' => '退出转跳地址',
+                'field' => ['type' => 'text', 'name' => 'option_data[admin_logout_redirect]', 'value' => $option_data['admin_logout_redirect'] ?? '']
+            ],
+            'wp_logo_title' => [
+                'title' => '登录 LOGO 标题',
+                'field' => ['type' => 'text', 'name' => 'option_data[logo_title]', 'value' => $option_data['logo_title'] ?? '']
+            ],
+            'wp_logo_link'  => [
+                'title' => '登录 LOGO 链接',
+                'field' => ['type' => 'text', 'name' => 'option_data[logo_link]', 'value' => $option_data['logo_link'] ?? '']
+            ],
+            'wp_login_title'  => [
+                'title' => '登录页面标题',
+                'field' => ['type' => 'text', 'name' => 'option_data[login_title]', 'value' => $option_data['login_title'] ?? '']
+            ],
+            'wp_login_header' => [
+                'title' => '登录界面 Header 代码',
+                'desc' => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[login_header]', 'value' => $option_data['login_header'] ?? '']
+            ],
+            'wp_login_footer' => [
+                'title' => '登录界面 Footer 代码', 'desc' => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[login_footer]', 'value' => $option_data['login_footer'] ?? '']
+            ]
+        ];
+
+        return $formdata;
+    }
+
+    /**
+     * WordPress 主题设置模块
+     *
+     * @since 1.0.0
+     * @package Webian WordPress One
+     * @subpackage WordPress/wp
+     */
+    static function _wp_themes($option_data)
+    {
+        /**
+         * 设置表单内容数组
+         *
+         * @since 1.0.0
+         */
+        $formdata = [
+            'keep-menu-style'  => [
+                'title' => '保留菜单样式',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[keep_menu_style]', 'value' => $option_data['keep_menu_style'] ?? '']
+            ],
+            'keep-body-style'  => [
+                'title' => '保留 Body 样式',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[keep_body_style]', 'value' => $option_data['keep_body_style'] ?? '']
+            ]
+        ];
+
+        return $formdata;
+    }
+
+    /**
+     * 设置表单内容数组
+     *
+     * @since 1.0.0
+     */
+    static function _wp_interface($option_data)
+    {
+        $formdata = [
+            'custom_wp_header'   => [
+                'title' => '前台界面 Header 代码',
+                'desc'  => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[custom_wp_header]', 'value' => $option_data['custom_wp_header'] ?? '']
+            ],
+            'wp_footer'   => [
+                'title' => '前台界面 Footer 代码',
+                'fields' => [
+                    'wp_footer_times'   => [
+                        'title' => '前台显示页面生成时间',
+                        'field' => ['type' => 'checkbox', 'name' => 'option_data[wp_footer_times]', 'value' => 1, 'checked' => $option_data['wp_footer_times'] ?? 0]
+                    ],
+                    'wp_footer_queries'   => [
+                        'title' => '显示当前页面执行的所有 SQL 语句',
+                        'field' => ['type' => 'checkbox', 'name' => 'option_data[wp_footer_queries]', 'value' => 1, 'checked' => $option_data['wp_footer_queries'] ?? 0]
+                    ],
+                    'custom_wp_footer' => [
+                        'desc'  => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                        'field' => ['type' => 'textarea', 'name' => 'option_data[custom_wp_footer]', 'value' => $option_data['custom_wp_footer'] ?? '']
+                    ]
+                ]
+            ],
+            'admin_title'  => [
+                'title' => '后台标题',
+                'field' => ['type' => 'text', 'name' => 'option_data[admin_title]', 'value' => $option_data['admin_title'] ?? '']
+            ],
+            'admin_header'   => [
+                'title' => '后台界面 Header 代码', 'desc' => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[admin_header]', 'value' => $option_data['admin_header'] ?? '']
+            ],
+            'admin_footer' => [
+                'title' => '后台界面 Footer 代码', 'desc' => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'textarea', 'name' => 'option_data[admin_footer]', 'value' => $option_data['admin_footer'] ?? '']
+            ],
+            'admin_footer_text'    => [
+                'title' => '左下角文字信息', 'desc' => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                'field' => ['type' => 'text', 'name' => 'option_data[admin_footer_text]', 'value' => $option_data['admin_footer_text'] ?? '']
+            ],
+            'update_footer_core'  => [
+                'title'     => '右下角文字信息',
+                'fields'    => [
+                    'update_footer_core' => [
+                        'title' => '显示页面生成时间信息',
+                        'field' => ['type' => 'checkbox', 'name' => 'option_data[update_footer_core]', 'value' => 1, 'checked' => $option_data['update_footer_core'] ?? 0]
+                    ],
+                    'admin_footer_queries' => [
+                        'title' => '显示后台页面执行的所有 SQL 语句',
+                        'field' => ['type' => 'checkbox', 'name' => 'option_data[admin_footer_queries]', 'value' => 1, 'checked' => $option_data['admin_footer_queries'] ?? 0]
+                    ],
+                    'update_footer_ver' => [
+                        'title' => '右下角文字信息', 'desc' => '设置<code>wp-login.php?token={token}</code>没有对应参数将访问首页',
+                        'field' => ['type' => 'text', 'name' => 'option_data[update_footer_ver]', 'value' => $option_data['update_footer_ver'] ?? '']
+                    ]
+                ]
+            ]
+        ];
+
+        return $formdata;
+    }
+
+    /**
+     * WordPress 发布设置模块
+     *
+     * @since 1.0.0
+     * @package Webian WordPress One
+     * @subpackage WordPress/wp
+     */
+    static function _wp_post($option_data)
+    {
+        /**
+         * WP 文章样式内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_post_format = [
+            'aside'     => ['title' => '日志'],
+            'gallery'   => ['title' => '相册'],
+            'link'      => ['title' => '链接'],
+            'image'     => ['title' => '图像'],
+            'quote'     => ['title' => '引语'],
+            'status'    => ['title' => '状态'],
+            'video'     => ['title' => '视频'],
+            'audio'     => ['title' => '视频'],
+            'chat'      => ['title' => '聊天']
+        ];
+
+        /**
+         * WP 发布功能内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_publish = [
+            'link_manager'          => ['title' => '链接管理'],
+            'autosave_remote_image' => ['title' => '保存远程图片'],
+            'create_post_name'      => ['title' => '自动生成文章别名'],
+            'page_add_excerpt'      => ['title' => '页面添加摘要编辑栏'],
+            'use_classic_editor'    => ['title' => '使用经典编辑器'],
+            'remove_page_parent'    => ['title' => '移除文章属性编辑栏']
+        ];
+
+        /**
+         * WP 媒体尺寸内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_image_sizes = [
+            'thumbnail'     => ['title' => '缩略图'],
+            'medium'        => ['title' => '中等尺寸'],
+            'medium_large'  => ['title' => '中大尺寸'],
+            'large'         => ['title' => '大尺寸'],
+            '1536x1536'     => ['title' => '2倍中大尺寸'],
+            '2048x2048'     => ['title' => '2倍大尺寸']
+        ];
+
+        /**
+         * WP 媒体设置内容数组
+         *
+         * @since 1.0.0
+         */
+        $wp_image_setup = [
+            'size_threshold'    => ['title' => '禁用图片缩放。上传5000*7000像素以上的图片 wp 会额外生成末尾<code>-scaled</code>的图片。'],
+            'size_other'        => ['title' => '禁用其他尺寸图片'],
+        ];
+
+        /**
+         * 设置表单内容数组
+         *
+         * @since 1.0.0
+         */
+        $formdata = [
+            'image-featured' => [
+                'title' => '特色图片',
+                'field' => [
+                    'type'      => 'select',
+                    'name'      => 'option_data[thumbnail]',
+                    'option'    => [
+                        'all'   => '开启所有（文章、页面、自定义类型）',
+                        'both'  => '开启文章和页面类型',
+                        'post'  => '开启文章类型',
+                        'page'  => '开启页面类型'
+                    ],
+                    'show_option_all' => '关闭特色图片',
+                    'selected'  => $option_data['thumbnail'] ?? 0
+                ]
+            ],
+            'image-size'   => [
+                'title'     => '禁用自动生成的图片尺寸',
+                'fields'    => self::_format_checkbox('image_size', $wp_image_sizes, $option_data)
+            ],
+            'image-setup'   => [
+                'title'     => '媒体设置',
+                'fields'    => self::_format_checkbox('image_setup', $wp_image_setup, $option_data)
+            ],
+            'post-format'   => [
+                'title'     => '文章形式',
+                'fields'    => self::_format_checkbox('post_format', $wp_post_format, $option_data)
+            ],
+            'autosave'  => [
+                'title' => '自动保存时间（秒）',
+                'field' => ['type' => 'text', 'name' => 'option_data[autosave]', 'value' => $option_data['autosave'] ?? '']
+            ],
+            'publish'       => [
+                'title'     => '发布功能',
+                'fields'    => self::_format_checkbox('post_publish', $wp_publish, $option_data)
+            ]
+        ];
+
+        return $formdata;
     }
 
     /**
@@ -68,9 +487,9 @@ class WWPO_WordPress
      *
      * @since 1.0.0
      */
-    public function remove_wp_header()
+    static function remove_wp_header()
     {
-        $option_data = $this->option['optimizing']['wp_header'] ?? [];
+        $option_data = $option['optimizing']['wp_header'] ?? [];
         $option_data = wp_parse_args($option_data, [
             'remove_generator'  => 0,
             'remove_restapi'    => 0,
@@ -1008,5 +1427,61 @@ class WWPO_WordPress
     public function metabox_page_excerpt($post)
     {
         printf('<textarea class="form-control" name="excerpt" rows="4">%s</textarea>', $post->post_excerpt);
+    }
+
+    /**
+     * 添加文章访问统计函数操作
+     *
+     * @since 1.0.0
+     * @todo 添加 Redis 缓存
+     */
+    static function updated_post_view()
+    {
+        global $post, $wpdb;
+
+        if (is_admin()) {
+            return;
+        }
+
+        if (!is_single()) {
+            return;
+        }
+
+        if ('post' != $post->post_type) {
+            return;
+        }
+
+        $wpdb->query("UPDATE $wpdb->posts SET menu_order = menu_order + 1 WHERE ID = $post->ID");
+    }
+
+    /**
+     * WP 优化格式化 checkbox 函数
+     *
+     * @since 1.0.0
+     * @param string    $checkbox_key   checkbox 内容数组 key
+     * @param array     $checkbox_data  需要格式化的内容数组
+     * @param array     $option_data    checkbox 保存值
+     */
+    private static function _format_checkbox($checkbox_key, $checkbox_data, $option_data)
+    {
+        // 初始化
+        $checkbox = [];
+
+        /** 遍历需要格式化的 checkbox 内容数组 */
+        foreach ($checkbox_data as $key => $val) {
+            $checkbox[$key] = [
+                'title'     => $val['title'],
+                'desc'      => $val['desc'] ?? '',
+                'field' => [
+                    'type'      => 'checkbox',
+                    'name'      => sprintf('option_data[%s][%s]', $checkbox_key, $key),
+                    'value'     => 1,
+                    'checked'   => $option_data[$checkbox_key][$key] ?? 0
+                ]
+            ];
+        }
+
+        // 返回格式化好的数组
+        return $checkbox;
     }
 }

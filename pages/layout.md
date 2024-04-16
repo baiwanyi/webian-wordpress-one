@@ -7,21 +7,21 @@
 
 ## 颜色
 通过一些颜色实用程序类通过颜色传达意义。
-| COLOR                                                            | NAME     | HEX CODE |
+| 颜色                                                             | HEX CODE | 应用区域 |
 | ---------------------------------------------------------------- | -------- | -------- |
-| <div style="height:24px; width:24px; background:#72aee6;"></div> | -        | #72aee6  |
-| <div style="height:24px; width:24px; background:#2271b1;"></div> | 主按钮   | #2271B1  |
-| <div style="height:24px; width:24px; background:#135e96;"></div> | -        | #135e96  |
-| <div style="height:24px; width:24px; background:#043959;"></div> | -        | #043959  |
-| <div style="height:24px; width:24px; background:#1d2327;"></div> | -        | #1d2327  |
-| <div style="height:24px; width:24px; background:#2c3338;"></div> | -        | #2c3338  |
-| <div style="height:24px; width:24px; background:#a7aaad;"></div> | -        | #a7aaad  |
-| <div style="height:24px; width:24px; background:#c3c4c7;"></div> | -        | #c3c4c7  |
-| <div style="height:24px; width:24px; background:#f0f0f1;"></div> | 背景颜色 | #f0f0f1  |
-| <div style="height:24px; width:24px; background:#646970;"></div> | -        | #646970  |
-| <div style="height:24px; width:24px; background:#d63638;"></div> | -        | #d63638  |
-| <div style="height:24px; width:24px; background:#00a32a;"></div> | -        | #00a32a  |
-| <div style="height:24px; width:24px; background:#dba617;"></div> | -        | #dba617  |
+| <div style="height:24px; width:24px; background:#72aee6;"></div> | #72aee6  | -        |
+| <div style="height:24px; width:24px; background:#2271b1;"></div> | #2271b1  | 主按钮   |
+| <div style="height:24px; width:24px; background:#135e96;"></div> | #135e96  | -        |
+| <div style="height:24px; width:24px; background:#043959;"></div> | #043959  | -        |
+| <div style="height:24px; width:24px; background:#1d2327;"></div> | #1d2327  | -        |
+| <div style="height:24px; width:24px; background:#2c3338;"></div> | #2c3338  | -        |
+| <div style="height:24px; width:24px; background:#a7aaad;"></div> | #a7aaad  | -        |
+| <div style="height:24px; width:24px; background:#c3c4c7;"></div> | #c3c4c7  | -        |
+| <div style="height:24px; width:24px; background:#f0f0f1;"></div> | #f0f0f1  | 背景颜色 |
+| <div style="height:24px; width:24px; background:#646970;"></div> | #646970  | -        |
+| <div style="height:24px; width:24px; background:#d63638;"></div> | #d63638  | -        |
+| <div style="height:24px; width:24px; background:#00a32a;"></div> | #00a32a  | -        |
+| <div style="height:24px; width:24px; background:#dba617;"></div> | #dba617  | -        |
 
 ## 组件
 ### 按钮
@@ -113,6 +113,43 @@
     <p>卡片内容</p>
 </div>
 ```
+
+### 导航
+#### 选项卡
+<nav class="nav-tab-wrapper mb-3">
+    <a class="nav-tab nav-tab-active" href="#">选项卡一</a>
+    <a class="nav-tab" href="#">选项卡二</a>
+</nav>
+
+#### 横向导航
+<div class="wp-filter">
+    <div class="filter-links">
+        <li class="plugin-install-featured"><a href="https://wp.webian.dev/wp-admin/plugin-install.php?tab=featured"
+               class="current" aria-current="page">特色</a> </li>
+        <li class="plugin-install-popular"><a
+               href="https://wp.webian.dev/wp-admin/plugin-install.php?tab=popular">热门</a> </li>
+        <li class="plugin-install-recommended"><a
+               href="https://wp.webian.dev/wp-admin/plugin-install.php?tab=recommended">推荐</a> </li>
+        <li class="plugin-install-favorites"><a
+               href="https://wp.webian.dev/wp-admin/plugin-install.php?tab=favorites">收藏</a></li>
+    </div>
+    <div class="search-form search-plugins" method="get">
+        <input type="hidden" name="tab" value="search">
+        <label class="screen-reader-text" for="typeselector">
+            搜索插件： </label>
+        <select name="type" id="typeselector">
+            <option value="term" selected="selected">关键字</option>
+            <option value="author">作者</option>
+            <option value="tag">标签</option>
+        </select>
+        <label class="screen-reader-text" for="search-plugins">
+            搜索插件 </label>
+        <input type="search" name="s" id="search-plugins" value="" class="wp-filter-search" placeholder="搜索插件…"
+               aria-describedby="live-search-desc">
+        <input type="submit" id="search-submit" class="button hide-if-js" value="搜索插件">
+    </div>
+</div>
+
 
 ## 目录结构
 ```

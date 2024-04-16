@@ -48,7 +48,7 @@ class WWPO_Form
         }
 
         if (isset($data['title'])) {
-            $content .= sprintf('<h2>%1$s</h2>', $data['title']);
+            $content .= sprintf('<h2 class="anchor" id="%1$s">%1$s</h2>', $data['title']);
         }
 
         if (isset($data['hidden'])) {
@@ -86,14 +86,14 @@ class WWPO_Form
             $table_body .= sprintf('<tr><th>%1$s</th><td>%2$s</td></tr>', $field_th, $field_td);
         }
 
-        $content .= sprintf('<table class="webui__form-table %s"><tbody>%s</tbody></table>', esc_attr($table_class), $table_body);
+        $content .= sprintf('<table class="wwpo__form-table %s"><tbody>%s</tbody></table>', esc_attr($table_class), $table_body);
 
         /** 设定表单按钮 */
         if (isset($data['button'])) {
             return sprintf(
-                '<form id="webui__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
+                '<form id="wwpo__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
                 $content,
-                WWPO_Button::submit($data['button'])
+                // WWPO_Button::submit($data['button'])
             );
         }
 
@@ -141,9 +141,9 @@ class WWPO_Form
         /** 设定表单按钮 */
         if (isset($data['button'])) {
             return sprintf(
-                '<form id="webui__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
+                '<form id="wwpo__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
                 $content,
-                WWPO_Button::submit($data['button'])
+                // WWPO_Button::submit($data['button'])
             );
         }
 
@@ -169,11 +169,11 @@ class WWPO_Form
 
         /** 设定 checkbox radio 表单 CSS 样式 */
         if (in_array($data['field']['type'], ['checkbox', 'radio'])) {
-            $input_css = $data['field']['css'] ?? 'webui__checkbox-input';
+            $input_css = $data['field']['css'] ?? 'wwpo__checkbox-input';
         }
         /** 设定 select 表单 CSS 样式 */
         elseif ('select' == $data['field']['type']) {
-            $input_css = $data['field']['css'] ?? 'webui__menu-list';
+            $input_css = $data['field']['css'] ?? 'wwpo__menu-list';
         }
         /** 设定 textarea 表单 CSS 样式 */
         elseif ('textarea' == $data['field']['type']) {
@@ -191,7 +191,7 @@ class WWPO_Form
         $input_field = self::$instance->_display_field($input_id, $input_css, $data);
 
         return sprintf(
-            '<div class="webui__admin-field %1$s">%2$s</div>',
+            '<div class="wwpo__admin-field %1$s">%2$s</div>',
             esc_attr($data['class'] ?? ''),
             $input_field
         );
@@ -421,7 +421,7 @@ class WWPO_Form
     private function _display_content($form_key, $form_data, $content = '')
     {
         if (isset($form_data['button'])) {
-            $content .= WWPO_Button::submit($form_data['button']);
+            // $content .= WWPO_Button::submit($form_data['button']);
         }
 
         /** 判断直接显示内容 */
@@ -437,16 +437,16 @@ class WWPO_Form
         /** 判断使用多个表单内容 */
         if (isset($form_data['fields'])) {
 
-            $content .= '<div class="webui__admin-group">';
+            $content .= '<div class="wwpo__admin-group">';
 
             if (isset($form_data['title'])) {
-                $content .= sprintf('<label class="webui__input-label">%s</label>', $form_data['title']);
+                $content .= sprintf('<label class="wwpo__input-label">%s</label>', $form_data['title']);
             }
 
             foreach ($form_data['fields'] as $field_key => $field_data) {
 
                 if (isset($field_data['button'])) {
-                    $content .= WWPO_Button::submit($field_data['button']);
+                    // $content .= WWPO_Button::submit($field_data['button']);
                 }
 
                 /** 判断直接显示内容 */
@@ -554,9 +554,9 @@ class WWPO_Form
          * 设定标题标签模版
          */
         if (in_array($input_type, ['checkbox', 'radio'])) {
-            $input_label = '%3$s <label class="webui__checkbox-label" for="%1$s">%2$s</label>';
+            $input_label = '%3$s <label class="wwpo__checkbox-label" for="%1$s">%2$s</label>';
         } else {
-            $input_label = '<label class="webui__input-label" for="%1$s">%2$s</label> %3$s';
+            $input_label = '<label class="wwpo__input-label" for="%1$s">%2$s</label> %3$s';
         }
 
         $this->input_field = sprintf($input_label, esc_attr($input_id), $input_title, $this->input_field);

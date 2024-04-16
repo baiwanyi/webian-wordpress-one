@@ -24,7 +24,6 @@ add_filter('wwpo_menus', 'wwpo_register_admin_menu_layout');
  */
 function wwpo_register_admin_display_layout()
 {
-    echo '<main id="wwpo-layout" data-wwpo-markdown="layout"></main>';
     WWPO_Load::markdown('layout', WWPO_PLUGIN_PATH . 'pages/layout.md');
 }
 add_action('wwpo_admin_display_wwpo-layout', 'wwpo_register_admin_display_layout');

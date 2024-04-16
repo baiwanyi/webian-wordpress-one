@@ -40,7 +40,7 @@ function wwpo_logs_display_admin()
         ],
     ]);
 }
-add_action('wwpo_admin_display_wwpologs', 'wwpo_logs_display_admin');
+add_action('wwpo_admin_display_wwpo-logs', 'wwpo_logs_display_admin');
 
 /**
  * 日志列表操作按钮函数

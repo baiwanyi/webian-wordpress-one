@@ -72,7 +72,7 @@ class WWPO_Table extends WP_List_Table
             'index'     => false,
             'checkbox'  => false,
             'tablenav'  => true,
-            'paged'     => true,
+            'paged'     => 20,
             'limit'     => 20,
             'select'    => 'all',
             'order'     => 'DESC',
@@ -178,11 +178,6 @@ class WWPO_Table extends WP_List_Table
         $offset                 = ($paged - 1) * $limit;
         $this->_column_headers  = [$this->get_columns(), [], $this->setting['sortable']];
 
-        /** 判断不分页至多显示 999 行 */
-        if (false == $this->setting['paged']) {
-            $limit = 999;
-        }
-
         /**
          * 判断有查询内容数组
          *
@@ -190,7 +185,7 @@ class WWPO_Table extends WP_List_Table
          */
         if (isset($data['result'])) {
             $this->total    = count($data['result']);
-            $this->items    = $data['result'];
+            $this->items    = array_slice($data['result'], $offset, $limit);
         }
 
         /**
@@ -366,12 +361,12 @@ class WWPO_Table extends WP_List_Table
         echo '</select>';
 
         // 批量操作按钮
-        echo WWPO_Button::wp([
-            'text'      => __('Apply'),
-            'value'     => $bulk_action,
-            'css'       => 'button',
-            'dataset'   => $this->setting['bulk']['dataset'] ?? null
-        ]);
+        // echo WWPO_Button::wp([
+        //     'text'      => __('Apply'),
+        //     'value'     => $bulk_action,
+        //     'css'       => 'button',
+        //     'dataset'   => $this->setting['bulk']['dataset'] ?? null
+        // ]);
     }
 
     /**

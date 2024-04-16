@@ -62,10 +62,10 @@ function wwpo_wechat_custom_menu_link($pagename)
         return;
     }
 
-    echo WWPO_Button::wp([
-        'text'  => __('同步', 'wwpo'),
-        'css'   => 'btn page-title-action',
-        'value' => 'wechatmenucreate'
-    ]);
+    // echo WWPO_Button::wp([
+    //     'text'  => __('同步', 'wwpo'),
+    //     'css'   => 'btn page-title-action',
+    //     'value' => 'wechatmenucreate'
+    // ]);
 }
 add_action('wwpo_admin_header_link', 'wwpo_wechat_custom_menu_link');

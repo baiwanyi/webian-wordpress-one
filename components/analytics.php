@@ -16,16 +16,17 @@
 function wwpo_register_header_analytics()
 {
     $option_data = WWPO_Get::option(OPTION_SETTING_KEY, 'analytics');
+    $option_type = $option_data['type'] ?? 'close';
 
-    if ('close' == $option_data['type'] || empty($option_data['code'])) {
+    if ('close' == $option_type || empty($option_data['code'])) {
         return;
     }
 
-    if ('baidu' == $option_data['type']) {
+    if ('baidu' == $option_type) {
         printf('<script>var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?%s";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();</script>', $option_data['code']);
     }
 
-    if ('google' == $option_data['type']) {
+    if ('google' == $option_type) {
         printf('<script async src="https://www.googletagmanager.com/gtag/js?id=%1$s"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag(\'js\', new Date());gtag(\'config\', \'%1$s\');</script>', $option_data['code']);
     }
 }

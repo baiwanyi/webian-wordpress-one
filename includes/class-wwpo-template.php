@@ -269,4 +269,12 @@ class WWPO_Template
             echo '</nav>';
         }
     }
+
+    static function searchbar()
+    {
+        echo '<form class="search-box" method="GET" autocomplete="off">
+        <label class="screen-reader-text" for="wwpo-search-input">搜索:</label>
+        <input type="search" id="post-search-input" name="s" value="">
+            <input type="submit" id="search-submit" class="button" value="搜索"></form>';
+    }
 }

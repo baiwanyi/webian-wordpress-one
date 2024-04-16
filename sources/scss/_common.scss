@@ -1,5 +1,6 @@
 li > a:hover,
-a[class] {
+a[class],
+a[class]:hover {
     text-decoration: none;
 }
 
@@ -24,7 +25,7 @@ a[class] {
     overflow: hidden;
 }
 
-.webui-loading {
+.wwpo-loading {
     display: inline-block;
     width: 3.5rem;
     height: 3.5rem;
@@ -42,7 +43,7 @@ a[class] {
 }
 
 .button {
-    & .webui-loading {
+    & .wwpo-loading {
         display: block;
         margin: auto;
         width: 0.75rem;
@@ -61,7 +62,7 @@ a[class] {
     }
 }
 
-.button-primary[disabled] .webui-loading {
+.button-primary[disabled] .wwpo-loading {
     border-color: $gray-700;
     border-right-color: transparent;
 }

@@ -9,6 +9,23 @@
  */
 
 /**
+ * 添加后台管理菜单
+ *
+ * @since 1.0.0
+ * @param array $menus 菜单内容数组
+ */
+function wwpo_register_admin_menu_metadata($menus)
+{
+    $menus['wwpo-metadata'] = [
+        'parent'        => 'tools.php',
+        'menu_title'    => __('元数据表管理', 'wwpo')
+    ];
+
+    return $menus;
+}
+add_filter('wwpo_menus', 'wwpo_register_admin_menu_metadata');
+
+/**
  * 数据库元数据表管理显示页面函数
  *
  * @since 1.0.0
@@ -18,7 +35,7 @@ function wwpo_admin_display_wp_metadata()
     global $wpdb;
 
     // 获取当前标签
-    $current_tabs   = WWPO_Admin::tabs('option');
+    $current_tabs   = $_GET['tab'] ?? '';
     $current_view   = $_GET['view'] ?? 'excerpt';
 
     //
@@ -49,14 +66,14 @@ function wwpo_admin_display_wp_metadata()
     ];
 
     //
-    wwpo_admin_page_searchbar([
+    WWPO_Template::searchbar([
         'tab'   => $current_tabs,
         'page'  => 'metadata',
         'view'  => $current_view
     ]);
 
     // 显示页面标签
-    wwpo_wp_tabs([
+    WWPO_Template::tabs([
         'option'    => '选项表',
         'post'      => '文章表',
         'comment'   => '评论表',
@@ -131,7 +148,7 @@ function wwpo_admin_display_wp_metadata()
     // 显示表格内容
     echo WWPO_Table::select($table_name, $wheres, $table_data);
 }
-add_action('wwpo_admin_display_metadata', 'wwpo_admin_display_wp_metadata');
+add_action('wwpo_admin_display_wwpo-metadata', 'wwpo_admin_display_wp_metadata');
 
 /**
  * 页面表格扩展导航显示函数
@@ -210,12 +227,12 @@ function wwpo_wp_metadata_table_custom_column($data, $column_name)
         }
 
         //
-        echo WWPO_button::wp([
-            'value'     => 'metadatadelete',
-            'text'      => __('Delete'),
-            'css'       => 'link-delete',
-            'dataset'   => $dataset
-        ]);
+        // echo WWPO_button::wp([
+        //     'value'     => 'metadatadelete',
+        //     'text'      => __('Delete'),
+        //     'css'       => 'link-delete',
+        //     'dataset'   => $dataset
+        // ]);
     }
 }
 add_action('wwpo_table_metadata_custom_column', 'wwpo_wp_metadata_table_custom_column', 10, 2);

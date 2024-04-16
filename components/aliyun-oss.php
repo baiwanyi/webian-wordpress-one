@@ -76,8 +76,8 @@ class WWPO_Alioss
     {
         try {
             $ossclient = new OssClient($this->ossdata['accesskeyid'], $this->ossdata['accesskeysecret'], $this->endpoint);
-        } catch (OssException $e) {
-            return $e;
+        } catch (OssException $message) {
+            return $message;
         }
 
         return $ossclient;
