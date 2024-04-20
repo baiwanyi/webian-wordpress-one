@@ -327,14 +327,8 @@ function wwpo_register_plugin_row_meta($plugin_meta, $plugin_file)
 
     $plugin_meta[] = sprintf(
         '<a href="%s">%s</a>',
-        esc_url(admin_url('tools.php?page=wwpo-layout')),
-        esc_html__('布局模板', 'wwpo')
-    );
-
-    $plugin_meta[] = sprintf(
-        '<a href="%s">%s</a>',
-        esc_url(admin_url('tools.php?page=wwpo-development')),
-        esc_html__('开发工具', 'wwpo')
+        esc_url(admin_url('admin.php?page=wwpo-docs')),
+        esc_html__('开发文档', 'wwpo')
     );
 
     return $plugin_meta;

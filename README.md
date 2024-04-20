@@ -1,5 +1,6 @@
 # Webian WordPress One 插件
 更新日期：20240314
+
 模块别名：webian-wordpress-one
 
 ## 目录结构
@@ -40,7 +41,7 @@
 - [插件设置](./docs/post.md)
 - [分类增强](./docs/post.md)
 - [常用函数](./docs/merchant.md)
-- [数据库扩展](./docs/cashout.md)
+- [数据库扩展](./docs/layout.md)
 
 ## 模块功能
 - [短代码](./docs/merchant.md)

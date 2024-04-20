@@ -18,6 +18,14 @@ class WWPO_Admin
         $current_page_name  = self::page_name();
         $current_page_title = get_admin_page_title();
 
+        /**
+         * 自定义后台页面头部内容
+         *
+         * @since 1.0.0
+         * @param string $current_page_name 当前页面别名
+         */
+        do_action('wwpo_admin_head', $current_page_name, $current_page_title);
+
         echo '<div class="wrap">';
 
         /**
@@ -26,7 +34,7 @@ class WWPO_Admin
          * @since 1.0.0
          * @param string $current_page_name 当前页面别名
          */
-        do_action('wwpo_admin_head', $current_page_name);
+        do_action('wwpo_admin_head_before', $current_page_name);
 
         /**
          * 自定义后台页面标题
@@ -34,7 +42,7 @@ class WWPO_Admin
          * @since 1.0.0
          * @param string $current_page_title 当前页面标题内容
          */
-        $current_page_title = apply_filters('wwpo_admin_page_title', $current_page_title, $current_page_name);
+        $current_page_title = apply_filters('wwpo_admin_page_title', $current_page_name, $current_page_title);
 
         /** 判断输出页面标题 H1 格式 */
         if ($current_page_title) {
@@ -161,5 +169,38 @@ class WWPO_Admin
         }
 
         return remove_query_arg($param, $url);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $option_key
+     * @param [type] $button_key
+     * @param [type] $formdata
+     * @return void
+     */
+    static function settings($option_key, $button_key, $formdata)
+    {
+        echo '<main class="wwpo__admin-body">';
+        echo '<form id="wwpo-admin-form" class="wwpo__admin-content" method="POST" autocomplete="off">';
+
+        echo WWPO_Form::hidden(['option_key' => $option_key]);
+
+        foreach ($formdata as $admin_page) {
+            echo WWPO_Form::table($admin_page);
+        }
+
+        echo WWPO_Form::submit($button_key);
+        echo '</form>';
+
+        if (1 < count($formdata)) {
+            echo '<aside class="wwpo__admin-toc"><h4>页面导航</h4><ul>';
+            foreach ($formdata as $admin_page) {
+                printf('<li><a href="#%1$s" rel="anchor">%1$s</a></li>', $admin_page['title']);
+            }
+            echo '</ul></aside>';
+        }
+
+        echo '</main>';
     }
 }

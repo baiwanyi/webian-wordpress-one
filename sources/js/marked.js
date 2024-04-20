@@ -36,11 +36,15 @@ export default class markdown {
             return
         }
 
-        // Override function
-        let renderer = {
-            heading(text, level) {
-                return `<h${level} class="anchor" id="${wwpo.string.random(12)}">${text}</h${level}>`
-            }
+        // 创建一个自定义的渲染器
+        const renderer = new marked.Renderer();
+
+        renderer.heading = (text, level) => {
+            return `<h${level} class="anchor" id="${wwpo.string.random(12)}">${text}</h${level}>`
+        }
+
+        renderer.link = (href, title, text) => {
+            return `<a href="./admin.php?page=wwpo-docs&path=${href}" title="${title}" class="custom-link-class">${text}</a>`;
         }
 
         marked.use({ renderer }, {

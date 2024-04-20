@@ -18,7 +18,7 @@ function wwpo_payment_admin_menu($menus)
 
     return $menus;
 }
-add_filter('wwpo_menus', 'wwpo_payment_admin_menu');
+// add_filter('wwpo_menus', 'wwpo_payment_admin_menu');
 
 
 /**

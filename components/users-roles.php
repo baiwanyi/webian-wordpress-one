@@ -22,8 +22,6 @@ const WWPO_AJAX_ROLE_UPDATE     = 'wproleupdate';
  */
 function wwpo_wp_admin_menus($menus)
 {
-
-
     $menus['wwpo-roles'] = [
         'parent'        => 'users.php',
         'menu_title'    => __('用户角色', 'wwpo'),

@@ -402,6 +402,16 @@ class WWPO_Form
     }
 
     /**
+     * 提交 AJAX 操作按钮函数
+     *
+     * @since 1.0.0
+     * @param string $ajax_key
+     */
+    static function submit($ajax_key) {
+        return sprintf('<p class="submit"><button type="button" class="button button-primary button-large" data-wwpo-ajax="%s">%s</button></p>', $ajax_key, __('Save Changes'));
+    }
+
+    /**
      * 表单内容显示函数
      *
      * @since 1.0.0

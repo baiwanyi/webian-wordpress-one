@@ -128,3 +128,24 @@ function wwpo_logs($code, $page_url = null)
         'time_post'     => NOW_TIME,
     ]);
 }
+
+add_filter('wwpo_menus', ['WWPO_Log', 'admin_menus']);
+
+class WWPO_Log
+{
+    /**
+     * 注册后台菜单
+     *
+     * @since 1.0.0
+     * @param array $menus
+     */
+    static function admin_menus($menus)
+    {
+        $menus['wwpo-logs'] = [
+            'parent'        => 'webian-wordpress-one',
+            'menu_title'    => __('日志操作', 'wwpo')
+        ];
+
+        return $menus;
+    }
+}

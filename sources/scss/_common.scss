@@ -25,6 +25,21 @@ a[class]:hover {
     overflow: hidden;
 }
 
+.loading {
+    &::before {
+        display: inline-block;
+        content: '';
+        margin: auto;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-width: 0.18rem;
+        border-color: var(--wwpo-primary);
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spinner-loading 750ms linear infinite;
+    }
+}
+
 .wwpo-loading {
     display: inline-block;
     width: 3.5rem;

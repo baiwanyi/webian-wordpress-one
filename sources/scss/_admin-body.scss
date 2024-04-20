@@ -1,58 +1,56 @@
-.wwpo__admin {
-    &-body {
-        position: relative;
-        display: flex;
-    }
+&-body {
+    position: relative;
+    display: flex;
+}
 
-    &-content {
-        width: calc(100% - 12rem);
-    }
+&-content {
+    width: calc(100% - 12rem);
+}
 
-    &-toc {
-        position: sticky;
-        width: 12rem;
-        padding-left: 3rem;
-        top: 3rem;
-        right: 0;
-        z-index: 2;
-        height: calc(100vh - 10rem);
-        overflow-y: auto;
+&-toc {
+    position: sticky;
+    width: 12rem;
+    padding-left: 3rem;
+    top: 3rem;
+    right: 0;
+    z-index: 2;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+    color: #646970;
+
+    & h4 {
         color: #646970;
+        font-size: 1.25rem;
+        padding-bottom: 0.5rem;
+        font-weight: 300 !important;
+        border-bottom: 1px solid #c3c4c7;
+    }
 
-        & h4 {
-            color: #646970;
-            font-size: 1.25rem;
-            padding-bottom: 0.5rem;
-            font-weight: 300 !important;
-            border-bottom: 1px solid #c3c4c7;
+    & ul {
+        margin: 0 !important;
+        padding: 0 !important;
+
+        & li {
+            list-style: none;
+        }
+    }
+
+    & li.h3 {
+        margin-left: 1.75rem;
+        list-style: circle;
+    }
+
+    & a {
+        text-decoration: none !important;
+        font-size: 0.875rem !important;
+        color: #646970 !important;
+
+        &:hover {
+            color: #2c3338 !important;
         }
 
-        & ul {
-            margin: 0 !important;
-            padding: 0 !important;
-
-            & li {
-                list-style: none;
-            }
-        }
-
-        & li.h3 {
-            margin-left: 1.75rem;
-            list-style: circle;
-        }
-
-        & a {
-            text-decoration: none !important;
-            font-size: 0.875rem !important;
-            color: #646970 !important;
-
-            &:hover {
-                color: #2c3338 !important;
-            }
-
-            &:focus {
-                box-shadow: none !important;
-            }
+        &:focus {
+            box-shadow: none !important;
         }
     }
 }
