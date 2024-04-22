@@ -3,10 +3,6 @@
     display: flex;
 }
 
-&-content {
-    width: calc(100% - 12rem);
-}
-
 &-toc {
     position: sticky;
     width: 12rem;

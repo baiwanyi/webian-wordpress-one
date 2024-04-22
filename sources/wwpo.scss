@@ -1,16 +1,19 @@
+//
 @import 'scss/variables';
 @import 'scss/root';
 @import 'scss/common';
 @import 'scss/ios';
-@import 'scss/markdown';
 @import 'scss/wordpress';
+
 //
+@import '../../node_modules/prismjs/themes/prism.css';
 
 .wwpo__admin {
     @import 'scss/admin-body';
     @import 'scss/admin-filter';
     @import 'scss/admin-form';
     @import 'scss/admin-list-table';
+    @import 'scss/admin-markdown';
 
     &-wide {
         & #wpcontent {
@@ -29,12 +32,22 @@
         background: #fff;
         border-bottom: 1px solid #dcdcde;
 
+        & .dashicons {
+            width: 5rem;
+            height: 5rem;
+            font-size: 3rem;
+            line-height: 5rem;
+            border-radius: 100%;
+            color: var(--wwpo-white);
+            background-color: var(--wwpo-primary);
+        }
+
         &__section {
             display: flex;
             align-items: center;
             justify-content: center;
             clear: both;
-            padding-top: 1rem;
+            padding-bottom: 1rem;
         }
 
         &__tabs {
@@ -47,7 +60,9 @@
                 color: inherit;
                 padding: 0.5rem 1rem 1rem;
                 margin: 0 1rem;
-                transition: box-shadow 500ms ease-in-out;
+                &:focus {
+                    box-shadow: none;
+                }
 
                 &.active {
                     box-shadow: inset 0 -3px #3582c4;
@@ -57,12 +72,9 @@
         }
 
         & h1 {
-            display: inline-block;
-            font-weight: 600;
-            margin: 0 0.8rem 1rem;
-            font-size: 23px;
-            padding: 9px 0 4px;
-            line-height: 1.3;
+            font-weight: 300;
+            margin: 0 0 1rem;
+            line-height: 1;
         }
     }
 }

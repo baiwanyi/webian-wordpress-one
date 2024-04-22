@@ -119,4 +119,10 @@ class WWPO_Pay_Interface
 
         WWPO_Admin::settings('', '', $formdata);
     }
+
+    static function docs_tabs($tabs)
+    {
+        $tabs['webian-pay'] = '支付';
+        return $tabs;
+    }
 }

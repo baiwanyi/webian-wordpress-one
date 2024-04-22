@@ -26,3 +26,59 @@ a[rel='upload'] .dashicons {
         margin-bottom: 0 !important;
     }
 }
+
+
+
+.wp-list-table {
+    & td {
+        & button + button,
+        & select + button {
+            margin-left: 0.25rem !important;
+        }
+    }
+
+    th[class*='column-taxonomy'] {
+        width: 10rem;
+    }
+
+    th[class*='column-small'] {
+        width: 5rem;
+    }
+
+    th[class*='column-index'] {
+        width: 3rem;
+    }
+
+    th[class*='column-action'] {
+        width: 10rem;
+    }
+
+    th[class*='column-medium'],
+    [class*='column-thumb'] {
+        position: relative;
+        width: 8rem;
+    }
+
+    [class*='column-thumb'] {
+        line-height: 0;
+    }
+
+    .thumb-small {
+        width: 4rem;
+        height: 4rem;
+        overflow: hidden;
+    }
+}
+
+.tablenav .no-pages {
+    display: block !important;
+
+    & .displaying-num {
+        display: inline-block;
+        margin: 5px 0 !important;
+    }
+}
+
+.tablenav .no-pages .pagination-links {
+    display: none;
+}

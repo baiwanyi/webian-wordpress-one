@@ -278,7 +278,7 @@ function wwpo_register_admin_scripts()
     global $current_screen;
 
     /** 启用 WEBUI 框架 */
-    wp_enqueue_script('wwpo', WWPO_PLUGIN_URL . '/assets/js/wwpo.min.js', ['jquery', 'underscore'], null, true);
+    wp_enqueue_script('wwpo', WWPO_PLUGIN_URL . '/assets/js/wwpo.min.js', ['jquery', 'underscore'], NOW, true);
 
     /**
      * 设定本地化参数值
@@ -308,7 +308,7 @@ function wwpo_register_admin_scripts()
     wp_localize_script('wwpo', 'wwpoSettings', $wwpoSettings);
 
     /** 启用后台样式*/
-    wp_enqueue_style('wwpo-style', WWPO_PLUGIN_URL . '/assets/css/wwpo.min.css');
+    wp_enqueue_style('wwpo-style', WWPO_PLUGIN_URL . '/assets/css/wwpo.min.css', null, NOW);
 }
 add_action('admin_enqueue_scripts', 'wwpo_register_admin_scripts');
 

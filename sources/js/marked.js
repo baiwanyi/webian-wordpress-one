@@ -9,6 +9,8 @@
  * 引用文件
  * ------------------------------------------------------------------------
  */
+import prism from 'prismjs'
+import wwpo from './wwpo'
 import { marked } from 'marked'
 
 /**
@@ -24,15 +26,12 @@ export default class markdown {
      * @since 1.0.0
      * @param integer money
      */
-    static render = (layout) => {
+    static render = (filename) => {
 
-        layout = layout || '#wwpo-layout'
+        let markdown_filename = filename || 'README.md'
+        let markdown_layout = jQuery('#wwpo-admin-docs')
 
-        let _layout = jQuery(layout)
-        let _markdown_id = _layout.data('wwpoMarkdown')
-        let _markdown_content = jQuery(_markdown_id).html()
-
-        if (_.isUndefined(_markdown_id) || 0 == _markdown_content.length) {
+        if (0 == markdown_layout.length) {
             return
         }
 
@@ -44,18 +43,47 @@ export default class markdown {
         }
 
         renderer.link = (href, title, text) => {
-            return `<a href="./admin.php?page=wwpo-docs&path=${href}" title="${title}" class="custom-link-class">${text}</a>`;
+            if (href.includes('http')) {
+                return `<a href="${href}" target="_blank">${text}</a>`;
+            }
+
+            return `<a href="${href}" rel="markdown">${text}</a>`;
         }
 
-        marked.use({ renderer }, {
-            hooks: {
-                postprocess(content) {
-                    return `<div id="wwpo-markdown-main" class="wwpo__admin-content">${content}</div><aside id="wwpo-markdown-toc" class="wwpo__admin-toc">${markdown.headings(content)}</aside>`
+        renderer.image = (href, title, text) => {
+            return `<figure class="figure"><img src="${wwpoSettings.markdown_base_url}${href.replace(/^.\//, 'docs/')}" class="thumb"><figcaption class="caption">${text}</figcaption></figure>`;
+        }
+
+        renderer.table = (header, body) => {
+            // 在这里，你可以根据需要对 header 和 body 进行自定义处理
+            // header 是一个包含表头单元格的数组
+            // body 是一个二维数组，其中每个内部数组代表表格的一行
+
+            // 例如，为表格添加自定义样式或类名
+            return `<table class="wwpo__admin-table"><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
+        };
+
+        jQuery.ajax({
+            url: wwpoSettings.markdown_base_url + markdown_filename.replace(/^#!\//, ''),
+            type: 'GET',
+            dataType: 'text',
+            success: (result) => {
+                if (wwpoSettings.debug) {
+                    console.log(result)
                 }
+
+                if (_.isEmpty(result)) {
+                    return
+                }
+
+                marked.use({ renderer })
+
+                let content = marked.parse(result)
+                markdown_layout.html(`<div class="wwpo__admin-markdown">${content}</div>`)
+                markdown_layout.append(`<aside class="wwpo__admin-toc">${markdown.headings(content)}</aside>`)
+                prism.highlightAll()
             }
         })
-
-        _layout.html(marked.parse(_markdown_content))
     }
 
     static headings = (content) => {
@@ -84,3 +112,27 @@ export default class markdown {
         return wwpo.template('<h4>页面导航</h4><ul><% _.each(data, function(item) { %><li class="{{item.tag}}"><a href="#{{item.id}}" rel="anchor">{{item.content}}</a></li><% }) %></ul>', matches)
     }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * 渲染 Markdown 格式内容
+ * ------------------------------------------------------------------------
+ */
+jQuery(() => {
+    markdown.render(window.location.hash)
+
+    window.addEventListener('hashchange', () => {
+        markdown.render(window.location.hash)
+    })
+})
+
+/**
+ * ------------------------------------------------------------------------
+ * 渲染 Markdown 格式内容
+ * ------------------------------------------------------------------------
+ */
+wwpo.click('a[rel="markdown"]', (current) => {
+    let hash = current.attr('href').replace(/^\.\//, '')
+    window.location.hash = '!/' + hash
+    window.scrollTo(0, 0)
+})

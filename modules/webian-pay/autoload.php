@@ -40,3 +40,4 @@ add_action('wwpo_admin_display_wwpo-payment-order', ['WWPO_Pay_Interface', 'admi
 add_action('wwpo_admin_display_wwpo-payment-refund', ['WWPO_Pay_Interface', 'admin_page_refund']);
 add_action('wwpo_admin_display_wwpo-payment-notify', ['WWPO_Pay_Interface', 'admin_page_notify']);
 add_action('wwpo_admin_display_wwpo-payment-setting', ['WWPO_Pay_Interface', 'admin_page_setting']);
+add_action('wwpo_docs_tabs', ['WWPO_Pay_Interface', 'docs_tabs']);
