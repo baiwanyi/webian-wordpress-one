@@ -1,43 +1,30 @@
 &-markdown {
-    width: calc(100% - 12rem);
+    position: relative;
+    line-height: 1.5;
 
-    & .octicon {
-        display: inline-block;
-        fill: currentColor;
-        vertical-align: text-bottom;
-    }
-
-    & .anchor {
-        clear: both;
-    }
-
-    & table {
-        border-radius: 0.25rem;
-        overflow: hidden;
-
-        & tbody tr:last-of-type td {
-            border: none;
-        }
-    }
-
-    & details,
-    & figcaption,
-    & figure {
-        display: block;
-    }
-
-    & summary {
-        display: list-item;
-    }
-
+    // 格式化
     & [hidden] {
         display: none !important;
     }
 
-    & a {
-        background-color: transparent;
-        color: var(--wwpo-primary);
-        text-decoration: none;
+    & blockquote,
+    & pre {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+
+    code,
+    kbd {
+        padding: 0;
+        margin: 0;
+        background: transparent;
+    }
+
+    & pre {
+        padding: 1rem;
+        overflow: auto;
+        background-color: #f6f8fa;
+        border-radius: 0.5rem;
     }
 
     & abbr[title] {
@@ -55,17 +42,9 @@
         font-style: italic;
     }
 
-    & h1 {
-        margin: 0.67em 0;
-        font-weight: 600;
-        padding-bottom: 0.3em;
-        font-size: 2em;
-        border-bottom: 1px solid hsla(210, 18%, 87%, 1);
-    }
-
     & mark {
-        background-color: #fff8c5;
-        color: #1f2328;
+        padding: 0.25rem;
+        background-color: #fff3cd;
     }
 
     & small {
@@ -88,8 +67,34 @@
         top: -0.5rem;
     }
 
+    // 表格
+    & table {
+        border-radius: 0.25rem;
+        overflow: hidden;
+
+        & tbody tr:last-of-type td {
+            border: none;
+        }
+    }
+
+    // 链接
+    & a {
+        background-color: transparent;
+        color: var(--wwpo-primary);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &:not([href]) {
+            color: var(--wwpo-gray-700);
+        }
+    }
+
+    // 图片
     & figure {
-        margin: 0 0 1rem;
+        margin: 0 0 2rem;
         & .thumb {
             border-radius: 0.5rem;
             margin-bottom: 0.25rem;
@@ -101,6 +106,7 @@
         }
     }
 
+    // 分割线
     & hr {
         box-sizing: content-box;
         overflow: hidden;
@@ -111,182 +117,86 @@
         margin: 24px 0;
         background-color: #d0d7de;
         border: 0;
-    }
 
-    & a:hover {
-        text-decoration: underline;
-    }
+        &::before {
+            display: table;
+            content: '';
+        }
 
-    & ::placeholder {
-        color: #6e7781;
-        opacity: 1;
-    }
-
-    & hr::before {
-        display: table;
-        content: '';
-    }
-
-    & hr::after {
-        display: table;
-        clear: both;
-        content: '';
-    }
-
-    & details summary {
-        cursor: pointer;
-    }
-
-    & details:not([open]) > *:not(summary) {
-        display: none !important;
+        &::after {
+            display: table;
+            clear: both;
+            content: '';
+        }
     }
 
     & kbd {
         display: inline-block;
-        padding: 3px 5px;
-        font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-            Liberation Mono, monospace;
-        line-height: 10px;
-        color: #1f2328;
+        padding: 0.125rem 0.25rem;
+        color: var(--wwpo-white);
         vertical-align: middle;
-        background-color: #f6f8fa;
-        border: solid 1px rgba(175, 184, 193, 0.2);
-        border-bottom-color: rgba(175, 184, 193, 0.2);
-        border-radius: 6px;
-        box-shadow: inset 0 -1px 0 rgba(175, 184, 193, 0.2);
+        background-color: var(--wwpo-gray-700);
+        border-radius: 0.25rem;
     }
 
-    & h1,
+    & .h1 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+
     & h2 {
+        margin-top: 1rem;
         padding-bottom: 0.75rem;
         border-bottom: 1px solid var(--wwpo-gray-400);
     }
 
     & blockquote {
-        margin: 0;
-        padding: 0 1em;
+        padding: 0 1rem;
         color: #656d76;
-        border-left: 0.25em solid #d0d7de;
+        border-left: 0.2rem solid #d0d7de;
+
+        & > :first-child {
+            margin-top: 0;
+        }
+
+        & > :last-child {
+            margin-bottom: 0;
+        }
     }
 
+    // 列表
     & ul,
     & ol {
+        margin: 0 0 2rem;
         padding-left: 2rem;
     }
 
-    & ol ol,
-    & ul ol {
-        list-style-type: lower-roman;
+    & ol {
+        list-style-type: decimal;
+    }
+
+    & ul {
+        list-style-type: disc;
+    }
+
+    & ul ul,
+    & ul ol,
+    & ol ol {
+        list-style-type: circle;
     }
 
     & ul ul ol,
     & ul ol ol,
     & ol ul ol,
     & ol ol ol {
-        list-style-type: lower-alpha;
-    }
-
-    & dd {
-        margin-left: 0;
-    }
-
-    & a:not([href]) {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    & .absent {
-        color: var(--wwpo-danger);
-    }
-
-    & p,
-    & blockquote,
-    & ul,
-    & ol,
-    & dl,
-    & pre,
-    & details {
-        margin-top: 0;
-        margin-bottom: 1rem;
-    }
-
-    & blockquote > :first-child {
-        margin-top: 0;
-    }
-
-    & blockquote > :last-child {
-        margin-bottom: 0;
-    }
-
-    & ul {
-        list-style-type: disc !important;
-
-        & ul {
-            list-style-type: circle !important;
-        }
-    }
-
-    & ul ul,
-    & ul ol,
-    & ol ol,
-    & ol ul {
-        margin-top: 0;
-        margin-bottom: 1rem;
+        list-style-type: upper-alpha;
     }
 
     & li > p {
         margin-top: 1rem;
-    }
-
-    & li {
-        margin-bottom: 0.5rem;
-
-        & + li {
-            margin-top: 0.25rem;
-        }
-    }
-
-    & dl {
-        padding: 0;
-    }
-
-    & dl dt {
-        padding: 0;
-        margin-top: 1rem;
-        font-style: italic;
-        font-weight: 600;
-    }
-
-    & dl dd {
-        padding: 0 1rem;
-        margin-bottom: 1rem;
-    }
-
-    & code br,
-    & tt br {
-        display: none;
-    }
-
-    & del code {
-        text-decoration: inherit;
-    }
-
-    & samp {
-        font-size: 85%;
-    }
-
-    code,
-    kbd {
-        padding: 0;
-        margin: 0;
-        background: transparent;
-        font-size: inherit;
-    }
-
-    & pre {
-        padding: 1rem;
-        overflow: auto;
-        background-color: #f6f8fa;
-        border-radius: 0.5rem;
     }
 }

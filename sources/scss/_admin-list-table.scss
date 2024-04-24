@@ -6,16 +6,18 @@
     caption-side: bottom;
     border-collapse: collapse;
     width: 100%;
-    margin-bottom: 1rem;
-    vertical-align: top;
-    table-layout: fixed;
-    clear: both;
+    margin-bottom: 2rem;
+    overflow: auto;
     background-color: var(--wwpo-white);
 
     & td {
-        font-size: 0.875rem;
-        padding: 0.5rem 0.5rem;
+        padding: 1rem 1.25rem;
+        word-break: normal;
         border-bottom: 1px solid var(--wwpo-gray-300);
+
+        &:first-of-type {
+            white-space: nowrap;
+        }
     }
 
     & caption {
@@ -25,19 +27,17 @@
         text-align: left;
     }
 
-    & tbody tr:hover {
-        background-color: var(--wwpo-gray-200);
-    }
-
     // 1. Removes font-weight bold by inheriting
     // 2. Matches default `<td>` alignment by inheriting `text-align`.
     // 3. Fix alignment for Safari
 
     & th {
-        padding: 0.75rem;
-        font-weight: 500; // 1
-        text-align: inherit; // 2
+        text-align: left;
+        white-space: nowrap;
+        padding: 0.75rem 1.25rem;
+        font-weight: 600; // 1
         border-bottom: 2px solid var(--wwpo-gray-600);
+        color: var(--wwpo-gray-600);
     }
 
     & thead,

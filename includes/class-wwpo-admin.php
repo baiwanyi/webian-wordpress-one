@@ -42,7 +42,7 @@ class WWPO_Admin
          * @since 1.0.0
          * @param string $current_page_title 当前页面标题内容
          */
-        $current_page_title = apply_filters('wwpo_admin_page_title', $current_page_name, $current_page_title);
+        $current_page_title = apply_filters('wwpo_admin_page_title', $current_page_title, $current_page_name);
 
         /** 判断输出页面标题 H1 格式 */
         if ($current_page_title) {

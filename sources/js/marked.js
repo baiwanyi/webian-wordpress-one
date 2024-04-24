@@ -12,6 +12,7 @@
 import prism from 'prismjs'
 import wwpo from './wwpo'
 import { marked } from 'marked'
+// import fm from 'front-matter'
 
 /**
  * ------------------------------------------------------------------------
@@ -26,19 +27,31 @@ export default class markdown {
      * @since 1.0.0
      * @param integer money
      */
-    static render = (filename) => {
+    static render = () => {
 
-        let markdown_filename = filename || 'README.md'
+        let hash = window.location.hash || null
+        let markdown_file_name = 'README.md'
+        let markdown_file_base = wwpoSettings.markdown_current_tab
         let markdown_layout = jQuery('#wwpo-admin-docs')
+        let markdown_base_url = wwpoSettings.markdown_base_url
 
         if (0 == markdown_layout.length) {
             return
         }
 
+        if ('wwpo' != markdown_file_base) {
+            markdown_base_url = markdown_base_url + 'modules' + '/' + markdown_file_base + '/'
+        }
+
         // 创建一个自定义的渲染器
-        const renderer = new marked.Renderer();
+        const renderer = new marked.Renderer()
 
         renderer.heading = (text, level) => {
+
+            if (1 == level) {
+                return `<div class="h1">${text}</div>`
+            }
+
             return `<h${level} class="anchor" id="${wwpo.string.random(12)}">${text}</h${level}>`
         }
 
@@ -51,7 +64,7 @@ export default class markdown {
         }
 
         renderer.image = (href, title, text) => {
-            return `<figure class="figure"><img src="${wwpoSettings.markdown_base_url}${href.replace(/^.\//, 'docs/')}" class="thumb"><figcaption class="caption">${text}</figcaption></figure>`;
+            return `<figure class="figure"><img src="${markdown_base_url}${href.replace(/^.\//, 'docs/')}" class="thumb"><figcaption class="caption">${text}</figcaption></figure>`;
         }
 
         renderer.table = (header, body) => {
@@ -63,27 +76,111 @@ export default class markdown {
             return `<table class="wwpo__admin-table"><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
         };
 
+        marked.use({ renderer })
+
+        if (hash) {
+            markdown_file_name = hash.replace(/^#!\//, '')
+        }
+
         jQuery.ajax({
-            url: wwpoSettings.markdown_base_url + markdown_filename.replace(/^#!\//, ''),
+            url: markdown_base_url + markdown_file_name,
             type: 'GET',
             dataType: 'text',
+            beforeSend: () => {
+                markdown_layout.html('<span class="wwpo-loading small"></span>')
+            },
             success: (result) => {
-                if (wwpoSettings.debug) {
-                    console.log(result)
-                }
-
                 if (_.isEmpty(result)) {
+                    markdown_layout.html('<div class="notice notice-error"><p>没有找到相关内容</p></div>')
                     return
                 }
 
-                marked.use({ renderer })
+                let data = markdown.frontmatter(result)
+                let title = data.attributes.title || '';
+                let description = data.attributes.description || '';
+                let updated = data.attributes.updated || '';
+                let toc = data.attributes.toc || false
+                let content = marked.parse(data.body)
+                let html = ''
 
-                let content = marked.parse(result)
-                markdown_layout.html(`<div class="wwpo__admin-markdown">${content}</div>`)
-                markdown_layout.append(`<aside class="wwpo__admin-toc">${markdown.headings(content)}</aside>`)
+                if (title) {
+                    html += `<div class="h1">${title}</div>`
+                }
+
+                if (description) {
+                    html += `<p>${description}</p>`
+                }
+
+                if (updated) {
+                    html += `<p><strong>更新日期：</strong>${updated}</p>`
+                }
+
+                html += '<div class="wwpo__admin-body">'
+
+                if (toc) {
+                    html += '<aside id="wwpo-admin-toc" class="wwpo__admin-toc"></aside>';
+                }
+
+                if ('undefined' != typeof wwpoSettings.markdown_sidebar) {
+                    html += markdown.sidebar()
+                }
+
+                html += `<div id="wwpo-admin-content" class="wwpo__admin-content">${content}</div>`
+
+                html += '</div>'
+
+                markdown_layout.html(html)
+
+                jQuery('#wwpo-admin-toc').html(markdown.headings(content))
+
                 prism.highlightAll()
             }
         })
+    }
+
+    static frontmatter = (content) => {
+
+        let pattern = '^(' +
+            '\\ufeff?' +
+            '(= yaml =|---)' +
+            '$([\\s\\S]*?)' +
+            '^(?:\\2|\\.\\.\\.)\\s*' +
+            '$' +
+            '(?:\\n)?)'
+
+        let regex = new RegExp(pattern, 'm')
+        let match = regex.exec(content)
+        let attributes = {}
+        var first = content.split(/(\r?\n)/)
+
+        if (first[0] && /= yaml =|---/.test(first[0])) {
+
+            let fm = match[match.length - 1].replace(/^\s+|\s+$/g, '')
+            let body = content.replace(match[0], '')
+            let lines = fm.split(/\r?\n/)
+
+            lines.forEach(line => {
+                const [title, content] = line.split(': '); // 分割键和值
+                attributes[title.trim()] = content.trim()
+            })
+
+            return {
+                attributes: attributes,
+                body: body
+            }
+        }
+
+        return {
+            attributes: attributes,
+            body: content
+        }
+    }
+
+    static sidebar = () => {
+
+        let sidebar = wwpo.template('<% _.each(data, function(item, url) { %><a href="{{url}}" class="item">{{item.title}}</a><% if(item.menu){ %><ul class="submenu"><% _.each(item.menu, function(title, sub_url){ %><li><a href="{{sub_url}}"class="menu">{{title}}</a></li><% }) %></ul><% } %><% }) %>', JSON.parse(wwpoSettings.markdown_sidebar))
+
+        return `<nav id="wwpo-admin-sidebar" class="wwpo__admin-sidebar">${sidebar}</nav>`
     }
 
     static headings = (content) => {
@@ -94,6 +191,7 @@ export default class markdown {
         // 使用正则表达式的exec或test方法，或者String的match方法
         let match
         let matches = []
+
         while (null !== (match = regex.exec(content))) {
             // match[1] 是标签名 (h2 或 h3)
             // match[2] 是id属性值
@@ -105,7 +203,7 @@ export default class markdown {
             })
         }
 
-        if (_.isEmpty(matches)) {
+        if (_.isEmpty(matches) || 2 > _.size(matches)) {
             return ''
         }
 
@@ -119,10 +217,10 @@ export default class markdown {
  * ------------------------------------------------------------------------
  */
 jQuery(() => {
-    markdown.render(window.location.hash)
+    markdown.render()
 
     window.addEventListener('hashchange', () => {
-        markdown.render(window.location.hash)
+        markdown.render()
     })
 })
 

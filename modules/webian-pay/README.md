@@ -1,6 +1,9 @@
-# 微边支付模块
-更新日期：20240301
-模块别名：webian-pay
+---
+title: 微边支付模块
+description: 用于构造小程序端的支付管理。
+toc: true
+updated: 2024-04-24 17:22:41
+---
 
 ## 目录结构
 ```
@@ -26,20 +29,25 @@
 ├─setting.php                 设置页面
 ```
 
-## 模块描述
- - 微信小程序，服务端接口支持
- - 微信认证服务号，服务端接口支持
- - 微信支付（账单、卡券、红包、退款、转账、App支付、JSAPI支付、Web支付、扫码支付等）
- - 支付宝支付（账单、转账、App支付、刷卡支付、扫码支付、Web支付、Wap支付等）
- - 头条支付
- - 云闪付支付
+## 模块
+| 名称                           | 功能                                                  |
+| ------------------------------ | ----------------------------------------------------- |
+| [仪表盘](./docs/dashboard.md)  | 判断小程序的API，回调，参数，组件等是否在当前版本可用 |
+| [支付网关](./docs/payment.md)  | -                                                     |
+| [清算系统](./docs/clearing.md) | -                                                     |
+| [提现系统](./docs/cashout.md)  | -                                                     |
+| [商户系统](./docs/merchant.md) | -                                                     |
 
-## 模块功能
- - [仪表盘](./docs/dashboard.md)
- - [支付网关](./docs/payment.md)
- - [清算系统](./docs/clearing.md)
- - [提现系统](./docs/cashout.md)
- - [商户系统](./docs/merchant.md)
+## API
+
+## 数据库
+| 名称                                                  | 功能           |
+| ----------------------------------------------------- | -------------- |
+| [pay_orders](./docs/db_pay_orders.md)                 | 支付订单表     |
+| [pay_order_notify](./docs/db_pay_order_notify.md)     | 支付通知记录表 |
+| [pay_order_snapshot](./docs/db_pay_order_snapshot.md) | 订单数据快照表 |
+| [pay_order_refund](./docs/db_pay_order_refund.md)     | 退款订单表     |
+| [pay_order_transfer](./docs/db_pay_order_transfer.md) | 转账订单表     |
 
 ## 技术帮助
 微边支付模块是基于官方接口封装，使用前必需先阅官方文档。

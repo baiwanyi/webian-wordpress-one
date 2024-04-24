@@ -125,4 +125,24 @@ class WWPO_Pay_Interface
         $tabs['webian-pay'] = '支付';
         return $tabs;
     }
+
+    static function docs_sidebar($sidebar_data, $current_tab)
+    {
+        if ('webian-pay' != $current_tab) {
+            return $sidebar_data;
+        }
+
+        $sidebar_data = [
+            '?page=wwpo-docs&tab=webian-pay'      => ['title' => '概览'],
+            'reference' => [
+                'title' => '框架',
+                'menu' => [
+                    'app'  => '全局配置',
+                    '#!/docs/merchant.md'  => '页面配置'
+                ]
+            ]
+        ];
+
+        return $sidebar_data;
+    }
 }
