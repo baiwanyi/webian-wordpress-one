@@ -1,14 +1,15 @@
 ---
-title: 支付订单表
-description: 数据库表名：wwpo_pay_orders
+title: 支付请求结果表
+description: 数据库表名：wwpo_pay_order_result
 ---
 ## 字段
 | 字段           | 类型      | 长度 | 说明                     |
 | -------------- | --------- | ---- | ------------------------ |
-| pay_order_id   | int       | 20   | 自增ID                   |
-| user_id        | int       | 20   | 关联用户ID               |
+| pay_result_id   | int       | 20   | 自增ID                   |
+| pay_code        | int       | 20   | 关联用户ID               |
 | app_id         | string    | 50  | 请求应用ID               |
 | mch_id         | string    | 50  | 支付平台分配的商户号               |
+
 | pay_order_no   | string    | 50   | 支付订单号               |
 | pay_way_code   | string    | 20   | 支付方式代码             |
 | pay_jifen      | int       | 20   | 支付使用积分             |

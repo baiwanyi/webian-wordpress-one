@@ -64,11 +64,9 @@
 ## 数据库
 | 名称                           | 功能 |
 | ------------------------------ | ---- |
-| [wwpo_logs](./docs/db_logs.md)  | 操作日志表   |
-| [支付网关](./docs/payment.md)  | -    |
-| [清算系统](./docs/clearing.md) | -    |
-| [提现系统](./docs/cashout.md)  | -    |
-| [商户系统](./docs/merchant.md) | -    |
+| [logs](./docs/db_logs.md)  | 操作日志表   |
+| [user_auth](./docs/db_user_auth.md) | 用户认证表     |
+| [user_auth](./docs/db_merchants.md) | 商户表     |
 
 ## 技术帮助
 微边支付模块是基于官方接口封装，使用前必需先阅官方文档。

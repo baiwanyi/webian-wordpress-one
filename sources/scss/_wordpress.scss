@@ -27,8 +27,6 @@ a[rel='upload'] .dashicons {
     }
 }
 
-
-
 .wp-list-table {
     & td {
         & button + button,
@@ -79,6 +77,14 @@ a[rel='upload'] .dashicons {
     }
 }
 
+// 表格导航没有分页时隐藏外框
 .tablenav .no-pages .pagination-links {
     display: none;
+}
+
+// 去除筛选菜单链接点击外框样式
+.wp-filter a {
+    &:focus {
+        box-shadow: none;
+    }
 }

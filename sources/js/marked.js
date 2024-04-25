@@ -12,7 +12,6 @@
 import prism from 'prismjs'
 import wwpo from './wwpo'
 import { marked } from 'marked'
-// import fm from 'front-matter'
 
 /**
  * ------------------------------------------------------------------------
@@ -96,42 +95,19 @@ export default class markdown {
                 }
 
                 let data = markdown.frontmatter(result)
-                let title = data.attributes.title || '';
-                let description = data.attributes.description || '';
-                let updated = data.attributes.updated || '';
-                let toc = data.attributes.toc || false
                 let content = marked.parse(data.body)
                 let html = ''
-
-                if (title) {
-                    html += `<div class="h1">${title}</div>`
-                }
-
-                if (description) {
-                    html += `<p>${description}</p>`
-                }
-
-                if (updated) {
-                    html += `<p><strong>更新日期：</strong>${updated}</p>`
-                }
-
-                html += '<div class="wwpo__admin-body">'
-
-                if (toc) {
-                    html += '<aside id="wwpo-admin-toc" class="wwpo__admin-toc"></aside>';
-                }
 
                 if ('undefined' != typeof wwpoSettings.markdown_sidebar) {
                     html += markdown.sidebar()
                 }
 
-                html += `<div id="wwpo-admin-content" class="wwpo__admin-content">${content}</div>`
-
+                html += '<div class="wwpo__admin-markdown__body">'
+                html += markdown.toc(content)
+                html += `<div class="wwpo__admin-markdown__content">${markdown.header(data.attributes)}${content}</div>`
                 html += '</div>'
 
                 markdown_layout.html(html)
-
-                jQuery('#wwpo-admin-toc').html(markdown.headings(content))
 
                 prism.highlightAll()
             }
@@ -176,14 +152,32 @@ export default class markdown {
         }
     }
 
-    static sidebar = () => {
+    static header = (attributes) => {
+        let title = attributes.title || ''
+        let description = attributes.description || ''
+        let updated = attributes.updated || ''
+        let header = ''
 
-        let sidebar = wwpo.template('<% _.each(data, function(item, url) { %><a href="{{url}}" class="item">{{item.title}}</a><% if(item.menu){ %><ul class="submenu"><% _.each(item.menu, function(title, sub_url){ %><li><a href="{{sub_url}}"class="menu">{{title}}</a></li><% }) %></ul><% } %><% }) %>', JSON.parse(wwpoSettings.markdown_sidebar))
+        if (title) {
+            header += `<div class="h1">${title}</div>`
+        }
 
-        return `<nav id="wwpo-admin-sidebar" class="wwpo__admin-sidebar">${sidebar}</nav>`
+        if (description) {
+            header += `<p>${description}</p>`
+        }
+
+        if (updated) {
+            header += `<p><strong>更新日期：</strong>${updated}</p>`
+        }
+
+        return header
     }
 
-    static headings = (content) => {
+    static sidebar = () => {
+        return wwpo.template('<nav class="wwpo__admin-markdown__sidebar"><% _.each(data, function(item, url) { %><a href="{{url}}" class="item">{{item.title}}</a><% if(item.menu){ %><ul class="submenu"><% _.each(item.menu, function(title, sub_url){ %><li><a href="{{sub_url}}"class="menu">{{title}}</a></li><% }) %></ul><% } %><% }) %></nav>', JSON.parse(wwpoSettings.markdown_sidebar))
+    }
+
+    static toc = (content) => {
 
         // 正则表达式匹配带有id属性的<h2>和<h3>标签及其内容
         const regex = /<(h2|h3) class="anchor" id="([^"]+)">(.*?)<\/(h2|h3)>/gi
@@ -203,11 +197,11 @@ export default class markdown {
             })
         }
 
-        if (_.isEmpty(matches) || 2 > _.size(matches)) {
+        if (2 >= _.size(matches)) {
             return ''
         }
 
-        return wwpo.template('<h4>页面导航</h4><ul><% _.each(data, function(item) { %><li class="{{item.tag}}"><a href="#{{item.id}}" rel="anchor">{{item.content}}</a></li><% }) %></ul>', matches)
+        return wwpo.template('<aside class="wwpo__admin-markdown__toc"><h4>页面导航</h4><ul><% _.each(data, function(item) { %><li class="{{item.tag}}"><a href="#{{item.id}}" rel="anchor">{{item.content}}</a></li><% }) %></ul></aside>', matches)
     }
 }
 

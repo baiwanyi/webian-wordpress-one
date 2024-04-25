@@ -1,7 +1,6 @@
 ---
 title: 微边支付模块
 description: 用于构造小程序端的支付管理。
-toc: true
 updated: 2024-04-24 17:22:41
 ---
 
@@ -44,10 +43,12 @@ updated: 2024-04-24 17:22:41
 | 名称                                                  | 功能           |
 | ----------------------------------------------------- | -------------- |
 | [pay_orders](./docs/db_pay_orders.md)                 | 支付订单表     |
+| [pay_order_result](./docs/db_pay_order_result.md)     | 支付请求结果表 |
 | [pay_order_notify](./docs/db_pay_order_notify.md)     | 支付通知记录表 |
 | [pay_order_snapshot](./docs/db_pay_order_snapshot.md) | 订单数据快照表 |
 | [pay_order_refund](./docs/db_pay_order_refund.md)     | 退款订单表     |
 | [pay_order_transfer](./docs/db_pay_order_transfer.md) | 转账订单表     |
+| [pay_order_transfer](./docs/db_pay_api.md) | 支付接口表     |
 
 ## 技术帮助
 微边支付模块是基于官方接口封装，使用前必需先阅官方文档。

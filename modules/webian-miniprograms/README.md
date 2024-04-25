@@ -1,7 +1,7 @@
 # 微边小程序模块
 更新日期：20240301
 模块别名：webian-miniprograms
-[TOC]
+
 ## 目录结构
 ```
 模块目录
@@ -40,6 +40,13 @@
  - [清算系统](./docs/clearing.md)
  - [提现系统](./docs/cashout.md)
  - [小程序用户](./docs/user.md)
+
+## 数据库
+| 名称                           | 功能 |
+| ------------------------------ | ---- |
+| [miniprograms](./docs/db_miniprograms.md)  | 小程序列表   |
+| [user_auth](./docs/db_user_auth.md) | 用户认证表     |
+| [user_auth](./docs/db_merchants.md) | 商户表     |
 
 ## 更新日志
 ### v1.0.0（2024-03-01）
