@@ -1,5 +1,29 @@
+---
+title: 提现订单表
+description: 数据库表名：wwpo_pay_order_cashout
+updated: 2024年4月28日
+---
+## 字段
+| 字段             | 类型        | 说明                    |
+| ---------------- | ----------- | ----------------------- |
+| pay_cashout_id   | int(20)     | 自增ID                  |
+| user_id          | int(20)     | 关联用户ID              |
+| app_id           | string(50)  | 请求应用ID              |
+| mch_id           | string(50)  | 支付平台分配的商户号    |
+| pay_cashout_no   | string(50)  | 提现订单号              |
+| cashout_method   | string(20)  | 提现方式                |
+| currency         | string(20)  | 支付货币代码：默认：cny |
+| pay_amount       | int(20)     | 支付金额，单位：分      |
+| pay_status       | int(20)     | 支付状态，默认：0       |
+| pay_account_no   | string(64)  | 收款账号                |
+| pay_account_name | string(64)  | 收款人姓名              |
+| pay_account_bank | string(32)  | 收款人开户行名称        |
+| transfer_desc    | string(100) | 转账备注信息            |
+| created_at       | timestamp   | 创建时间                |
+| updated_at       | timestamp   | 更新时间                |
+| success_time     | timestamp   | 转账成功时间            |
 
--- 转账订单表
+-- 转账订单表d
 DROP TABLE IF EXISTS t_transfer_order;
 CREATE TABLE `t_transfer_order` (
            `transfer_id` VARCHAR(32) NOT NULL COMMENT '转账订单号',
