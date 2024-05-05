@@ -33,22 +33,13 @@ updated: 2024-04-24 17:22:41
 | ------------------------------ | ---- |
 | [仪表盘](./docs/dashboard.md)  | -    |
 | [支付网关](./docs/payment.md)  | -    |
-| [清算系统](./docs/clearing.md) | -    |
+| [退款管理](./docs/refund.md)   | -    |
 | [提现系统](./docs/cashout.md)  | -    |
 | [商户系统](./docs/merchant.md) | -    |
 
-## API
+## 接入准备
 
-## 数据库
-| 名称                                                  | 功能           |
-| ----------------------------------------------------- | -------------- |
-| [pay_orders](./docs/db_pay_orders.md)                 | 支付订单表     |
-| [pay_order_result](./docs/db_pay_order_result.md)     | 支付请求结果表 |
-| [pay_order_notify](./docs/db_pay_order_notify.md)     | 支付通知记录表 |
-| [pay_order_snapshot](./docs/db_pay_order_snapshot.md) | 订单数据快照表 |
-| [pay_order_refund](./docs/db_pay_order_refund.md)     | 退款订单表     |
-| [pay_order_cashout](./docs/db_pay_order_cashout.md)   | 提现订单表     |
-| [pay_interface](./docs/db_pay_interface.md)           | 支付接口表     |
+## 配置应用
 
 ## 技术帮助
 微边支付模块是基于官方接口封装，使用前必需先阅官方文档。

@@ -49,6 +49,21 @@ class WWPO_Docs
      */
     static function display()
     {
+        // echo sodium_crypto_auth_keygen();
+        // echo sodium_bin2base64(sodium_crypto_aead_aes256gcm_encrypt('{"prepay_id" : "wx201410272009395522657a690389285100"}', '', 'hME^T2Vfl2K8', 'PvDpOyE4RbwxMQXI2mh3FbP4Wvxv9VAu'), SODIUM_BASE64_VARIANT_ORIGINAL);
+
+        // echo WWPO_Util::base64_encode(sodium_crypto_aead_aes256gcm_encrypt('{"prepay_id" : "wx201410272009395522657a690389285100"}', '', 'hME^T2Vfl2K8', 'PvDpOyE4RbwxMQXI2mh3FbP4Wvxv9VAu'), 'd3d3LnpoaXgubmV05pm65piV572R57uc');
+
+        // echo WWPO_Util::base64_encode('{"prepay_id" : "wx201410272009395522657a690389285100"}', 'd3d3LnpoaXgubmV05pm65piV572R57uc');
+
+        // echo SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES;
+//         $data = '测试加密'; // 原始数据
+// $nonce = random_bytes(SODIUM_CRYPTO_AEAD_AES256GCM_NPUBBYTES); // 加密证书的随机串,加密证书的随机串
+// $ad = 'fullstackpm'; // 加密证书的随机串
+// $kengen = sodium_crypto_aead_aes256gcm_keygen(); // 密钥
+
+// echo $nonce;
+
         $current    = $_GET['tab'] ?? 'wwpo';
         $page_url   = add_query_arg('page', self::PAGE_NAME);
         $tabs       = apply_filters('wwpo_docs_tabs', ['wwpo' => '首页']);
