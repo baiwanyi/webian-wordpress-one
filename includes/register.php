@@ -106,13 +106,12 @@ function wwpo_register_admin_ajax()
     /** 验证 AJAX 随机数，以防止非法的外部的请求 */
     if (!check_ajax_referer($request['pagenow'], 'pagenonce')) {
         echo new WWPO_Error('error', 'invalid_nonce');
-        exit;
+
     }
 
     /** 判断执行函数参数 */
     if (empty($request['ajax'])) {
         echo new WWPO_Error('error', 'not_found_action');
-        exit;
     }
 
     // 设定 AJAX 传参
@@ -278,7 +277,7 @@ function wwpo_register_admin_scripts()
     global $current_screen;
 
     /** 启用 WEBUI 框架 */
-    wp_enqueue_script('wwpo', WWPO_PLUGIN_URL . '/assets/js/wwpo.min.js', ['jquery', 'underscore'], NOW, true);
+    wp_enqueue_script('wwpo', WWPO_PLUGIN_URL . 'assets/js/wwpo.min.js', ['jquery', 'underscore'], NOW, true);
 
     /**
      * 设定本地化参数值
@@ -308,7 +307,7 @@ function wwpo_register_admin_scripts()
     wp_localize_script('wwpo', 'wwpoSettings', $wwpoSettings);
 
     /** 启用后台样式*/
-    wp_enqueue_style('wwpo-style', WWPO_PLUGIN_URL . '/assets/css/wwpo.min.css', null, NOW);
+    wp_enqueue_style('wwpo-style', WWPO_PLUGIN_URL . 'assets/css/wwpo.min.css', null, NOW);
 }
 add_action('admin_enqueue_scripts', 'wwpo_register_admin_scripts');
 

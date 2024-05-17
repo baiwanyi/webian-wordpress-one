@@ -3,8 +3,9 @@
  * 引入文件
  * ------------------------------------------------------------------------
  */
+import './js/ajax'
 import './js/methods'
-import './js/toastui'
+import './js/markdown'
 import './js/marked'
 import wwpo from './js/wwpo'
 

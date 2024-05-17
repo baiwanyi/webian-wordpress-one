@@ -192,7 +192,7 @@ export default class wwpo {
     static form(t, j) {
         j = j || {}
         let obj = jQuery(t).serializeArray()
-        $.each(obj, function () {
+        jQuery.each(obj, function () {
             if (j[this.name]) {
                 if (!j[this.name].push) {
                     j[this.name] = [j[this.name]]

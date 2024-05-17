@@ -45,11 +45,15 @@ define('OPTION_SETTING_KEY', 'wwpo-settings-data');
 define('OPTION_CONTENT_KEY', '');
 
 /** 加载文件 */
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-admin.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-array.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-check.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-error.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-file.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-form.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-get.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-image.php';
+require WWPO_PLUGIN_PATH . 'includes/class-wwpo-list-table.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-load.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-meta.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-post.php';
@@ -59,15 +63,6 @@ require WWPO_PLUGIN_PATH . 'includes/class-wwpo-template.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-url.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-user.php';
 require WWPO_PLUGIN_PATH . 'includes/class-wwpo-util.php';
-
-if (is_admin()) {
-    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-admin.php';
-    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-error.php';
-    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-form.php';
-    require WWPO_PLUGIN_PATH . 'includes/class-wwpo-list-table.php';
-}
-
-/** */
 require WWPO_PLUGIN_PATH . 'includes/register.php';
 
 /**

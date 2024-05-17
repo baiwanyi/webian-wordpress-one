@@ -1,26 +1,27 @@
 <?php
 
-/*
- * Modules Name: WP 优化模块
- * Description: 常用的函数和 Hook，屏蔽所有 WordPress 所有不常用的功能。
- * Version: 3.0.0
- * Author: Yeeloving
- * Updated: 2023-01-01
+/**
+ * WordPress 优化模块
+ *
+ * @since 1.0.0
+ * @package Webian WordPress One
+ * @subpackage components
  */
 add_action('init', ['WWPO_WordPress', 'remove_wp_header']);
 add_action('wwpo_admin_display_wordpress', ['WWPO_WordPress', 'display']);
 add_filter('wwpo_menus', ['WWPO_WordPress', 'admin_menu']);
 add_action('wp_body_open', ['WWPO_WordPress', 'updated_post_view']);
+add_action('wwpo_ajax_admin_updatewordpress', ['WWPO_WordPress', 'updated_option']);
 
 /**
  * WordPress 优化项目类
  *
  * @since 1.0.0
- * @package Webian WordPress One
- * @subpackage WordPress/wp
  */
 class WWPO_WordPress
 {
+    const OPTION_KEY = 'wwpo-settings-wordpress';
+
     /**
      * 设定类实例
      *
@@ -36,7 +37,7 @@ class WWPO_WordPress
      */
     public function __construct()
     {
-        $this->option = get_option('wwpo-settings-wordpress', []);
+        $this->option = get_option(self::OPTION_KEY, []);
     }
 
     /**
@@ -44,6 +45,7 @@ class WWPO_WordPress
      *
      * @since 1.0.0
      * @param array $menus 菜单内容数组
+     * @return array
      */
     public static function admin_menu($menus)
     {
@@ -61,6 +63,7 @@ class WWPO_WordPress
      * WP 优化显示页面函数
      *
      * @since 1.0.0
+     * @return string
      */
     public static function display()
     {
@@ -68,10 +71,10 @@ class WWPO_WordPress
         $current_tabs   = $_GET['tab'] ?? 'optimizing';
 
         // 获取当前设置参数
-        $option_data    = get_option('wwpo-settings-wordpress', []);
+        $option_data    = get_option(self::OPTION_KEY, []);
         $option_data    = $option_data[$current_tabs] ?? [];
         $option_form    = [
-            'submit'    => 'updatewordpress',
+            'button'    => 'updatewordpress',
             'hidden'    => ['option_key' => $current_tabs]
         ];
 
@@ -94,8 +97,8 @@ class WWPO_WordPress
      * WordPress 优化设置模块
      *
      * @since 1.0.0
-     * @package Webian WordPress One
-     * @subpackage WordPress/wp
+     * @param array $option_data
+     * @return array
      */
     static function _wp_optimizing($option_data)
     {
@@ -489,7 +492,8 @@ class WWPO_WordPress
      */
     static function remove_wp_header()
     {
-        $option_data = $option['optimizing']['wp_header'] ?? [];
+        $option_data = get_option(self::OPTION_KEY, []);
+        $option_data = $option_data['optimizing']['wp_header'] ?? [];
         $option_data = wp_parse_args($option_data, [
             'remove_generator'  => 0,
             'remove_restapi'    => 0,
@@ -531,61 +535,54 @@ class WWPO_WordPress
 
         /** 移除 embeds 功能 */
         if ($option_data['remove_embeds']) {
-            add_action('init', function () {
-                remove_filter('the_content', [$GLOBALS['wp_embed'], 'autoembed'], 8);
-                remove_action('rest_api_init', 'wp_oembed_register_route');
-                remove_filter('rest_pre_serve_request', '_oembed_rest_pre_serve_request', 10, 4);
-                remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
-                remove_filter('oembed_response_data', 'get_oembed_response_data_rich', 10, 4);
-                remove_action('wp_head', 'wp_oembed_add_discovery_links');
-                remove_action('wp_head', 'wp_oembed_add_host_js');
-                add_filter('embed_oembed_discover', '__return_false');
-                add_filter('tiny_mce_plugins', function ($plugins) {
-                    if (is_array($plugins)) {
-                        return array_diff($plugins, ['wpembed']);
-                    } else {
-                        return [];
-                    }
-                });
-                add_filter('query_vars', function ($plugins) {
-                    if (is_array($plugins)) {
-                        return array_diff($plugins, ['embed']);
-                    } else {
-                        return [];
-                    }
-                });
-                wp_dequeue_script('wp-embed');
+            remove_filter('the_content', [$GLOBALS['wp_embed'], 'autoembed'], 8);
+            remove_action('rest_api_init', 'wp_oembed_register_route');
+            remove_filter('rest_pre_serve_request', '_oembed_rest_pre_serve_request', 10, 4);
+            remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
+            remove_filter('oembed_response_data', 'get_oembed_response_data_rich', 10, 4);
+            remove_action('wp_head', 'wp_oembed_add_discovery_links');
+            remove_action('wp_head', 'wp_oembed_add_host_js');
+            add_filter('embed_oembed_discover', '__return_false');
+            add_filter('tiny_mce_plugins', function ($plugins) {
+                if (is_array($plugins)) {
+                    return array_diff($plugins, ['wpembed']);
+                }
+
+                return [];
             });
+            add_filter('query_vars', function ($plugins) {
+                if (is_array($plugins)) {
+                    return array_diff($plugins, ['embed']);
+                }
+
+                return [];
+            });
+            wp_dequeue_script('wp-embed');
         }
 
         /** 移除 emoji 功能 */
         if ($option_data['remove_emoji']) {
-            add_action('init', function () {
-                remove_action('admin_print_scripts', 'print_emoji_detection_script');
-                remove_action('admin_print_styles', 'print_emoji_styles');
-                remove_action('wp_head', 'print_emoji_detection_script', 7);
-                remove_action('wp_print_styles', 'print_emoji_styles');
-                remove_action('embed_head', 'print_emoji_detection_script');
-                remove_filter('the_content_feed', 'wp_staticize_emoji');
-                remove_filter('comment_text_rss', 'wp_staticize_emoji');
-                remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
-                add_filter('tiny_mce_plugins', function ($plugins) {
-                    if (is_array($plugins)) {
-                        return array_diff($plugins, ['wpemoji']);
-                    } else {
-                        return [];
-                    }
-                });
-            });
+            remove_action('admin_enqueue_scripts', 'wp_enqueue_emoji_styles');
+            remove_action('admin_print_scripts', 'print_emoji_detection_script');
+            remove_action('admin_print_scripts', 'print_head_scripts');
+            remove_action('admin_print_footer_scripts', '_wp_footer_scripts');
+            remove_action('admin_print_styles', 'print_emoji_styles');
+            remove_action('admin_print_styles', 'print_admin_styles');
+
+            remove_action('wp_head', 'print_emoji_detection_script', 7);
+            remove_action('wp_print_styles', 'print_emoji_styles');
+            remove_action('embed_head', 'print_emoji_detection_script');
+            remove_filter('the_content_feed', 'wp_staticize_emoji');
+            remove_filter('comment_text_rss', 'wp_staticize_emoji');
+            remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+
             add_filter('emoji_svg_url', '__return_false');
         }
 
         /** 移除 Gutenberg 编辑器CSS样式 */
         if ($option_data['remove_gutenberg']) {
-            add_action('wp_print_styles', function () {
-                wp_dequeue_style('wp-block-library');
-                wp_deregister_style('wp-block-library');
-            }, 100);
+            wp_dequeue_style('wp-block-library');
+            wp_deregister_style('wp-block-library');
         }
 
         /** 移除 canonical 标签 */
@@ -680,13 +677,9 @@ class WWPO_WordPress
             remove_action('wp_footer', 'wp_enqueue_global_styles');
             add_filter('should_load_separate_core_block_assets', '__return_false');
             add_filter('editor_stylesheets', '__return_false');
-            add_action('wp_enqueue_scripts', function () {
-                wp_dequeue_style('wp-webfonts');
-                wp_dequeue_style('classic-theme-styles');
-            });
-            add_filter('should_load_separate_core_block_assets', function () {
-                return false;
-            }, 11);
+            add_filter('should_load_separate_core_block_assets', '__return_false', 11);
+            wp_dequeue_style('wp-webfonts');
+            wp_dequeue_style('classic-theme-styles');
         }
     }
 
@@ -1455,6 +1448,28 @@ class WWPO_WordPress
     }
 
     /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    static function updated_option($request)
+    {
+        /** 判断保存 KEY */
+        if (empty($_POST['option_key'])) {
+            echo new WWPO_Error('error', '没有找到相关保存参数');
+        }
+
+        $option_data = get_option(self::OPTION_KEY, []);
+        $option_data[$_POST['option_key']] = $_POST['updated'];
+
+        // 更新到数据库
+        update_option(self::OPTION_KEY, $option_data);
+
+        echo new WWPO_Error('updated', '选项更新成功');
+    }
+
+    /**
      * WP 优化格式化 checkbox 函数
      *
      * @since 1.0.0
@@ -1474,7 +1489,7 @@ class WWPO_WordPress
                 'desc'      => $val['desc'] ?? '',
                 'field' => [
                     'type'      => 'checkbox',
-                    'name'      => sprintf('option_data[%s][%s]', $checkbox_key, $key),
+                    'name'      => sprintf('updated[%s][%s]', $checkbox_key, $key),
                     'value'     => 1,
                     'checked'   => $option_data[$checkbox_key][$key] ?? 0
                 ]

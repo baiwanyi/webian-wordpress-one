@@ -16,9 +16,9 @@ class WWPO_Error
      * @param string    $message    错误信息
      * @param array     $data       传递参数
      */
-    public function __construct($code, $message, $data = [])
+    public function __construct($code, $message = '', $data = [])
     {
-        if (empty($code) || empty($message)) {
+        if (empty($code)) {
             return;
         }
 
@@ -35,7 +35,8 @@ class WWPO_Error
         }
 
         if (is_admin()) {
-            return WWPO_Util::json_send($error_data);
+            echo WWPO_Util::json_send($error_data);
+            exit;
         }
 
         return new WP_Error($error_data['code'], $error_data['message'], $error_data['data']);

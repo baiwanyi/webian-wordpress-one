@@ -92,15 +92,6 @@ h1.wp-heading-inline {
     line-height: 1;
 }
 
-* {
-    box-sizing: border-box;
-
-    &::after,
-    &::before {
-        box-sizing: border-box;
-    }
-}
-
 [data-wwpo] {
     cursor: pointer;
 }

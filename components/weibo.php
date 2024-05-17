@@ -6,9 +6,9 @@
  * Version: 1.0.0
  * Author: Baiwanyi
  * Updated: 2022-10-20
- */
-add_action('show_user_profile', 'wwpo_weibo_user_profile');
-add_filter('wwpo_admin_page_settings', ['WWPO_Weibo', 'settings']);
+//  */
+// add_action('show_user_profile', 'wwpo_weibo_user_profile');
+// add_filter('wwpo_admin_page_settings', ['WWPO_Weibo', 'settings']);
 
 /**
  * 微博开放平台操作类

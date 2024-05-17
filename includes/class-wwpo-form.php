@@ -91,9 +91,10 @@ class WWPO_Form
         /** 设定表单按钮 */
         if (isset($data['button'])) {
             return sprintf(
-                '<form id="wwpo__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
+                '<form id="wwpo__admin-form" method="POST" autocomplete="off">%s<p class="submit"><button type="button" class="button button-primary button-large" data-wwpo-ajax="%s">%s</button></p></form>',
                 $content,
-                // WWPO_Button::submit($data['button'])
+                $data['button'],
+                __('Save Changes')
             );
         }
 
@@ -141,9 +142,10 @@ class WWPO_Form
         /** 设定表单按钮 */
         if (isset($data['button'])) {
             return sprintf(
-                '<form id="wwpo__admin-form" method="POST" autocomplete="off">%1$s<div class="submit">%2$s</div></form>',
+                '<form id="wwpo__admin-form" method="POST" autocomplete="off">%s<p class="submit"><button type="button" class="button button-primary button-large" data-wwpo-ajax="%s">%s</button></p></form>',
                 $content,
-                // WWPO_Button::submit($data['button'])
+                $data['button'],
+                __('Save Changes')
             );
         }
 
